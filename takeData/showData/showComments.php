@@ -1,5 +1,5 @@
 <?php
-include "./gestionePost/takeComments.inc";
+include "./takeData/takecomments.php";
 if ($resultComments->num_rows > 0) {
     echo "<ul>";
     while ($commentRow = $resultComments->fetch_assoc()) {
