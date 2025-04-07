@@ -1,4 +1,5 @@
 <?php
+
 include "../include/connessione.inc";
 
 // Controlla se il modulo è stato inviato
@@ -16,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($stmt->execute()) {
         echo "Commento aggiunto con successo!";
+        echo "<br><a href='../index.php'>Torna alla home</a>";
     } else {
         echo "Errore: " . $stmt->error;
     }
