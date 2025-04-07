@@ -39,23 +39,24 @@ if ($resultPosts->num_rows > 0): ?>
                             </form>    
 
                             <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Successo</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>    
-                                        </div>    
-                                        <div class="modal-body">
-                                            I tuoi dati sono stati inviati correttamente!
-                                        </div>    
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                                        </div>    
-                                    </div>    
-                                </div>    
-                            </div>    
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Successo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                I tuoi dati sono stati inviati correttamente!
+            </div>
+            <div class="modal-footer">
+                <!-- Aggiungi un evento onclick per aggiornare la pagina -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload();">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
 
                         <?php elseif ($postRow['type_post'] == 3): ?>
                             <br>Extra field 3: <?= htmlspecialchars($postRow['extra_field_3']) ?>
@@ -65,6 +66,7 @@ if ($resultPosts->num_rows > 0): ?>
                     <td>
                         <?php include "./takeData/showData/showComments.php"; ?>
                         <?php include "./form/formComment.php"; ?>
+                        <?php include "./gestionePost/addToFolder.php"; ?>
                     </td>    
                 </tr>    
             <?php endwhile; ?>    
