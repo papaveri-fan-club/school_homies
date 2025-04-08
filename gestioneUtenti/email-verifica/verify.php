@@ -1,28 +1,43 @@
 <?php
-require 'config.php';
+include "../../include/connessione.inc";
 
 if (!isset($_GET['token'])) {
-    header("Location: error.html");
-    exit;
+    die("Token mancante.");
 }
 
 $token = $_GET['token'];
 
-$stmt = $pdo->prepare("SELECT * FROM email_verifications WHERE token = ? AND expires_at > NOW()");
-$stmt->execute([$token]);
-$verification = $stmt->fetch();
+// 1. Recupera il token dalla tabella
+$stmt = $conn->prepare("SELECT id_user, expires_at FROM email_verifications WHERE token = ?");
+$stmt->bind_param("s", $token);
+$stmt->execute();
 
-if ($verification) {
-    $user_id = $verification['user_id'];
+$result = $stmt->get_result();
 
-    // Attiva utente
-    $pdo->prepare("UPDATE users SET is_verified = 1 WHERE id = ?")->execute([$user_id]);
+if ($result && $row = $result->fetch_assoc()) {
+    $id_user = $row['id_user'];
+    $expires = $row['expires_at'];
 
-    // Rimuove token
-    $pdo->prepare("DELETE FROM email_verifications WHERE user_id = ?")->execute([$user_id]);
+    if (strtotime($expires) < time()) {
+        die("Token scaduto.");
+    }
 
-    header("Location: success.html");
+    $stmt->close(); // ✅ IMPORTANTE: chiudere prima di fare altre query
+
+    // 2. Attiva l'utente
+    $stmt = $conn->prepare("UPDATE users SET is_verified = 1 WHERE id_user = ?");
+    $stmt->bind_param("i", $id_user);
+    $stmt->execute();
+    $stmt->close();
+
+    // 3. Rimuovi il token usato
+    $stmt = $conn->prepare("DELETE FROM email_verifications WHERE id_user = ?");
+    $stmt->bind_param("i", $id_user);
+    $stmt->execute();
+    $stmt->close();
+
+    echo "✅ Verifica completata con successo.";
 } else {
-    header("Location: error.html");
+    echo "❌ Token non valido.";
 }
 ?>

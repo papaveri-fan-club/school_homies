@@ -5,13 +5,19 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 
 // Prepara la query per selezionare l'utente con l'email e la password forniti
-$stmt = $conn->prepare("SELECT id_user, surname, name, password FROM users WHERE email=?");
+$stmt = $conn->prepare("SELECT id_user, surname, name, password, is_verified FROM users WHERE email=?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 //verifica se l'utente esiste e se le credenziali sono corrette
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
+    // Controlla se l'utente è verificato
+    if ($row['is_verified'] == 0) {
+        echo "Email non verificata. <a href='../registrazione.php'>Non hai un account? Registrati</a>";
+        exit();
+    }
+    // Recupera la password hashata dal database
     $hashed_password = $row['password'];
 
     // Verifica la password
