@@ -32,26 +32,23 @@ if ($resultPosts->num_rows > 0): ?>
                             <?php while ($partecipantRow = $partecipantResult->fetch_assoc()): ?>
                                 <?= htmlspecialchars($partecipantRow['name']) ?> <?= htmlspecialchars($partecipantRow['surname']) ?>;
                             <?php endwhile; ?>    
-                            <form class="partecipateForm" method="post">
+                                <form class="partecipateForm" method="post">
                                 <input type="hidden" name="id_event" value="<?= $postRow['id_post'] ?>">
                                 <input type="hidden" name="id_partecipant" value="<?= $_SESSION['id_user'] ?>">
                                 <button>Partecipa</button>
-                            </form>    
+                            </form>  
 
                             <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Successo</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 I tuoi dati sono stati inviati correttamente!
             </div>
             <div class="modal-footer">
-                <!-- Aggiungi un evento onclick per aggiornare la pagina -->
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload();">Chiudi</button>
             </div>
         </div>
@@ -64,9 +61,15 @@ if ($resultPosts->num_rows > 0): ?>
                     </td>    
                     <td><?= htmlspecialchars($postRow['name']) ?></td>
                     <td>
-                        <?php include "./takeData/showData/showComments.php"; ?>
-                        <?php include "./form/formComment.php"; ?>
-                        <?php include "./gestionePost/addToFolder.php"; ?>
+                        <?php include "./takeData/showData/showComments.php"; 
+                            include "./form/formComment.php"; 
+                            include "./gestionePost/addToFolder.php"; 
+                            if ($postRow['id_user'] == $_SESSION['id_user']): ?>
+                                <form method="post" action="./gestionePost/deletePost.php">
+                                    <input type="hidden" name="id_post" value="<?= $postRow['id_post'] ?>">
+                                    <button type="submit">Cancella</button>
+                                </form>
+                            <?php endif; ?>
                     </td>    
                 </tr>    
             <?php endwhile; ?>    

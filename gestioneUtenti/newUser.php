@@ -2,6 +2,11 @@
 
 include "../include/connessione.inc";
 
+require '../PHPMailer/src/PHPMailer.php';
+require '../PHPMailer/src/SMTP.php';
+require '../PHPMailer/src/Exception.php';
+use PHPMailer\PHPMailer\PHPMailer;
+
 $email = $_POST['email'];
 $password = $_POST['password'];
 $name = $_POST['name'];
@@ -26,15 +31,50 @@ if ($result->num_rows > 0) {
     $stmt = $conn->prepare("INSERT INTO users (email, password, name, surname, user_type) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $email, $hashed_password, $name, $surname, $user_type);
     $stmt->execute();
+    if ($stmt->affected_rows > 0) {
+        // Registrazione avvenuta con successo, mostra un messaggio di successo e reindirizza alla pagina di login
+        echo "<script>alert('Registrazione avvenuta con successo!');</script>";
+        // Invia un'email di conferma (opzionale)
+        // Crea token
+        $id_user = $conn->insert_id;
+        $token = bin2hex(random_bytes(32));
+        $expires = date('Y-m-d H:i:s', strtotime('+1 day'));
 
-    session_start();
-    $_SESSION['email'] = $email;
-    $_SESSION['name'] = $name;
+        $stmt = $conn->prepare("INSERT INTO email_verifications (id_user, token, expires_at) VALUES (?, ?, ?)");
+        $stmt->execute([$id_user, $token, $expires]);
+
+        // Invia email
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'papaverifanclub@gmail.com';
+            $mail->Password = 'ktto vehd jpzr ngio';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+
+            $mail->setFrom('papaverifanclub@gmail.com', 'Tuo Sito');
+            $mail->addAddress($email);
+            $mail->isHTML(true);
+            $mail->Subject = 'Verifica la tua email';
+            $mail->Body = "Clicca sul link per verificare: <a href='http://localhost/gestioneUtenti/email-verifica/verify.php?token=$token'>Verifica ora</a>";
+
+            $mail->send();
+            echo "Controlla la tua email per confermare.";
+        } catch (Exception $e) {
+            echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
+        }
+
+        //echo "<script>window.location.href = '../login.php';</script>";
+    } else {
+        // Errore durante la registrazione, mostra un messaggio di errore
+        echo "<script>alert('Si è verificato un errore durante la registrazione. Riprova.');</script>";
+    }
+    $stmt->close();
 
     header("location:../index.php");
     exit();
 }
 
 include "../include/connessione.inc";
-
-?>
