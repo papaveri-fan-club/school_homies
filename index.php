@@ -5,13 +5,13 @@
     /* Aggiungi questo al tuo CSS esistente */
     .layout-container {
         display: flex;
-        max-width: 1200px;
-        margin: 0 auto;
+        width: 100%;
+        margin: 0;
     }
     
     .sidebar {
         width: 250px;
-        padding: 20px;
+        padding: 20px 0;
         position: sticky;
         top: 0;
         height: 100vh;
@@ -28,7 +28,7 @@
         display: flex;
         align-items: center;
         padding: 12px 15px;
-        margin-bottom: 5px;
+        margin: 0 15px 5px 15px;
         border-radius: 25px;
         font-size: 1.1rem;
         font-weight: bold;
@@ -65,8 +65,8 @@
         padding: 12px 20px;
         font-size: 1rem;
         font-weight: bold;
-        width: 100%;
-        margin-top: 20px;
+        width: calc(100% - 30px);
+        margin: 20px 15px 0 15px;
         cursor: pointer;
     }
     
@@ -78,6 +78,8 @@
         border-radius: 25px;
         position: absolute;
         bottom: 20px;
+        left: 15px;
+        right: 15px;
     }
     
     .user-profile:hover {
