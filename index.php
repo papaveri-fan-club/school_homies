@@ -140,14 +140,16 @@
                 Posta
             </button>
             
-            <div class="user-profile">
-                <img src="https://ui-avatars.com/api/?name=<?= urlencode($_SESSION['name'].'+'.$_SESSION['surname']) ?>" 
-                     style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
-                <div>
-                    <strong><?= htmlspecialchars($_SESSION['name']) ?></strong>
-                    <div style="color: #657786; font-size: 0.9rem;">@<?= htmlspecialchars(strtolower(str_replace(' ', '', $_SESSION['name']))) ?></div>
+            <a href="profile.php" style="text-decoration: none; color: inherit;">
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=<?= urlencode($_SESSION['name'].'+'.$_SESSION['surname']) ?>" 
+                         style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+                    <div>
+                        <strong><?= htmlspecialchars($_SESSION['name']) ?></strong>
+                        <div style="color: #657786; font-size: 0.9rem;">@<?= htmlspecialchars(strtolower(str_replace(' ', '', $_SESSION['name']))) ?></div>
+                    </div>
                 </div>
-            </div>
+            </a>
         <?php endif; ?>
     </div>
     
@@ -160,22 +162,32 @@
                 <div class="header-subtitle">Connettiti con i tuoi compagni di scuola</div>
             </div>
         </div>
+
+        <!-- Barra di ricerca -->
+        <div style="margin-bottom: 20px;">
+            <form method="GET" action="index.php">
+                <input type="text" name="search" placeholder="Cerca nei post..." 
+                       style="width: 100%; padding: 10px; border: 1px solid #e1e8ed; border-radius: 25px;">
+                <button type="submit" style="display: none;">Cerca</button>
+            </form>
+        </div>
         
-        <!-- Contenuto esistente -->
+        <!-- Mostra i risultati della ricerca o i post normali -->
         <div style="padding-top: 20px;">
             <?php if (isset($_SESSION['email'])): ?>
                 <div style="margin-bottom: 20px;">
                     <h2>Benvenuto <?= htmlspecialchars($_SESSION['name']) ?> <?= htmlspecialchars($_SESSION["surname"]) ?></h2>
-                    <a href='profile.php'>Il tuo profilo</a>
                 </div>
                 
                 <?php include 'form/formPost.php'; ?>
-                
                 <!-- Il resto del tuo contenuto -->
                 <?php
-                    //show post
-                    include "./takeData/takeposts.php";
-                    include "./takeData/showData/showPosts.php";
+                    if (isset($_GET['search']) && !empty($_GET['search'])) {
+                        include './takeData/searchPosts.php';
+                    } else {
+                        include './takeData/takeposts.php';
+                        include './takeData/showData/showPosts.php';
+                    }
                 ?>
                 
             <?php else: ?>
