@@ -219,9 +219,6 @@
                             <i class="far fa-heart"></i>
                         </button>
                         <button class="action-btn">
-                            <i class="fas fa-retweet"></i>
-                        </button>
-                        <button class="action-btn">
                             <i class="far fa-bookmark"></i>
                         </button>
                         <?php include "./gestionePost/addToFolder.php"; ?>
