@@ -11,9 +11,8 @@ $type_post = $_POST['type_post'];
 $image_path = null;
 
 // Gestione caricamento immagine
-if (isset($_FILES['file_attachment'])) {
+if (isset($_FILES['file_attachment']) && $_FILES['file_attachment']['error'] == UPLOAD_ERR_OK) {
     $image = $_FILES['file_attachment'];
-    echo "porco";
 
     // Controlla che il file non superi i 5MB
     if ($image['size'] > 5 * 1024 * 1024) {
@@ -21,7 +20,7 @@ if (isset($_FILES['file_attachment'])) {
     }
 
     // Directory di upload
-    $upload_dir = "./uploads/images/";
+    $upload_dir = "../uploads/images/";
     if (!is_dir($upload_dir)) {
         mkdir($upload_dir, 0755, true); // Crea la directory se non esiste
     }

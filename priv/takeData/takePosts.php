@@ -15,7 +15,7 @@ if (isset($type_post)) {
     }
 } else {
     // Se il parametro type_post non è impostato, mostra tutti i post
-    $stmtPosts = $conn->prepare("SELECT p.id_post, p.type_post, p.date, p.title, p.description, p.date_event, u.name, p.id_user 
+    $stmtPosts = $conn->prepare("SELECT p.id_post, p.type_post, p.date, p.title, p.description, p.date_event, u.name, p.id_user, p.image_path 
                                  FROM users AS u, posts AS p 
                                  WHERE p.id_user = u.id_user");
 }

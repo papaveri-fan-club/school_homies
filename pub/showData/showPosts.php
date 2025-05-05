@@ -178,8 +178,8 @@
                             <div class="event-details">
                                 <i class="fas fa-info-circle"></i> 
                                 <?php //prendi l'img della dir
-                                $img = $postRow['image_path'] ? $postRow['image_path'] : './uploads/images/default.png'; 
-                                echo '<img src="./gestionePost/' . htmlspecialchars($img) . '" alt="Immagine post" class="img-fluid" style="max-width: 100%; height: auto;">';
+                                $img = $postRow['image_path'] ? $postRow['image_path'] : '../priv/uploads/images/default.png'; 
+                                echo '<img src="../priv/' . htmlspecialchars($img) . '" alt="Immagine post" class="img-fluid" style="max-width: 100%; height: auto;">';
                                 ?>
                             </div>
                             <?php if (!empty($postRow['file_path'])): ?>
@@ -200,14 +200,16 @@
                         <button class="action-btn">
                             <i class="far fa-heart"></i>
                         </button>
-                        <?php include "../../priv/gestionePost/addToFolder.php"; ?>
+                        <?php include "../priv/gestionePost/addToFolder.php"; ?>
                     </div>
                     <div class="comment-form" id="comment-form-<?= $postRow['id_post'] ?>">
-                        <?php include "../form/formComment.php"; ?>
+                        <?php include "./form/formComment.php"; ?>
                     </div>
                     
                     <div class="px-3 pb-2">
-                        <?php include "./showComments.php"; ?>
+                        <?php 
+                        include "../priv/takeData/takeComments.php";
+                        include "./showData/showComments.php"; ?>
                     </div>
                 </div>
             <?php endwhile; ?>
