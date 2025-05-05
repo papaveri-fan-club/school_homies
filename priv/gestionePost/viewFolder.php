@@ -48,7 +48,7 @@ $result = $stmt->get_result();
 </head>
 <body>
     <h1>Appunti in "<?php echo htmlspecialchars($folder_name); ?>"</h1>
-    <a href="../profile.php">Torna al profilo</a>
+    <a href="../../pub/profile.php">Torna al profilo</a>
     <?php if ($result->num_rows > 0): ?>
         <ul>
             <?php while ($note = $result->fetch_assoc()): ?>

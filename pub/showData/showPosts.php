@@ -156,6 +156,15 @@
 </head>
 <body>
 <div class="container py-4">
+        <?php
+        $id_user = $_SESSION['id_user'];
+        $queryFolders = "SELECT id_folder, name, type FROM folders WHERE id_user = ?";
+        $stmtFolders = $conn->prepare($queryFolders);
+        $stmtFolders->bind_param("i", $id_user);
+        $stmtFolders->execute();
+        $resultFolders = $stmtFolders->get_result();
+        ?>
+
         <?php if ($resultPosts->num_rows > 0): ?>
             <?php while ($postRow = $resultPosts->fetch_assoc()): ?>
                 <div class="post-card">
@@ -200,7 +209,7 @@
                         <button class="action-btn">
                             <i class="far fa-heart"></i>
                         </button>
-                        <?php include "../priv/gestionePost/addToFolder.php"; ?>
+                        <?php include "./form/formAddToFolder.php"; ?>
                     </div>
                     <div class="comment-form" id="comment-form-<?= $postRow['id_post'] ?>">
                         <?php include "./form/formComment.php"; ?>
@@ -220,6 +229,7 @@
                 <p>Sii il primo a creare un post!</p>
             </div>
         <?php endif; ?>
+        <?php include "../pub/form/formAddToFolder.php"; ?>
     </div>
 
     <!-- Modale di successo -->
