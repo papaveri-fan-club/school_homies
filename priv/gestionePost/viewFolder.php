@@ -8,7 +8,7 @@ if (!isset($_SESSION['id_user'])) {
     exit();
 }
 
-$id_user = $_SESSION['id_user'];
+$id_user = $_GET['id_user'];
 $folder_name = $_GET['folder_name'] ?? '';
 
 if (empty($folder_name)) {

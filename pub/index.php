@@ -144,7 +144,7 @@
                 Posta
             </button>
             
-            <a href="profile.php" style="text-decoration: none; color: inherit;">
+            <a href="./profile.php?id_user=<?= $_SESSION['id_user']?>" style="text-decoration: none; color: inherit;">
                 <div class="user-profile">
                     <img src="https://ui-avatars.com/api/?name=<?= urlencode($_SESSION['name'].'+'.$_SESSION['surname']) ?>" 
                          style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">

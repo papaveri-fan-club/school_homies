@@ -8,7 +8,7 @@ if (!isset($_SESSION['id_user'])) {
     exit();
 }
 
-$id_user = $_SESSION['id_user'];
+$id_user = $_GET['id_user'] ?? $_SESSION['id_user']; // Ottieni l'ID dell'utente da visualizzare, di default l'ID dell'utente loggato
 include "../priv/takeData/takeUserData/takeUserInfo.php"; // Recupera le informazioni dell'utente
 
 // Recupera i post dell'utente
@@ -67,55 +67,51 @@ include "../priv/takeData/takeUserData/takeUserComments.php";
     <a href='../priv/gestioneUtenti/logout.php'>Logout</a>
     <h2>Biografia</h2>
     <p><?php echo nl2br(htmlspecialchars($userInfoResult['bio'] ?? '')); ?></p>
-    <button onclick="openPopup()">Aggiorna Biografia</button>
+    <?php if($_SESSION['id_user'] == $id_user): ?>
+            <button onclick="openPopup()">Aggiorna Biografia</button>
 
-    <!-- Pop-up per aggiornare la biografia -->
-    <div class="popup-overlay" id="popup-overlay"></div>
-    <div class="popup" id="popup">
-        <h3>Aggiorna Biografia</h3>
-        <form method="post" action="updateBio.php">
-            <textarea name="bio" rows="5" cols="50"><?php echo htmlspecialchars($userInfoResult['bio'] ?? ''); ?></textarea>
-            <button type="submit">Salva</button>
-            <button type="button" onclick="closePopup()">Chiudi</button>
-        </form>
-    </div>
+            <!-- Pop-up per aggiornare la biografia -->
+            <div class="popup-overlay" id="popup-overlay"></div>
+            <div class="popup" id="popup">
+                <h3>Aggiorna Biografia</h3>
+                <form method="post" action="updateBio.php">
+                    <textarea name="bio" rows="5" cols="50"><?php echo htmlspecialchars($userInfoResult['bio'] ?? ''); ?></textarea>
+                    <button type="submit">Salva</button>
+                    <button type="button" onclick="closePopup()">Chiudi</button>
+                </form>
+            </div>
+    <?php endif; ?>
 
-    <h2>Crea una nuova cartella</h2>
-    <button onclick="openFolderPopup()">Crea Cartella</button>
+    <?php
+    // Controlla se l'utente ha i permessi per creare una cartella
+    if ($_SESSION['id_user'] == $id_user): ?>
+        <button onclick="openFolderPopup()">Crea Cartella</button>
 
-    <!-- Pop-up per creare una nuova cartella -->
-    <div class="popup-overlay" id="folder-popup-overlay"></div>
-    <div class="popup" id="folder-popup">
-        <h3>Crea una nuova cartella</h3>
-        <form method="post" action="../priv/gestionePost/addFolder.php">
-            <label for="folder-name">Nome Cartella:</label>
-            <input type="text" id="folder-name" name="folder_name" required>
-            <br>
-            <label for="folder-type">Tipo:</label>
-            <select id="folder-type" name="folder_type" required>
-                <option value="public">Pubblica</option>
-                <option value="private">Privata</option>
-            </select>
-            <br>
-            <button type="submit">Crea</button>
-            <button type="button" onclick="closeFolderPopup()">Chiudi</button>
-        </form>
-    </div>
+        <!-- Pop-up per creare una cartella -->
+        <div class="popup-overlay" id="folder-popup-overlay"></div>
+        <div class="popup" id="folder-popup">
+            <h3>Crea Cartella</h3>
+            <form method="post" action="../priv/gestionePost/createFolder.php">
+                <input type="text" name="folder_name" placeholder="Nome della cartella" required>
+                <select name="type_folder">
+                    <option value="private">Privata</option>
+                    <option value="public">Pubblica</option>
+                </select>
+                <button type="submit">Crea</button>
+                <button type="button" onclick="closeFolderPopup()">Chiudi</button>
+            </form>
+        </div>
+    <?php endif; ?>
 
-<h2>Le tue cartelle</h2>
+<h2>Le cartelle di <?= $userInfoResult['name']?></h2>
 <?php
-// Recupera le cartelle dell'utente dal database
-$query = "SELECT name, type FROM folders WHERE id_user = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $id_user);
-$stmt->execute();
-$result = $stmt->get_result();
+include '../priv/takeData/takeUserData/takeFolders.php';
 
-if ($result->num_rows > 0): ?>
+if ($resultFoldersUser->num_rows > 0): ?>
     <ul>
-        <?php while ($folder = $result->fetch_assoc()): ?>
+        <?php while ($folder = $resultFoldersUser->fetch_assoc()): ?>
             <li>
-                <a href="../priv/gestionePost/viewFolder.php?folder_name=<?php echo urlencode($folder['name']); ?>">
+                <a href="../priv/gestionePost/viewFolder.php?folder_name=<?php echo urlencode($folder['name']); ?>&id_user=<?php echo $id_user; ?>">
                     <strong>Nome:</strong> <?php echo htmlspecialchars($folder['name']); ?>
                 </a>
                 <br>
@@ -132,18 +128,13 @@ if ($result->num_rows > 0): ?>
 <?php else: ?>
     <p>Non hai ancora creato nessuna cartella.</p>
 <?php endif; ?>
-<?php $stmt->close(); ?>
 
-    <h2>I tuoi post</h2>
+    <h2>I post di <?= $userInfoResult['name']?></h2>
     <?php
     include "../priv/takeData/takeUserData/takeUserPosts.php";
     include "./showData/showPosts.php";   
-    include "../priv/takeData/takeUserData/takeFolders.php";
 ?>
-
-    
-
-    <h2>I tuoi commenti</h2>
+    <h2>I commenti di <?= $userInfoResult['name']?></h2>
     <?php while ($comment = $commentsResult->fetch_assoc()): ?>
         <div class="comment">
             <form method="post" action="../priv/gestionePost/deleteComment.php" style="display:inline;">
@@ -155,8 +146,11 @@ if ($result->num_rows > 0): ?>
 
                 <p>commento: <?php echo htmlspecialchars($comment['text']); ?></p>
                 <input type="hidden" name="id_comment" value="<?php echo $comment['id_comment']; ?>">
-                <button type="submit">Cancella</button>
-            </div>form></script></script></script>
+                <?php
+                  if($_SESSION['id_user'] == $id_user){
+                    echo "<button type='submit'>Cancella</button>";
+                  }?>
+            </div>
         </div>
     <?php endwhile; ?>
 

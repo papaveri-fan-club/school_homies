@@ -14,11 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_post = $_POST['id_post'] ?? null;
     $id_folder = $_POST['folder'] ?? null;
 
-    if (!$id_post || !$id_folder) {
-        echo json_encode(['status' => 'error', 'message' => 'Dati mancanti.']);
-        exit();
-    }
-
     // Controlla se il post è già presente nella cartella
     $checkQuery = "SELECT * FROM foldersnotes WHERE id_folder = ? AND id_post = ?";
     $stmtCheck = $conn->prepare($checkQuery);

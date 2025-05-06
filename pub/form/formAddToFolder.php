@@ -1,4 +1,5 @@
 <?php
+include '../priv/takeData/takeUserData/takeFolders.php';
 // Ripristina il puntatore dei risultati di $resultFolders
 mysqli_data_seek($resultFolders, 0);
 ?>

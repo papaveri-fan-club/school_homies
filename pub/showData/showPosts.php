@@ -156,26 +156,21 @@
 </head>
 <body>
 <div class="container py-4">
-        <?php
-        $id_user = $_SESSION['id_user'];
-        $queryFolders = "SELECT id_folder, name, type FROM folders WHERE id_user = ?";
-        $stmtFolders = $conn->prepare($queryFolders);
-        $stmtFolders->bind_param("i", $id_user);
-        $stmtFolders->execute();
-        $resultFolders = $stmtFolders->get_result();
-        ?>
 
         <?php if ($resultPosts->num_rows > 0): ?>
             <?php while ($postRow = $resultPosts->fetch_assoc()): ?>
                 <div class="post-card">
                     <div class="post-header">
-                        <div class="user-info">
-                            <img src="https://ui-avatars.com/api/?name=<?= urlencode($postRow['name']) ?>&background=random" class="user-avatar">
-                            <div>
-                                <strong><?= htmlspecialchars($postRow['name']) ?></strong>
-                                <div class="username">@<?= strtolower(str_replace(' ', '', htmlspecialchars($postRow['name']))) ?></div>
+                        <!-- permette di cliccare il  noe e andare alla pagina dell utenete -->
+                        <a href="profile.php?id_user=<?= $postRow['id_user'] ?>">
+                            <div class="user-info">
+                                <img src="https://ui-avatars.com/api/?name=<?= urlencode($postRow['name']) ?>&background=random" class="user-avatar">
+                                <div>
+                                    <strong><?= htmlspecialchars($postRow['name']) ?></strong>
+                                    <div class="username">@<?= strtolower(str_replace(' ', '', htmlspecialchars($postRow['name']))) ?></div>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                         <span class="post-time"><?= htmlspecialchars($postRow['date']) ?></span>
                     </div>
 
@@ -209,7 +204,7 @@
                         <button class="action-btn">
                             <i class="far fa-heart"></i>
                         </button>
-                        <?php include "./form/formAddToFolder.php"; ?>
+                        <?php include "./form/formAddToFolder.php"; ?> FWE
                     </div>
                     <div class="comment-form" id="comment-form-<?= $postRow['id_post'] ?>">
                         <?php include "./form/formComment.php"; ?>
@@ -229,7 +224,6 @@
                 <p>Sii il primo a creare un post!</p>
             </div>
         <?php endif; ?>
-        <?php include "../pub/form/formAddToFolder.php"; ?>
     </div>
 
     <!-- Modale di successo -->
@@ -272,7 +266,7 @@
                     $('#successModal').modal('show');
                 },
                 error: function(xhr, status, error) {
-                    alert("Si è verificato un errore durante l'operazione.");
+                    alert("Si è verificato un e l'operazone.");
                 }
             });
         });
