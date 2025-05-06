@@ -58,7 +58,7 @@ if ($result->num_rows > 0) {
             $mail->addAddress($email);
             $mail->isHTML(true);
             $mail->Subject = 'Verifica la tua email';
-            $mail->Body = "Clicca sul link per verificare: <a href='http://localhost/gestioneUtenti/email-verifica/verify.php?token=$token'>Verifica ora</a>";
+            $mail->Body = "Clicca sul link per verificare: <a href='http://82.51.168.10:8080/school_homies/gestioneUtenti/email-verifica/verify.php?token=$token'>Verifica ora</a>";
 
             $mail->send();
             echo "Controlla la tua email per confermare.";
