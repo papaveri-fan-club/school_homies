@@ -1,5 +1,5 @@
 <?php
-include "../../priv/include/connessione.inc";
+include "../../include/connessione.inc";
 
 if (!isset($_GET['token'])) {
     die("Token mancante.");
