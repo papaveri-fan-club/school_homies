@@ -205,7 +205,7 @@
         <div class="welcome-text">Welcome,</div>
         <div class="subtext">sign up to continue</div>
         
-        <form action="gestioneUtenti/loginUser.php" method="POST">
+        <form action="/priv/gestioneUtenti/loginUser.php" method="POST">
             <div class="form-group">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
