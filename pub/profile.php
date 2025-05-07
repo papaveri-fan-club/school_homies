@@ -63,6 +63,11 @@ include "../priv/takeData/takeUserData/takeUserComments.php";
 </head>
 
 <body>
+<!-- Link alla home -->
+    <a href="index.php" style="position: absolute; top: 10px; left: 10px; text-decoration: none; font-weight: bold; color: #000;">
+        🏠 Home
+    </a>
+
     <h1>Profilo di <?php echo htmlspecialchars($userInfoResult['email']); ?></h1>
     <a href='../priv/gestioneUtenti/logout.php'>Logout</a>
     <h2>Biografia</h2>
@@ -85,21 +90,23 @@ include "../priv/takeData/takeUserData/takeUserComments.php";
     <?php
     // Controlla se l'utente ha i permessi per creare una cartella
     if ($_SESSION['id_user'] == $id_user): ?>
+<!-- Pulsante per aprire il pop-up -->
         <button onclick="openFolderPopup()">Crea Cartella</button>
 
         <!-- Pop-up per creare una cartella -->
         <div class="popup-overlay" id="folder-popup-overlay"></div>
         <div class="popup" id="folder-popup">
             <h3>Crea Cartella</h3>
-            <form method="post" action="../priv/gestionePost/createFolder.php">
-                <input type="text" name="folder_name" placeholder="Nome della cartella" required>
-                <select name="type_folder">
+            <form id="addFolderForm">
+                <input type="text" name="folder_name" id="folder_name" placeholder="Nome della cartella" required>
+                <select name="type_folder" id="type_folder">
                     <option value="private">Privata</option>
                     <option value="public">Pubblica</option>
                 </select>
                 <button type="submit">Crea</button>
                 <button type="button" onclick="closeFolderPopup()">Chiudi</button>
             </form>
+<div id="message"></div>
         </div>
     <?php endif; ?>
 
@@ -108,23 +115,28 @@ include "../priv/takeData/takeUserData/takeUserComments.php";
 include '../priv/takeData/takeUserData/takeFolders.php';
 
 if ($resultFoldersUser->num_rows > 0): ?>
-    <ul>
-        <?php while ($folder = $resultFoldersUser->fetch_assoc()): ?>
-            <li>
-                <a href="../priv/gestionePost/viewFolder.php?folder_name=<?php echo urlencode($folder['name']); ?>&id_user=<?php echo $id_user; ?>">
-                    <strong>Nome:</strong> <?php echo htmlspecialchars($folder['name']); ?>
-                </a>
-                <br>
-                <strong>Tipo:</strong> 
-                <?php echo htmlspecialchars($folder['type']); ?>
-                <?php if ($folder['type'] === 'private'): ?>
-                    <span style="color: red;">(Privata)</span>
-                <?php else: ?>
-                    <span style="color: green;">(Pubblica)</span>
-                <?php endif; ?>
-            </li>
-        <?php endwhile; ?>
-    </ul>
+<!-- Lista delle cartelle -->
+<ul>
+    <?php while ($folder = $resultFoldersUser->fetch_assoc()): ?>
+        <li>
+            <a href="../priv/gestionePost/viewFolder.php?folder_name=<?php echo urlencode($folder['name']); ?>&id_user=<?php echo $id_user; ?>">
+                <strong>Nome:</strong> <?php echo htmlspecialchars($folder['name']); ?>
+            </a>
+            <br>
+            <strong>Tipo:</strong> <?php echo htmlspecialchars($folder['type']); ?>
+            <?php if ($folder['type'] === 'private'): ?>
+                <span style="color: red;">(Privata)</span>
+            <?php else: ?>
+                <span style="color: green;">(Pubblica)</span>
+            <?php endif; ?>
+
+            <!-- Mostra il pulsante "Elimina" solo se l'utente loggato è il proprietario -->
+            <?php if ($_SESSION['id_user'] == $id_user): ?>
+                <button onclick="deleteFolder(<?php echo $folder['id_folder']; ?>)">Elimina</button>
+            <?php endif; ?>
+        </li>
+    <?php endwhile; ?>
+</ul>
 <?php else: ?>
     <p>Non hai ancora creato nessuna cartella.</p>
 <?php endif; ?>
@@ -173,6 +185,60 @@ if ($resultFoldersUser->num_rows > 0): ?>
         function closeFolderPopup() {
             document.getElementById('folder-popup').style.display = 'none';
             document.getElementById('folder-popup-overlay').style.display = 'none';
+        document.getElementById('message').textContent = ''; // Resetta il messaggio
+        }
+
+        // Gestione del form con AJAX
+        document.getElementById('addFolderForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Impedisce il comportamento predefinito del form
+
+            const formData = new FormData(this);
+
+            fetch('../priv/gestionePost/addFolder.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const messageDiv = document.getElementById('message');
+                if (data.success) {
+                    messageDiv.textContent = data.message;
+                    messageDiv.style.color = 'green';
+                    // Chiudi il pop-up dopo un breve ritardo
+                    setTimeout(() => {
+                        closeFolderPopup();
+                        location.reload(); // Ricarica la pagina per aggiornare la lista delle cartelle
+                    }, 1500);
+                } else {
+                    messageDiv.textContent = data.message;
+                    messageDiv.style.color = 'red';
+                }
+            })
+            .catch(error => {
+                console.error('Errore:', error);
+            });
+        });
+
+        function deleteFolder(idFolder) {
+            if (confirm("Sei sicuro di voler eliminare questa cartella?")) {
+                fetch('../priv/gestionePost/deleteFolder.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id_folder: idFolder })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) {
+                        location.reload(); // Ricarica la pagina per aggiornare la lista
+                    }
+                })
+                .catch(error => {
+                    console.error('Errore:', error);
+                });
+            }
         }
     </script>
 <?php include "../priv/include/end.inc"; ?>

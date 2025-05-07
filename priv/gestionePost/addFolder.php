@@ -2,40 +2,32 @@
 session_start();
 include "../include/connessione.inc"; // Connessione al database
 
+header('Content-Type: application/json'); // Imposta il tipo di contenuto JSON
+
 // Verifica se l'utente è loggato
 if (!isset($_SESSION['id_user'])) {
-    header('Location: ../../pub/login.php');
+    echo json_encode(['success' => false, 'message' => 'Utente non loggato.']);
     exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recupera i dati dal form
-    $folder_name = htmlspecialchars(trim($_POST['folder_name']));
-    $folder_type = htmlspecialchars(trim($_POST['folder_type']));
+    $name = htmlspecialchars(trim($_POST['folder_name']));
+    $type = htmlspecialchars(trim($_POST['type_folder']));
     $id_user = $_SESSION['id_user'];
 
-    // Verifica che i dati non siano vuoti
-    //if (!empty($folder_name) && !empty($folder_type)) {
-        // Prepara la query per inserire la cartella
-        $query = "INSERT INTO folders (id_user, name, type) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("iss", $id_user, $folder_name, $folder_type);
+    $query = "INSERT INTO folders (id_user, name, type) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("iss", $id_user, $name, $type);
 
-        if ($stmt->execute()) {
-            // Reindirizza al profilo con un messaggio di successo
-            header('Location: profile.php?success=folder_created');
-        } else {
-            // Reindirizza al profilo con un messaggio di errore
-            header('Location: profile.php?error=folder_creation_failed');
-        }
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true, 'message' => 'Cartella creata con successo!']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Errore durante la creazione della cartella.']);
+    }
 
-        $stmt->close();
-    //} else {
-        // Reindirizza al profilo con un messaggio di errore
-        //header('Location: profile.php?error=missing_data');
-    //}
+    $stmt->close();
 } else {
-    header('Location: ../../pub/profile.php');
+    echo json_encode(['success' => false, 'message' => 'Richiesta non valida.']);
     exit();
 }
 ?>

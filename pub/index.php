@@ -214,6 +214,32 @@
     function hihihiha() {
         alert("HIHIHIHA");
     }
+
+    document.querySelectorAll('.add-to-folder-form').forEach(form => {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // Impedisce il comportamento predefinito del form
+
+            const formData = new FormData(this);
+            const postId = this.getAttribute('data-post-id');
+
+            fetch('../../priv/gestionePost/addToFolder.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Mostra il messaggio in un pop-up
+                if (data.status === 'success') {
+                    document.getElementById('folderPopup-' + postId).style.display = 'none'; // Chiudi il pop-up
+                    this.reset(); // Resetta il form
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Si è verificato un errore durante l\'operazione.');
+            });
+        });
+    });
 </script>
 
 <?php include "../priv/include/end.inc"; ?>

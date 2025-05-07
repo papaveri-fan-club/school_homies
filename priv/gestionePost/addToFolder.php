@@ -21,24 +21,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmtCheck->execute();
     $resultCheck = $stmtCheck->get_result();
 
+    // Aggiungi il codice di debug qui
+    error_log("ID cartella: $id_folder, ID post: $id_post");
     if ($resultCheck->num_rows > 0) {
-        // Il post è già presente
+        error_log("Il post è già presente nella cartella.");
         echo json_encode(['status' => 'error', 'message' => 'Il post è già presente nella cartella.']);
-    } else {
-        // Inserisci nella tabella foldersnotes
-        $query = "INSERT INTO foldersnotes (id_folder, id_post) VALUES (?, ?)";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("ii", $id_folder, $id_post);
-
-        if ($stmt->execute()) {
-            echo json_encode(['status' => 'success', 'message' => 'Post aggiunto con successo alla cartella.']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Errore durante l\'aggiunta del post alla cartella.']);
-        }
-
-        $stmt->close();
+        exit(); // Assicurati di terminare lo script qui
     }
 
+    // Inserisci nella tabella foldersnotes
+    $query = "INSERT INTO foldersnotes (id_folder, id_post) VALUES (?, ?)";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("ii", $id_folder, $id_post);
+
+    if ($stmt->execute()) {
+        echo json_encode(['status' => 'success', 'message' => 'Post aggiunto con successo alla cartella.']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Errore durante l\'aggiunta del post alla cartella.']);
+    }
+
+    $stmt->close();
     $stmtCheck->close();
     $conn->close();
     exit();
