@@ -4,7 +4,8 @@ include "../include/connessione.inc"; // Connessione al database
 
 // Verifica se l'utente è loggato
 if (!isset($_SESSION['id_user'])) {
-    echo json_encode(['status' => 'error', 'message' => 'Utente non loggato.']);
+    $_SESSION['message'] = ['status' => 'error', 'text' => 'Utente non loggato.'];
+    header('Location: ' . $_POST['redirect']);
     exit();
 }
 
@@ -14,6 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_post = $_POST['id_post'] ?? null;
     $id_folder = $_POST['folder'] ?? null;
 
+    if (!$id_post || !$id_folder) {
+        $_SESSION['message'] = ['status' => 'error', 'text' => 'Dati mancanti.'];
+        header('Location: ' . $_POST['redirect']);
+        exit();
+    }
+
     // Controlla se il post è già presente nella cartella
     $checkQuery = "SELECT * FROM foldersnotes WHERE id_folder = ? AND id_post = ?";
     $stmtCheck = $conn->prepare($checkQuery);
@@ -21,28 +28,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmtCheck->execute();
     $resultCheck = $stmtCheck->get_result();
 
-    // Aggiungi il codice di debug qui
-    error_log("ID cartella: $id_folder, ID post: $id_post");
     if ($resultCheck->num_rows > 0) {
-        error_log("Il post è già presente nella cartella.");
-        echo json_encode(['status' => 'error', 'message' => 'Il post è già presente nella cartella.']);
-        exit(); // Assicurati di terminare lo script qui
-    }
-
-    // Inserisci nella tabella foldersnotes
-    $query = "INSERT INTO foldersnotes (id_folder, id_post) VALUES (?, ?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("ii", $id_folder, $id_post);
-
-    if ($stmt->execute()) {
-        echo json_encode(['status' => 'success', 'message' => 'Post aggiunto con successo alla cartella.']);
+        // Il post è già presente
+        $_SESSION['message'] = ['status' => 'error', 'text' => 'Il post è già presente nella cartella.'];
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Errore durante l\'aggiunta del post alla cartella.']);
+        // Inserisci nella tabella foldersnotes
+        $query = "INSERT INTO foldersnotes (id_folder, id_post) VALUES (?, ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ii", $id_folder, $id_post);
+
+        if ($stmt->execute()) {
+            $_SESSION['message'] = ['status' => 'success', 'text' => 'Post aggiunto con successo alla cartella.'];
+        } else {
+            $_SESSION['message'] = ['status' => 'error', 'text' => 'Errore durante l\'aggiunta del post alla cartella.'];
+        }
+
+        $stmt->close();
     }
 
-    $stmt->close();
     $stmtCheck->close();
     $conn->close();
+
+    // Reindirizza alla pagina precedente
+    header('Location: ' . $_POST['redirect']);
     exit();
 }
 ?>

@@ -157,6 +157,21 @@
 <body>
 <div class="container py-4">
 
+        <?php
+        include '../priv/takeData/takeUserData/takeFolders.php';
+
+        // Recupera le cartelle dell'utente loggato
+        $resultFolders = getUserFolders($conn, $_SESSION['id_user']);
+
+        if (isset($_SESSION['message'])) {
+            $message = $_SESSION['message'];
+            unset($_SESSION['message']);
+            echo '<div class="alert alert-' . ($message['status'] === 'success' ? 'success' : 'danger') . '">';
+            echo htmlspecialchars($message['text']);
+            echo '</div>';
+        }
+        ?>
+
         <?php if ($resultPosts->num_rows > 0): ?>
             <?php while ($postRow = $resultPosts->fetch_assoc()): ?>
                 <div class="post-card">

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "..//include/connessione.inc"; // Connessione al database
+include "../include/connessione.inc"; // Connessione al database
 
 // Verifica se l'utente è loggato
 if (!isset($_SESSION['id_user'])) {
@@ -32,7 +32,7 @@ $folder = $result->fetch_assoc();
 $id_folder = $folder['id_folder'];
 
 // Recupera gli appunti associati alla cartella
-$query = "SELECT p.title, p.description 
+$query = "SELECT p.id_post, p.title, p.description 
           FROM posts p
           INNER JOIN foldersnotes fn ON p.id_post = fn.id_post
           WHERE fn.id_folder = ?";
@@ -48,12 +48,15 @@ $result = $stmt->get_result();
 </head>
 <body>
     <h1>Appunti in "<?php echo htmlspecialchars($folder_name); ?>"</h1>
-    <a href="../../pub/profile.php">Torna al profilo</a>
+    <a href="../../pub/profile.php?id_user=<?php echo $id_user; ?>">Torna al profilo</a>
     <?php if ($result->num_rows > 0): ?>
         <ul>
             <?php while ($note = $result->fetch_assoc()): ?>
                 <li>
-                    <strong><?php echo htmlspecialchars($note['title']); ?>:</strong>
+                    <strong><?php echo htmlspecialchars($note['title']); ?></strong>
+                    <a href="viewPost.php?id_post=<?php echo $note['id_post']; ?>" style="margin-left: 10px; font-size: 0.9em; color: blue; text-decoration: underline;">
+                        Visualizza post
+                    </a>
                     <p><?php echo nl2br(htmlspecialchars($note['description'])); ?></p>
                 </li>
             <?php endwhile; ?>
