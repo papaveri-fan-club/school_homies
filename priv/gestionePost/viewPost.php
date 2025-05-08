@@ -17,7 +17,7 @@ if (!$id_post) {
 }
 
 // Recupera i dettagli del post
-$query = "SELECT p.title, p.description, p.date, p.image_path, u.name AS author 
+$query = "SELECT p.title, p.description, p.date, p.image_path, u.name AS author, u.id_user 
           FROM posts p
           INNER JOIN users u ON p.id_user = u.id_user
           WHERE p.id_post = ?";
@@ -48,7 +48,7 @@ $post = $result->fetch_assoc();
 <div class="container py-4">
     <div class="post-card">
         <div class="post-header d-flex justify-content-between align-items-center">
-            <a href="../profile.php?id_user=<?= htmlspecialchars($post['author']); ?>" class="text-decoration-none">
+            <a href="../../pub/profile.php?id_user=<?= $post['id_user']; ?>" class="text-decoration-none">
                 <div class="user-info">
                     <strong><?= htmlspecialchars($post['author']); ?></strong>
                 </div>
