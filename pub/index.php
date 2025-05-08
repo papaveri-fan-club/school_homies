@@ -49,7 +49,9 @@
     
     .logo i {
         font-size: 1.8rem;
-        color: rgb(242, 150, 29);
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         margin-right: 10px;
     }
     
@@ -75,7 +77,7 @@
     
     .menu-item:hover {
         background-color: #e8f5fe;
-        color: rgb(242, 150, 29);
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
         transform: translateX(2px);
     }
     
@@ -93,7 +95,7 @@
     
     /* Pulsante di post */
     .post-button {
-        background-color: rgb(242, 150, 29);
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
         color: white;
         border: none;
         border-radius: 25px;
@@ -104,11 +106,11 @@
         margin: 20px 12px;
         cursor: pointer;
         transition: background-color 0.2s ease;
-        box-shadow: 0 2px 5px rgba(242, 150, 29, 0.3);
+        box-shadow: 0 2px 5px rgba(106, 17, 203, 0.3);
     }
     
     .post-button:hover {
-        background-color: rgb(222, 136, 25);
+        opacity: 0.9;
     }
     
     /* Profilo utente */
@@ -164,7 +166,9 @@
     .header-title {
         font-size: 1.6rem;
         font-weight: bold;
-        color: rgb(242, 150, 29);
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         display: flex;
         align-items: center;
     }
@@ -195,9 +199,9 @@
     
     .search-input:focus {
         outline: none;
-        border-color: rgb(242, 150, 29);
+        border-color: #6a11cb;
         background-color: #fff;
-        box-shadow: 0 0 0 2px rgba(242, 150, 29, 0.2);
+        box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.2);
     }
     
     /* Area dei post */
@@ -216,7 +220,7 @@
     
     /* Pulsanti di login */
     .btn-twitter {
-        background-color: rgb(242, 150, 29);
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
         color: white;
         padding: 10px 20px;
         border-radius: 20px;
@@ -227,13 +231,13 @@
     }
     
     .btn-twitter-outline {
-        background-color: transparent;
-        color: rgb(242, 150, 29);
+        background: transparent;
+        color: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
         padding: 9px 19px;
         border-radius: 20px;
         text-decoration: none;
         font-weight: bold;
-        border: 1px solid rgb(242, 150, 29);
+        border: 1px solid #6a11cb;
         display: inline-block;
     }
     
@@ -245,6 +249,27 @@
         margin-bottom: 20px;
         box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         text-align: center;
+    }
+
+    /* Stile per i pulsanti con gradiente */
+    button, .btn-twitter, .btn-twitter-outline {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    button:hover, .btn-twitter:hover, .btn-twitter-outline:hover {
+        opacity: 0.9;
+        transform: scale(1.05);
     }
 </style>
 
