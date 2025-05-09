@@ -271,6 +271,21 @@
         opacity: 0.9;
         transform: scale(1.05);
     }
+    .hihihiha {
+        border-radius: 100%;
+        transition: all 10s ease;
+        
+    }
+    
+    .hihihiha:hover {
+        transform: scale(5);
+        transition: all 0.3s ease;
+        animation: ruota 1s infinite linear;
+    }
+    @keyframes ruota {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 </style>
 
 <div class="layout-container">
@@ -278,7 +293,7 @@
     <div class="sidebar">
         <div class="logo">
             <i class="fa-solid fa-book"></i>
-            <img onclick="hihihiha()" src="hihihiha/download.jpg" alt="School Homies Logo">
+            <img class="hihihiha" onclick="hihihiha()" src="hihihiha/download.jpg" alt="School Homies Logo">
         </div>
         
         <a href="index.php" class="menu-item <?= !isset($_GET['type_post']) && !isset($_GET['search']) ? 'active-menu' : '' ?>">

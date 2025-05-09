@@ -244,9 +244,7 @@
                         <button class="action-btn toggle-comment" data-post-id="<?= $postRow['id_post'] ?>">
                             <i class="far fa-comment"></i>
                         </button>
-                        <button class="action-btn">
-                            <i class="far fa-heart"></i>
-                        </button>
+                        
                         <?php include "./form/formAddToFolder.php"; ?>
                     </div>
                     <div class="comment-form" id="comment-form-<?= $postRow['id_post'] ?>">
