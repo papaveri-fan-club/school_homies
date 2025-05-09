@@ -18,7 +18,7 @@ class FakeMysqliResult {
 }
 
 
-$stmtPosts = $conn->prepare("SELECT id_post, type_post, date, title, description, date_event FROM posts WHERE id_user = ?");
+$stmtPosts = $conn->prepare("SELECT id_post, type_post, date, title, description, date_event, image_path FROM posts WHERE id_user = ?");
 $stmtPosts->bind_param("i", $id_user);
 $stmtPosts->execute();
 $result = $stmtPosts->get_result(); // Otteniamo l'oggetto mysqli_result
