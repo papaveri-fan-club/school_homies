@@ -23,14 +23,22 @@ if (!function_exists('getUserFolders')) {
 }
 
 if (!function_exists('getPublicFoldersOfOtherUsers')) {
-    function getPublicFoldersOfOtherUsers($conn, $logged_user_id) {
-        // Recupera solo le cartelle pubbliche degli altri utenti
-        $stmt = $conn->prepare("
-            SELECT f.id_folder, f.name, f.type, f.id_user 
-            FROM folders AS f 
-            WHERE f.type = 'public' AND f.id_user != ?
-        ");
-        $stmt->bind_param("i", $logged_user_id);
+    function getPublicFolders($conn, $id_user = null, $exclude_logged_user = true) {
+        // Costruisce la query in base ai parametri
+        $query = "SELECT f.id_folder, f.name, f.type, f.id_user FROM folders AS f WHERE f.type = 'public'";
+        
+        if ($exclude_logged_user) {
+            $query .= " AND f.id_user != ?";
+        } elseif ($id_user !== null) {
+            $query .= " AND f.id_user = ?";
+        }
+
+        $stmt = $conn->prepare($query);
+
+        if ($exclude_logged_user || $id_user !== null) {
+            $stmt->bind_param("i", $id_user);
+        }
+
         $stmt->execute();
         return $stmt->get_result();
     }
@@ -42,6 +50,6 @@ if ($_SESSION['id_user'] == $id_user) {
     $resultFoldersUser = getUserFolders($conn, $_SESSION['id_user']);
 } else {
     // L'utente sta visualizzando il profilo di qualcun altro
-    $resultFoldersUser = getPublicFoldersOfOtherUsers($conn, $_SESSION['id_user']);
+    $resultFoldersUser = getPublicFolders($conn, $id_user, false);
 }
 ?>

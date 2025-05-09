@@ -219,7 +219,7 @@
                         <button class="action-btn">
                             <i class="far fa-heart"></i>
                         </button>
-                        <?php include "./form/formAddToFolder.php"; ?> FWE
+                        <?php include "./form/formAddToFolder.php"; ?>
                     </div>
                     <div class="comment-form" id="comment-form-<?= $postRow['id_post'] ?>">
                         <?php include "./form/formComment.php"; ?>
