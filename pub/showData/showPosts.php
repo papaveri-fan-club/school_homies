@@ -231,6 +231,34 @@
                                 </div>
                             <?php endif; ?>
                         <?php endif; ?>
+
+                        <?php if ($postRow['type_post'] == 2): ?>
+                            <div class="event-details">
+                                <i class="fas fa-calendar-alt"></i> 
+                                <strong>Data evento:</strong> <?= htmlspecialchars($postRow['date_event']) ?>
+                            </div>
+
+                            <!-- Form per partecipare all'evento -->
+                            <form class="partecipateForm mt-3" method="POST" action="../../priv/gestionePost/addPartecipantEvent.php">
+                                <input type="hidden" name="id_event" value="<?= $postRow['id_post'] ?>">
+                                <button type="submit" class="btn btn-twitter">Partecipa</button>
+                            </form>
+
+                            <!-- Mostra i partecipanti -->
+                            <div class="mt-3">
+                                <h6>Partecipanti:</h6>
+                                <?php
+                                include '../priv/takeData/takePartecipants.php';
+                                if ($partecipantResult->num_rows > 0) {
+                                    while ($participant = $partecipantResult->fetch_assoc()) {
+                                        echo '<span class="participant-badge">' . htmlspecialchars($participant['name']) . ' ' . htmlspecialchars($participant['surname']) . '</span>';
+                                    }
+                                } else {
+                                    echo '<p class="text-muted">Nessun partecipante al momento.</p>';
+                                }
+                                ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
 
                     <div class="post-actions">
@@ -240,7 +268,7 @@
                         <button class="action-btn">
                             <i class="far fa-heart"></i>
                         </button>
-                        <?php include "./form/formAddToFolder.php"; ?> FWE
+                        <?php include "./form/formAddToFolder.php"; ?>
                     </div>
                     <div class="comment-form" id="comment-form-<?= $postRow['id_post'] ?>">
                         <?php include "./form/formComment.php"; ?>
