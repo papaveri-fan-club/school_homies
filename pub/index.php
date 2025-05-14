@@ -12,7 +12,7 @@
     
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color:rgb(255, 255, 255)  !important;
+        background-color: rgb(255, 255, 255) !important;
         color: #0f1419;
     }
     
@@ -61,6 +61,182 @@
         cursor: pointer;
     }
     
+    /* ========== STILE POPUP CARTELLE ========== */
+    .folder-popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    .folder-popup-content {
+        background-color: white;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        transform: translateY(0);
+        transition: transform 0.3s ease;
+    }
+
+    .folder-popup-overlay.show .folder-popup-content {
+        transform: translateY(0);
+    }
+
+    .popup-header {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: white;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .popup-header i {
+        font-size: 1.5rem;
+    }
+
+    .popup-header h3 {
+        margin: 0;
+        font-size: 1.3rem;
+    }
+
+    .close-popup {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+    }
+
+    .close-popup:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    .folder-form {
+        padding: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        background-color: #f9f9f9;
+        transition: all 0.3s;
+    }
+
+    .form-select:focus {
+        border-color: #6a11cb;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+    }
+
+    .no-folders-message {
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        text-align: center;
+        color: #6c757d;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 25px;
+    }
+
+    .btn-submit, .btn-create-folder {
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: white;
+        border: none;
+    }
+
+    .btn-submit:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+    }
+
+    .btn-create-folder {
+        background: white;
+        color: #6a11cb;
+        border: 1px solid #6a11cb;
+        text-decoration: none;
+    }
+
+    .btn-create-folder:hover {
+        background: #f8f0ff;
+        transform: translateY(-2px);
+    }
+
+    /* Animazioni */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* Pulsante bookmark nella card */
+    .action-btn.add-to-folder-btn {
+        color: #657786;
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        padding: 8px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .action-btn.add-to-folder-btn:hover {
+        color: #6a11cb;
+        background-color: rgba(106, 17, 203, 0.1);
+    }
+
+    .action-btn.add-to-folder-btn.active {
+        color: #6a11cb;
+    }
+
     /* Voci del menu */
     .menu-item {
         display: flex;
