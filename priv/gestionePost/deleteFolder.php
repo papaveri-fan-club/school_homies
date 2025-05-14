@@ -8,44 +8,27 @@ if (!isset($_SESSION['id_user'])) {
     exit();
 }
 
-// Verifica se il metodo è POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Decodifica i dati JSON
-    $input = json_decode(file_get_contents('php://input'), true);
-    $id_user = $_SESSION['id_user'];
-    $id_folder = $input['id_folder'] ?? null;
+$id_user = $_SESSION['id_user'];
+$id_folder = $_POST['id_folder'];
 
-    if ($id_folder) {
-        // Verifica che la cartella appartenga all'utente loggato
-        $checkQuery = "SELECT id_folder FROM folders WHERE id_folder = ? AND id_user = ?";
-        $stmtCheck = $conn->prepare($checkQuery);
-        $stmtCheck->bind_param("ii", $id_folder, $id_user);
-        $stmtCheck->execute();
-        $resultCheck = $stmtCheck->get_result();
+// Controlla se l'utente è un amministratore
+$stmt = $conn->prepare("SELECT user_type FROM users WHERE id_user = ?");
+$stmt->bind_param("i", $id_user);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
 
-        if ($resultCheck->num_rows > 0) {
-            // Cancella la cartella
-            $query = "DELETE FROM folders WHERE id_folder = ? AND id_user = ?";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param("ii", $id_folder, $id_user);
-
-            if ($stmt->execute()) {
-                echo json_encode(['success' => true, 'message' => 'Cartella cancellata con successo.']);
-            } else {
-                echo json_encode(['success' => false, 'message' => 'Errore durante la cancellazione della cartella.']);
-            }
-
-            $stmt->close();
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Non hai i permessi per cancellare questa cartella.']);
-        }
-
-        $stmtCheck->close();
-    } else {
-        echo json_encode(['success' => false, 'message' => 'ID cartella non fornito.']);
-    }
+if ($user['user_type'] === 'amministratore') {
+    // Gli amministratori possono eliminare qualsiasi cartella pubblica
+    $query = $conn->prepare("DELETE FROM folders WHERE id_folder = ? AND type = 'public'");
+    $query->bind_param("i", $id_folder);
 } else {
-    echo json_encode(['success' => false, 'message' => 'Richiesta non valida.']);
-    exit();
+    // Gli utenti normali possono eliminare solo le proprie cartelle
+    $query = $conn->prepare("DELETE FROM folders WHERE id_folder = ? AND id_user = ?");
+    $query->bind_param("ii", $id_folder, $id_user);
 }
+
+$query->execute();
+echo json_encode(['success' => true, 'message' => 'Cartella eliminata con successo.']);
+exit();
 ?>

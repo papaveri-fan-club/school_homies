@@ -5,7 +5,7 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 
 // Prepara la query per selezionare l'utente con l'email e la password forniti
-$stmt = $conn->prepare("SELECT id_user, surname, name, password, is_verified FROM users WHERE email=?");
+$stmt = $conn->prepare("SELECT id_user, surname, name, password, is_verified, user_type FROM users WHERE email=?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -27,6 +27,7 @@ if ($result->num_rows > 0) {
         $_SESSION['email'] = $email;
         $_SESSION['name'] = $row['name'];
         $_SESSION['surname'] = $row['surname'];
+        $_SESSION['user_type'] = $row['user_type']; // Aggiungi user_type alla sessione
 
         // Passa i dati dell'utente alla pagina index.php
         header("Location: ../../pub/index.php");

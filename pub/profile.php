@@ -459,7 +459,16 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
     <div class="main-container" style="width: 100%; max-width: 900px; margin: 0 auto;">
         <!-- Riquadro profilo -->
         <div class="profile-card">
-            <a href='../priv/gestioneUtenti/logout.php' class="logout-btn">Logout</a>
+            <?php if ($_SESSION['id_user'] == $id_user): ?>
+                <!-- Mostra il pulsante Logout se l'utente sta visualizzando il proprio profilo -->
+                <a href='../priv/gestioneUtenti/logout.php' class="logout-btn">Logout</a>
+            <?php elseif (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'amministratore' && $_SESSION['id_user'] != $id_user): ?>
+                <!-- Mostra il pulsante Elimina Account se l'utente loggato è un amministratore -->
+                <form method="post" action="../priv/gestioneUtenti/deleteUser.php" style="display: inline;">
+                    <input type="hidden" name="id_user" value="<?= $id_user; ?>">
+                    <button type="submit" class="btn btn-danger">Elimina Account</button>
+                </form>
+            <?php endif; ?>
             <div class="profile-header">
                 <h1>Profilo di <?php echo htmlspecialchars($userInfoResult['name'] ?? $userInfoResult['email']); ?></h1>
                 <div class="profile-email"><?php echo htmlspecialchars($userInfoResult['email']); ?></div>

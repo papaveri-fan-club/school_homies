@@ -269,6 +269,9 @@
                             <i class="far fa-heart"></i>
                         </button>
                         <?php include "./form/formAddToFolder.php"; ?>
+                        <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'amministratore'): ?>
+                            <button class="btn btn-danger" onclick="deletePost(<?= $postRow['id_post']; ?>)">Elimina Post</button>
+                        <?php endif; ?>
                     </div>
                     <div class="comment-form" id="comment-form-<?= $postRow['id_post'] ?>">
                         <?php include "./form/formComment.php"; ?>
