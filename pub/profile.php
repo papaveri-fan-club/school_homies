@@ -495,22 +495,25 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
                 <div class="folder-list">
                     <?php while ($folder = $resultFoldersUser->fetch_assoc()): ?>
                         <div class="folder-item">
-                            <a href="../priv/gestionePost/viewFolder.php?folder_name=<?php echo urlencode($folder['name']); ?>&id_user=<?php echo $id_user; ?>">
-                                <strong><?php echo htmlspecialchars($folder['name']); ?></strong>
+                            <a href="../priv/gestionePost/viewFolder.php?folder_name=<?= urlencode($folder['name']); ?>&id_user=<?= $id_user; ?>">
+                                <strong><?= htmlspecialchars($folder['name']); ?></strong>
                             </a>
                             
-                            <div class="folder-type <?php echo $folder['type'] === 'private' ? 'type-private' : 'type-public'; ?>">
-                                <?php echo $folder['type'] === 'private' ? 'Privata' : 'Pubblica'; ?>
+                            <div class="folder-type <?= $folder['type'] === 'private' ? 'type-private' : 'type-public'; ?>">
+                                <?= $folder['type'] === 'private' ? 'Privata' : 'Pubblica'; ?>
                             </div>
 
-                            <?php if ($_SESSION['id_user'] == $id_user): ?>
-                                <button class="btn btn-danger" onclick="deleteFolder(<?php echo $folder['id_folder']; ?>)">Elimina</button>
+                            <?php if (isset($folder['id_user']) && ($folder['id_user'] == $_SESSION['id_user'] || (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'amministratore' && $folder['type'] === 'public' && $folder['id_user'] != $_SESSION['id_user']))): ?>
+                                <form method="post" action="../priv/gestionePost/deleteFolder.php" style="display: inline;">
+                                    <input type="hidden" name="id_folder" value="<?= $folder['id_folder']; ?>">
+                                    <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
+                                </form>
                             <?php endif; ?>
                         </div>
                     <?php endwhile; ?>
                 </div>
             <?php else: ?>
-                <p class="no-content">Non hai ancora creato nessuna cartella.</p>
+                <p class="no-content">Nessuna cartella creata.</p>
             <?php endif; ?>
         </div>
 
@@ -522,26 +525,22 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
 
         <!-- Sezione commenti -->
         <div class="section">
-            <h2>I commenti di <?= htmlspecialchars($userInfoResult['name'])?></h2>
+            <h2>I commenti di <?= htmlspecialchars($userInfoResult['name']) ?></h2>
             <?php if ($commentsResult->num_rows > 0): ?>
                 <?php while ($comment = $commentsResult->fetch_assoc()): ?>
                     <div class="comment">
+                        <p><strong>Post associato:</strong> <?= htmlspecialchars($comment['pTitle']) ?></p>
+                        <p><?= htmlspecialchars($comment['text']) ?></p>
                         <form method="post" action="../priv/gestionePost/deleteComment.php">
-                            <small>Post associato: </small>
-                            <div class="post">
-                                <strong><?php echo htmlspecialchars($comment['pTitle']); ?></strong><br>
-                                <?php echo htmlspecialchars($comment['description']); ?>
-                            </div>
-                            <p>Commento: <?php echo htmlspecialchars($comment['text']); ?></p>
-                            <input type="hidden" name="id_comment" value="<?php echo $comment['id_comment']; ?>">
-                            <?php if($_SESSION['id_user'] == $id_user): ?>
-                                <button type="submit" class="btn btn-danger">Cancella Commento</button>
+                            <input type="hidden" name="id_comment" value="<?= $comment['id_comment'] ?>">
+                            <?php if ($_SESSION['id_user'] == $id_user || (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'amministratore')): ?>
+                                <button type="submit" class="btn btn-danger btn-sm">Elimina Commento</button>
                             <?php endif; ?>
                         </form>
                     </div>
                 <?php endwhile; ?>
             <?php else: ?>
-                <p class="no-content">Non hai ancora pubblicato commenti.</p>
+                <p class="no-content">Nessun commento pubblicato.</p>
             <?php endif; ?>
         </div>
     </div>

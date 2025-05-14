@@ -194,7 +194,7 @@
     <div class="registration-container">
         <div class="title">Registrazione</div>
         
-        <form action="gestioneUtenti/newUser.php" method="POST" onsubmit="return validateForm()">
+        <form action="../priv/gestioneUtenti/newUser.php" method="POST" onsubmit="return validateForm()">
             <div class="form-group">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" required placeholder="La tua email">

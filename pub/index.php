@@ -306,10 +306,6 @@
         <a href="index.php?type_post=2" class="menu-item <?= isset($_GET['type_post']) && $_GET['type_post'] == 2 ? 'active-menu' : '' ?>">
             <i class="fas fa-calendar-alt"></i> Eventi
         </a>
-
-        <a href="index.php?type_post=4" class="menu-item <?= isset($_GET['type_post']) && $_GET['type_post'] == 4 ? 'active-menu' : '' ?>">
-            <i class="fas fa-bookmark"></i> Salvati
-        </a>
         
         <?php if (isset($_SESSION['email'])): ?>
             <button type="button" class="post-button" data-toggle="modal" data-target="#postModal">

@@ -19,16 +19,49 @@ if (!$id_user_to_delete) {
     die("Errore: ID utente mancante.");
 }
 
-// Elimina l'utente dal database
-$stmt = $conn->prepare("DELETE FROM users WHERE id_user = ?");
-$stmt->bind_param("i", $id_user_to_delete);
-$stmt->execute();
+// Inizia una transazione per garantire la coerenza dei dati
+$conn->begin_transaction();
 
-if ($stmt->affected_rows > 0) {
-    echo "Account eliminato con successo.";
+try {
+    // Elimina i commenti dell'utente
+    $stmt = $conn->prepare("DELETE FROM comments WHERE id_user = ?");
+    $stmt->bind_param("i", $id_user_to_delete);
+    $stmt->execute();
+
+    // Elimina i post dell'utente
+    $stmt = $conn->prepare("DELETE FROM posts WHERE id_user = ?");
+    $stmt->bind_param("i", $id_user_to_delete);
+    $stmt->execute();
+
+    // Elimina le cartelle dell'utente
+    $stmt = $conn->prepare("DELETE FROM folders WHERE id_user = ?");
+    $stmt->bind_param("i", $id_user_to_delete);
+    $stmt->execute();
+
+    // Elimina le partecipazioni agli eventi
+    $stmt = $conn->prepare("DELETE FROM partecipantsevents WHERE id_partecipant = ?");
+    $stmt->bind_param("i", $id_user_to_delete);
+    $stmt->execute();
+
+    // Elimina i token di verifica email
+    $stmt = $conn->prepare("DELETE FROM email_verifications WHERE id_user = ?");
+    $stmt->bind_param("i", $id_user_to_delete);
+    $stmt->execute();
+
+    // Elimina l'utente dalla tabella `users`
+    $stmt = $conn->prepare("DELETE FROM users WHERE id_user = ?");
+    $stmt->bind_param("i", $id_user_to_delete);
+    $stmt->execute();
+
+    // Conferma la transazione
+    $conn->commit();
+
+    echo "Account e dati correlati eliminati con successo.";
     header('Location: ../../pub/index.php');
     exit();
-} else {
-    echo "Errore: Impossibile eliminare l'account.";
+} catch (Exception $e) {
+    // Annulla la transazione in caso di errore
+    $conn->rollback();
+    die("Errore durante l'eliminazione dell'utente: " . $e->getMessage());
 }
 ?>

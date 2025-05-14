@@ -197,7 +197,7 @@
             <?php while ($postRow = $resultPosts->fetch_assoc()): ?>
                 <div class="post-card">
                     <div class="post-header">
-                        <!-- permette di cliccare il  noe e andare alla pagina dell utenete -->
+                        <!-- Informazioni sull'utente -->
                         <a href="profile.php?id_user=<?= $postRow['id_user'] ?>">
                             <div class="user-info">
                                 <img src="https://ui-avatars.com/api/?name=<?= urlencode($postRow['name']) ?>&background=random" class="user-avatar">
@@ -208,6 +208,17 @@
                             </div>
                         </a>
                         <span class="post-time"><?= htmlspecialchars($postRow['date']) ?></span>
+
+                        <!-- Pulsante Elimina Post -->
+                        <?php if (
+                            (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $postRow['id_user'] && basename($_SERVER['PHP_SELF']) === 'profile.php') || 
+                            (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'amministratore')
+                        ): ?>
+                            <form method="post" action="../priv/gestionePost/deletePost.php" style="position: absolute; top: 10px; right: 10px;">
+                                <input type="hidden" name="id_post" value="<?= $postRow['id_post']; ?>">
+                                <button type="submit" class="btn btn-danger btn-sm">Elimina Post</button>
+                            </form>
+                        <?php endif; ?>
                     </div>
 
                     <div class="post-body">
@@ -269,9 +280,6 @@
                             <i class="far fa-heart"></i>
                         </button>
                         <?php include "./form/formAddToFolder.php"; ?>
-                        <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'amministratore'): ?>
-                            <button class="btn btn-danger" onclick="deletePost(<?= $postRow['id_post']; ?>)">Elimina Post</button>
-                        <?php endif; ?>
                     </div>
                     <div class="comment-form" id="comment-form-<?= $postRow['id_post'] ?>">
                         <?php include "./form/formComment.php"; ?>
@@ -280,7 +288,8 @@
                     <div class="px-3 pb-2">
                         <?php 
                         include "../priv/takeData/takeComments.php";
-                        include "./showData/showComments.php"; ?>
+                        include "./showData/showComments.php"; 
+                        ?>
                     </div>
                 </div>
             <?php endwhile; ?>

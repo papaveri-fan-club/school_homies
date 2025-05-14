@@ -66,15 +66,22 @@ if ($result->num_rows > 0) {
             echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
         }
 
-        //echo "<script>window.location.href = '../login.php';</script>";
+        // Avvia la sessione e imposta i dati dell'utente
+        session_start();
+        $_SESSION['id_user'] = $id_user;
+        $_SESSION['email'] = $email;
+        $_SESSION['name'] = $name;
+        $_SESSION['surname'] = $surname;
+        $_SESSION['user_type'] = $user_type;
+
+        // Reindirizza alla home
+        header("Location: ../../pub/index.php");
+        exit();
     } else {
         // Errore durante la registrazione, mostra un messaggio di errore
         echo "<script>alert('Si è verificato un errore durante la registrazione. Riprova.');</script>";
     }
     $stmt->close();
-
-    header("location:../../pub/index.php");
-    exit();
 }
 
 include "../priv/include/connessione.inc";
