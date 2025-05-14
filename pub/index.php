@@ -307,6 +307,7 @@
             <i class="fas fa-calendar-alt"></i> Eventi
         </a>
         
+        
         <?php if (isset($_SESSION['email'])): ?>
             <button type="button" class="post-button" data-toggle="modal" data-target="#postModal">
                 <i class="fas fa-pen"></i> Crea nuovo post
