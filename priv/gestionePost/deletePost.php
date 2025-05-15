@@ -35,9 +35,9 @@ if ($post['id_user'] == $id_user || (isset($_SESSION['user_type']) && $_SESSION[
 
     // Reindirizza alla pagina del profilo o alla home
     if (basename($_SERVER['HTTP_REFERER']) === 'profile.php') {
-        header('Location: ../../pub/profile.php');
+        header('Location: ../../pub/index.php');
     } else {
-        header('Location: ../../pub/profile.php');
+        header('Location: ../../pub/index.php');
     }
     exit();
 } else {
