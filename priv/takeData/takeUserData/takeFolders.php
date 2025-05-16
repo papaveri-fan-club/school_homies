@@ -12,7 +12,7 @@ if (!function_exists('getUserFolders')) {
     function getUserFolders($conn, $id_user) {
         // Recupera tutte le cartelle dell'utente specificato (private e pubbliche)
         $stmt = $conn->prepare("
-            SELECT f.id_folder, f.name, f.type 
+            SELECT f.id_folder, f.name, f.type, f.id_user 
             FROM folders AS f 
             WHERE f.id_user = ?
         ");
