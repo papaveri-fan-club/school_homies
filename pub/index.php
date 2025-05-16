@@ -255,6 +255,7 @@
         background-color: #e8f5fe;
         background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
         transform: translateX(2px);
+        color: white;
     }
     
     .menu-item i {
@@ -445,6 +446,7 @@
 
     button:hover, .btn-twitter:hover, .btn-twitter-outline:hover {
         opacity: 0.9;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
         transform: scale(1.05);
     }
 
@@ -479,7 +481,8 @@
     <div class="sidebar">
         <div class="logo">
             <i class="fa-solid fa-book"></i>
-            <img class="hihihiha" onclick="hihihiha()" src="hihihiha/download.jpg" alt="School Homies Logo">
+            <img class="hihihiha"  src="hihihiha/download.jpg" alt="School Homies Logo">
+            <img class="hihihiha"  src="../priv/uploads/images/anneclank.jpg" alt="School Homies Logo">
         </div>
         
         <a href="index.php" class="menu-item <?= !isset($_GET['type_post']) && !isset($_GET['search']) ? 'active-menu' : '' ?>">
@@ -577,7 +580,7 @@
 
 <script>
     function hihihiha() {
-        alert("HIHIHIHA");
+        
     }
 
     document.querySelectorAll('.add-to-folder-form').forEach(form => {
@@ -605,6 +608,7 @@
             });
         });
     });
+   
 </script>
 
 <?php include "../priv/include/end.inc"; ?>
