@@ -625,7 +625,7 @@
             </a>
             
             <?php if (isset($_SESSION['email'])): ?>
-                <button type="button" class="post-button" data-toggle="modal" data-target="#postModal">
+                <button type="button" class="post-button" data-bs-toggle="modal" data-bs-target="#postModal">
                     <i class="fas fa-pen"></i> Crea nuovo post
                 </button>
                 
