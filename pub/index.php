@@ -2,6 +2,10 @@
 <?php include "../priv/include/connessione.inc"; ?>
 <?php session_start(); ?>
 
+<!-- Aggiorna i link Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <style>
     /* Stile base e reset */
     * {
@@ -12,8 +16,13 @@
     
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: rgb(255, 255, 255) !important;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%) fixed no-repeat;
         color: #0f1419;
+        position: relative;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
     }
     
     /* Layout principale */
@@ -21,6 +30,7 @@
         display: flex;
         min-height: 100vh;
         position: relative;
+        background-color: transparent;
     }
     
     /* Sidebar migliorata */
@@ -51,6 +61,7 @@
         font-size: 1.8rem;
         background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
         -webkit-background-clip: text;
+        background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-right: 10px;
     }
@@ -312,6 +323,7 @@
         flex: 1;
         margin-left: 280px;
         width: calc(100% - 280px);
+        background-color: transparent;
     }
     
     /* Header migliorato */
@@ -345,6 +357,7 @@
         font-weight: bold;
         background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
         -webkit-background-clip: text;
+        background-clip: text; /* Standard property for compatibility */
         -webkit-text-fill-color: transparent;
         display: flex;
         align-items: center;
@@ -386,6 +399,7 @@
         max-width: 800px;
         margin: 0 auto;
         padding: 120px 20px 20px 20px; /* Spazio extra per l'header fisso */
+        background-color: transparent;
     }
     
     /* Area di benvenuto */
@@ -474,141 +488,298 @@
     .like-button:hover {
         color: #2575fc;
     }
-</style>
 
-<div class="layout-container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="logo">
-            <i class="fa-solid fa-book"></i>
-            <img class="hihihiha"  src="hihihiha/download.jpg" alt="School Homies Logo">
-            <img class="hihihiha"  src="../priv/uploads/images/anneclank.jpg" alt="School Homies Logo">
-        </div>
-        
-        <a href="index.php" class="menu-item <?= !isset($_GET['type_post']) && !isset($_GET['search']) ? 'active-menu' : '' ?>">
-            <i class="fas fa-home"></i> Home
-        </a>
-        
-        <a href="index.php?type_post=1" class="menu-item <?= isset($_GET['type_post']) && $_GET['type_post'] == 1 ? 'active-menu' : '' ?>">
-            <i class="fas fa-hashtag"></i> Post
-        </a>
-
-        <a href="index.php?type_post=3" class="menu-item <?= isset($_GET['type_post']) && $_GET['type_post'] == 3 ? 'active-menu' : '' ?>">
-            <i class="fas fa-book-open"></i> Appunti
-        </a>
-
-        <a href="index.php?type_post=2" class="menu-item <?= isset($_GET['type_post']) && $_GET['type_post'] == 2 ? 'active-menu' : '' ?>">
-            <i class="fas fa-calendar-alt"></i> Eventi
-        </a>
-        
-        
-        <?php if (isset($_SESSION['email'])): ?>
-            <button type="button" class="post-button" data-toggle="modal" data-target="#postModal">
-                <i class="fas fa-pen"></i> Crea nuovo post
-            </button>
-            
-            <a href="./profile.php?id_user=<?= $_SESSION['id_user']?>" style="text-decoration: none; color: inherit;">
-                <div class="user-profile">
-                    <img src="https://ui-avatars.com/api/?name=<?= urlencode($_SESSION['name'].'+'.$_SESSION['surname']) ?>" 
-                         style="width: 45px; height: 45px; border-radius: 50%; margin-right: 12px;">
-                    <div>
-                        <strong><?= htmlspecialchars($_SESSION['name']) ?> <?= htmlspecialchars($_SESSION['surname']) ?></strong>
-                        <div style="color: #657786; font-size: 0.9rem;">@<?= htmlspecialchars(strtolower(str_replace(' ', '', $_SESSION['name']))) ?></div>
-                    </div>
-                </div>
-            </a>
-        <?php endif; ?>
-    </div>
-    
-    <!-- Contenuto principale -->
-    <div class="main-content">
-        <!-- Header unificato con barra di ricerca -->
-        <div class="header-section">
-            <div class="header-content">
-                <div>
-                    <div class="header-title">
-                        <i class="fa-solid fa-book"></i> School Homies
-                    </div>
-                    <div class="header-subtitle">Connettiti con i tuoi compagni di scuola</div>
-                </div>
-                
-                <div class="search-container">
-                    <form method="GET" action="index.php">
-                        <input type="text" name="search" placeholder="Cerca nei post..." class="search-input">
-                        <button type="submit" style="display: none;">Cerca</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Contenitore dei post -->
-        <div class="posts-container">
-            <?php if (isset($_SESSION['email'])): ?>
-                <div class="welcome-area">
-                    <h2>Benvenuto <?= htmlspecialchars($_SESSION['name']) ?> <?= htmlspecialchars($_SESSION["surname"]) ?></h2>
-                </div>
-                
-                <?php include 'form/formPost.php'; ?>
-                
-                <?php
-                    if (isset($_GET['type_post'])) {
-                        $type_post = intval($_GET['type_post']);
-                        include '../priv/takeData/takePosts.php';
-                        include './showData/showPosts.php';
-                    } elseif (isset($_GET['search']) && !empty($_GET['search'])) {
-                        include '../priv/takeData/searchPosts.php';
-                        include './showData/showPosts.php';
-                    } else {
-                        include '../priv/takeData/takePosts.php';
-                        include './showData/showPosts.php';
-                    }
-                ?>
-                
-            <?php else: ?>
-                <div class="message-box">
-                    <p>Devi effettuare il login per accedere a questa pagina.</p>
-                    <div style="margin-top: 15px;">
-                        <a href='login.php' class="btn-twitter">Login</a>
-                        <a href='registrazione.php' class="btn-twitter-outline">Registrati</a>
-                    </div>
-                </div>
-                <?php die(); ?>
-            <?php endif; ?>
-        </div>
-    </div>
-</div>
-
-<script>
-    function hihihiha() {
-        
+    /* Sfondo a mattoni stile login */
+    .background-text {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        overflow: hidden;
+    }
+    .text-row {
+        position: relative;
+        height: 70px;
+        margin-bottom: 20px;
+        display: flex;
+        white-space: nowrap;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        width: 200%;
+    }
+    .text-row:nth-child(odd) {
+        animation-name: scrollLeft;
+        animation-duration: 60s;
+    }
+    .text-row:nth-child(even) {
+        animation-name: scrollRight;
+        animation-duration: 80s;
+    }
+    .brick {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 30px;
+        margin: 0 20px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        color: rgba(255, 255, 255, 0.3);
+        font-weight: 600;
+        font-size: 18px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .text-row:nth-child(1) { animation-duration: 60s; }
+    .text-row:nth-child(3) { animation-duration: 75s; }
+    .text-row:nth-child(5) { animation-duration: 65s; }
+    .text-row:nth-child(7) { animation-duration: 70s; }
+    .text-row:nth-child(9) { animation-duration: 80s; }
+    .text-row:nth-child(2) { animation-duration: 80s; }
+    .text-row:nth-child(4) { animation-duration: 65s; }
+    .text-row:nth-child(6) { animation-duration: 70s; }
+    .text-row:nth-child(8) { animation-duration: 75s; }
+    .text-row:nth-child(10) { animation-duration: 60s; }
+    @keyframes scrollLeft {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    @keyframes scrollRight {
+        0% { transform: translateX(-50%); }
+        100% { transform: translateX(0); }
+    }
+    /* Stile per il banner di benvenuto */
+    .alert-welcome {
+        position: fixed;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+        color: #fff;
+        padding: 18px 40px;
+        border-radius: 25px;
+        font-size: 1.15rem;
+        font-weight: 600;
+        box-shadow: 0 4px 16px rgba(37,117,252,0.15);
+        z-index: 3000;
+        opacity: 0.97;
+        animation: fadeIn 0.5s;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; top: 0;}
+        to { opacity: 0.97; top: 30px;}
     }
 
-    document.querySelectorAll('.add-to-folder-form').forEach(form => {
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
+    .fade-out {
+        animation: fadeOut 0.6s forwards;
+    }
 
-            const formData = new FormData(this);
-            const postId = this.getAttribute('data-post-id');
+    @keyframes fadeOut {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
 
-            fetch('../../priv/gestionePost/addToFolder.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                if (data.status === 'success') {
-                    document.getElementById('folderPopup-' + postId).style.display = 'none';
-                    this.reset();
-                }
-            })
-            .catch(error => {
-                console.error(error);
-                alert('Si è verificato un errore durante l\'operazione.');
+    .alert-welcome.fade-out {
+    opacity: 0;
+    transition: opacity 0.6s;
+}
+
+.alert-info, .alert-welcome {
+    background: #2575fc;
+    color: #fff;
+    border-radius: 20px;
+    /* ...altro stile come sopra... */
+}
+</style>
+
+<body>
+    <div class="background-text" id="background-text"></div>
+    <div class="layout-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-book"></i>
+                <img class="hihihiha"  src="hihihiha/download.jpg" alt="School Homies Logo">
+                <img class="hihihiha"  src="../priv/uploads/images/anneclank.jpg" alt="School Homies Logo">
+            </div>
+            
+            <a href="index.php" class="menu-item <?= !isset($_GET['type_post']) && !isset($_GET['search']) ? 'active-menu' : '' ?>">
+                <i class="fas fa-home"></i> Home
+            </a>
+            
+            <a href="index.php?type_post=1" class="menu-item <?= isset($_GET['type_post']) && $_GET['type_post'] == 1 ? 'active-menu' : '' ?>">
+                <i class="fas fa-hashtag"></i> Post
+            </a>
+
+            <a href="index.php?type_post=3" class="menu-item <?= isset($_GET['type_post']) && $_GET['type_post'] == 3 ? 'active-menu' : '' ?>">
+                <i class="fas fa-book-open"></i> Appunti
+            </a>
+
+            <a href="index.php?type_post=2" class="menu-item <?= isset($_GET['type_post']) && $_GET['type_post'] == 2 ? 'active-menu' : '' ?>">
+                <i class="fas fa-calendar-alt"></i> Eventi
+            </a>
+            <a href="scoreboard.php" class="menu-item">
+                <i class="fas fa-trophy"></i> Classifica
+            </a>
+            
+            <?php if (isset($_SESSION['email'])): ?>
+                <button type="button" class="post-button" data-toggle="modal" data-target="#postModal">
+                    <i class="fas fa-pen"></i> Crea nuovo post
+                </button>
+                
+                <a href="./profile.php?id_user=<?= $_SESSION['id_user']?>" style="text-decoration: none; color: inherit;">
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=<?= urlencode($_SESSION['name'].'+'.$_SESSION['surname']) ?>" 
+                             style="width: 45px; height: 45px; border-radius: 50%; margin-right: 12px;">
+                        <div>
+                            <strong><?= htmlspecialchars($_SESSION['name']) ?> <?= htmlspecialchars($_SESSION['surname']) ?></strong>
+                            <div style="color: #657786; font-size: 0.9rem;">@<?= htmlspecialchars(strtolower(str_replace(' ', '', $_SESSION['name']))) ?></div>
+                        </div>
+                    </div>
+                </a>
+            <?php endif; ?>
+        </div>
+        
+        <!-- Contenuto principale -->
+        <div class="main-content">
+            <!-- Header unificato con barra di ricerca -->
+            <div class="header-section">
+                <div class="header-content">
+                    <div>
+                        <div class="header-title">
+                            <i class="fa-solid fa-book"></i> School Homies
+                        </div>
+                        <div class="header-subtitle">Connettiti con i tuoi compagni di scuola</div>
+                    </div>
+                    
+                    <div class="search-container">
+                        <form method="GET" action="index.php">
+                            <input type="text" name="search" placeholder="Cerca nei post..." class="search-input">
+                            <button type="submit" style="display: none;">Cerca</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Banner di benvenuto -->
+            <?php if (isset($_SESSION['welcome']) && $_SESSION['welcome'] === true): ?>
+                <div id="welcome-banner" class="alert alert-welcome">
+                    Benvenuto <?= htmlspecialchars($_SESSION['name']) ?>
+                </div>
+                <?php unset($_SESSION['welcome']); ?>
+            <?php endif; ?>
+            
+            <!-- Contenitore dei post -->
+            <div class="posts-container">
+                <?php if (isset($_SESSION['email'])): ?>
+                    <?php include 'form/formPost.php'; ?>      
+                    <?php
+                        if (isset($_GET['type_post'])) {
+                            $type_post = intval($_GET['type_post']);
+                            include '../priv/takeData/takePosts.php';
+                            include './showData/showPosts.php';
+                        } elseif (isset($_GET['search']) && !empty($_GET['search'])) {
+                            include '../priv/takeData/searchPosts.php';
+                            include './showData/showPosts.php';
+                        } else {
+                            include '../priv/takeData/takePosts.php';
+                            include './showData/showPosts.php';
+                        }
+                    ?>
+                    
+                <?php else: ?>
+                    <div class="message-box">
+                        <p>Devi effettuare il login per accedere a questa pagina.</p>
+                        <div style="margin-top: 15px;">
+                            <a href='login.php' class="btn-twitter">Login</a>
+                            <a href='registrazione.php' class="btn-twitter-outline">Registrati</a>
+                        </div>
+                    </div>
+                    <?php die(); ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function hihihiha() {
+            
+        }
+
+        document.querySelectorAll('.add-to-folder-form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+                const postId = this.getAttribute('data-post-id');
+
+                fetch('../../priv/gestionePost/addToFolder.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then((data) => {
+                    alert(data.message);
+                    if (data.status === 'success') {
+                        document.getElementById('folderPopup-' + postId).style.display = 'none';
+                        this.reset();
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Si è verificato un errore durante l\'operazione.');
+                });
             });
         });
-    });
-   
+    </script>
+
+    <script>
+        // Funzione per generare dinamicamente le righe di sfondo
+        function generateBackgroundRows() {
+            const backgroundText = document.getElementById('background-text');
+            const windowHeight = window.innerHeight;
+            const rowHeight = 90;
+            const rowsNeeded = Math.ceil(windowHeight / rowHeight) + 1;
+            backgroundText.innerHTML = '';
+            for (let i = 0; i < rowsNeeded; i++) {
+                const row = document.createElement('div');
+                row.className = 'text-row';
+                const duration = i % 2 === 0 ?
+                    65 + (i * 2) % 15 :
+                    75 + (i * 3) % 15;
+                row.style.animationDuration = `${duration}s`;
+                const screenWidth = window.innerWidth;
+                const brickWidth = 300;
+                const bricksNeeded = Math.ceil((screenWidth * 2) / brickWidth) + 2;
+                for (let j = 0; j < bricksNeeded; j++) {
+                    const brick = document.createElement('span');
+                    brick.className = 'brick';
+                    brick.textContent = 'SCHOOL HOMIES';
+                    const opacity = 0.2 + (Math.random() * 0.2);
+                    brick.style.color = `rgba(255, 255, 255, ${opacity})`;
+                    const bgOpacity = 0.05 + (Math.random() * 0.15);
+                    brick.style.backgroundColor = `rgba(255, 255, 255, ${bgOpacity})`;
+                    row.appendChild(brick);
+                }
+                backgroundText.appendChild(row);
+            }
+        }
+        window.addEventListener('load', generateBackgroundRows);
+        window.addEventListener('resize', generateBackgroundRows);
+    </script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const banner = document.getElementById('welcome-banner');
+    if (banner) {
+        setTimeout(() => {
+            banner.classList.add('fade-out');
+            setTimeout(() => banner.remove(), 600);
+        }, 3000);
+    }
+});
 </script>
 
 <?php include "../priv/include/end.inc"; ?>

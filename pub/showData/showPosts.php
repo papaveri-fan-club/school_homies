@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Social Feed</title>
     <!-- Bootstrap CSS -->
-    <link href="path/to/local/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome per le icone -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -22,8 +22,21 @@
         body {
             background-color: #f7f9fa;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            overflow-y: scroll;
         }
         
+        .container.py-4 {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            /* height: 100vh;  // RIMUOVI questa riga se presente */
+            /* overflow-y: auto; // RIMUOVI questa riga se presente */
+            /* Lo scroll sarà gestito dal body */
+        }
+
         .post-card {
             background: #ffffff;
             border: none; /* Rimuovi il bordo */
@@ -176,6 +189,44 @@
             line-height: 1.5;
             margin-bottom: 12px;
         }
+
+        /* Stile commento come in profile.php */
+        .comment {
+            border: 1px solid #e0e0e0;
+            padding: 25px;
+            margin: 20px auto 0 auto;
+            border-radius: 15px;
+            background-color: #f9f9f9;
+            max-width: 750px;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .comment:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle-comments-btn {
+            background: #f3f6fa;
+            color: #2575fc;
+            border: none;
+            border-radius: 20px;
+            padding: 7px 22px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .toggle-comments-btn:hover {
+            background: #2575fc;
+            color: #fff;
+        }
+
+        .modal,
+        .modal-backdrop {
+            z-index: 99999 !important;
+        }
     </style>
 </head>
 <body>
@@ -219,7 +270,9 @@
                     ): ?>
                         <form method="post" action="../priv/gestionePost/deletePost.php" style="position: absolute; top: 10px; right: 10px;">
                             <input type="hidden" name="id_post" value="<?= $postRow['id_post']; ?>">
-                            <button type="submit" class="btn btn-danger btn-sm">Elimina Post</button>
+                            <button type="submit" class="delete-btn" title="Elimina post">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </form>
                     <?php endif; ?>
                 </div>
@@ -286,10 +339,13 @@
                 </div>
                 
                 <div class="px-3 pb-2">
-                    <?php 
-                    include "../priv/takeData/takeComments.php";
-                    include "./showData/showComments.php"; 
-                    ?>
+                    <button class="toggle-comments-btn" data-post-id="<?= $postRow['id_post'] ?>">Show more</button>
+                    <div class="comments-container" id="comments-<?= $postRow['id_post'] ?>" style="display: none;">
+                        <?php 
+                        include "../priv/takeData/takeComments.php";
+                        include "./showData/showComments.php"; 
+                        ?>
+                    </div>
                 </div>
             </div>
         <?php endwhile; ?>
@@ -302,13 +358,12 @@
     <?php endif; ?>
 </div>
 
-<!-- Modale di successo -->
+<!-- Modale di successo per partecipazione eventi -->
 <div class="modal fade" id="successModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title"><i class="fas fa-check-circle"></i> Successo</h5>
-                <!-- Aggiungi data-bs-dismiss="modal" per chiudere il modale -->
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Chiudi"></button>
             </div>
             <div class="modal-body">
@@ -321,19 +376,52 @@
     </div>
 </div>
 
+<!-- Modale di successo per commenti -->
+<div class="modal fade" id="commentSuccessModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white;">
+                <h5 class="modal-title"><i class="fas fa-check-circle"></i> Commento Aggiunto</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+            </div>
+            <div class="modal-body">
+                <p>✅ Il tuo commento è stato aggiunto con successo!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white;" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modale di errore -->
+<div class="modal fade" id="errorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Errore</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+            </div>
+            <div class="modal-body">
+                <p>Si è verificato un errore durante l'operazione. Riprova più tardi.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Includi jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Includi Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 $(document).ready(function() {
     // Gestione partecipazione evento
     $(document).on("submit", ".partecipateForm", function(e) {
         e.preventDefault();
-        
         var formData = $(this).serialize();
-        
         $.ajax({
             url: "../../priv/gestionePost/addPartecipantEvent.php",
             method: "POST",
@@ -342,20 +430,81 @@ $(document).ready(function() {
                 $('#successModal').modal('show');
             },
             error: function(xhr, status, error) {
-                alert("Si è verificato un e l'operazone.");
+                $('#errorModal').modal('show');
             }
         });
     });
-    
+
+    // Gestione invio commenti
+    $(document).on("submit", ".commentForm", function(e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        var form = $(this);
+
+        $.ajax({
+            url: "../priv/gestionePost/addComment.php",
+            method: "POST",
+            data: formData,
+            success: function(response) {
+                // Mostra il modal di successo
+                $('#commentSuccessModal').modal('show');
+                // Svuota il campo di input del commento
+                form.find('input[name="comment"]').val('');
+                // Aggiorna i commenti dopo l'invio senza ricaricare l'intera pagina
+                var postId = form.find('input[name="id_post"]').val();
+                updateComments(postId);
+            },
+            error: function(xhr, status, error) {
+                $('#errorModal').modal('show');
+            }
+        });
+    });
+
+    // Funzione per aggiornare i commenti di un post specifico
+    function updateComments(postId) {
+        $.ajax({
+            url: "../priv/takeData/getCommentsAjax.php",
+            method: "GET",
+            data: { id_post: postId },
+            success: function(response) {
+                // Aggiorna la sezione dei commenti con i nuovi dati
+                var commentContainer = $('#comment-form-' + postId).siblings('.px-3.pb-2').find('.comments-container');
+                commentContainer.html(response);
+            }
+        });
+    }
+
     // Mostra/nascondi form commenti
     $(".toggle-comment").click(function() {
         var postId = $(this).data('post-id');
         $("#comment-form-" + postId).slideToggle();
     });
-    
-    // Chiudi la modale e ricarica la pagina
+
+    // Mostra/nascondi commenti esistenti
+    $(".toggle-comments-btn").click(function() {
+        var postId = $(this).data('post-id');
+        var $commentsDiv = $("#comments-" + postId);
+        $commentsDiv.slideToggle(200);
+
+        // Cambia il testo del pulsante in base alla visibilità DOPO l'animazione
+        var $btn = $(this);
+        setTimeout(function() {
+            if ($commentsDiv.is(":visible")) {
+                $btn.text("Nascondi");
+            } else {
+                $btn.text("Show more");
+            }
+        }, 210);
+    });
+
+    // Chiudi la modale e ricarica la pagina per il modal di partecipazione eventi
     $('#successModal').on('hidden.bs.modal', function () {
         location.reload();
+    });
+
+    // Non ricaricare la pagina alla chiusura del modal di commento (AJAX)
+    $('#commentSuccessModal').on('hidden.bs.modal', function () {
+        // Non fare nulla, la lista commenti si aggiorna già via AJAX
     });
 });
 </script>

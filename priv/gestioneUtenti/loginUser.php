@@ -28,6 +28,7 @@ if ($result->num_rows > 0) {
         $_SESSION['name'] = $row['name'];
         $_SESSION['surname'] = $row['surname'];
         $_SESSION['user_type'] = $row['user_type']; // Aggiungi user_type alla sessione
+        $_SESSION['welcome'] = true;
 
         // Passa i dati dell'utente alla pagina index.php
         header("Location: ../../pub/index.php");

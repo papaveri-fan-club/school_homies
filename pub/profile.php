@@ -21,6 +21,8 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profilo Utente</title>
+    <!-- Aggiorna i link Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -397,6 +399,68 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
             border: 1px solid #c8e6c9;
         }
         
+        /* Sfondo a mattoni stile login */
+        .background-text {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .text-row {
+            position: relative;
+            height: 70px;
+            margin-bottom: 20px;
+            display: flex;
+            white-space: nowrap;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            width: 200%;
+        }
+        .text-row:nth-child(odd) {
+            animation-name: scrollLeft;
+            animation-duration: 60s;
+        }
+        .text-row:nth-child(even) {
+            animation-name: scrollRight;
+            animation-duration: 80s;
+        }
+        .brick {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 30px;
+            margin: 0 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .text-row:nth-child(1) { animation-duration: 60s; }
+        .text-row:nth-child(3) { animation-duration: 75s; }
+        .text-row:nth-child(5) { animation-duration: 65s; }
+        .text-row:nth-child(7) { animation-duration: 70s; }
+        .text-row:nth-child(9) { animation-duration: 80s; }
+        .text-row:nth-child(2) { animation-duration: 80s; }
+        .text-row:nth-child(4) { animation-duration: 65s; }
+        .text-row:nth-child(6) { animation-duration: 70s; }
+        .text-row:nth-child(8) { animation-duration: 75s; }
+        .text-row:nth-child(10) { animation-duration: 60s; }
+        @keyframes scrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes scrollRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+        
         /* Responsive improvements */
         @media (max-width: 768px) {
             .folder-item {
@@ -454,6 +518,7 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
     </style>
 </head>
 <body>
+    <div class="background-text" id="background-text"></div>
     <a href="index.php" class="home-btn">🏠 Home</a>
     
     <div class="main-container" style="width: 100%; max-width: 900px; margin: 0 auto;">
@@ -576,6 +641,7 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
         <div id="message"></div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function openPopup() {
             document.getElementById('popup').style.display = 'block';
@@ -650,6 +716,39 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
                 });
             }
         }
+
+        // Funzione per generare dinamicamente le righe di sfondo
+        function generateBackgroundRows() {
+            const backgroundText = document.getElementById('background-text');
+            const windowHeight = window.innerHeight;
+            const rowHeight = 90;
+            const rowsNeeded = Math.ceil(windowHeight / rowHeight) + 1;
+            backgroundText.innerHTML = '';
+            for (let i = 0; i < rowsNeeded; i++) {
+                const row = document.createElement('div');
+                row.className = 'text-row';
+                const duration = i % 2 === 0 ?
+                    65 + (i * 2) % 15 :
+                    75 + (i * 3) % 15;
+                row.style.animationDuration = `${duration}s`;
+                const screenWidth = window.innerWidth;
+                const brickWidth = 300;
+                const bricksNeeded = Math.ceil((screenWidth * 2) / brickWidth) + 2;
+                for (let j = 0; j < bricksNeeded; j++) {
+                    const brick = document.createElement('span');
+                    brick.className = 'brick';
+                    brick.textContent = 'SCHOOL HOMIES';
+                    const opacity = 0.2 + (Math.random() * 0.2);
+                    brick.style.color = `rgba(255, 255, 255, ${opacity})`;
+                    const bgOpacity = 0.05 + (Math.random() * 0.15);
+                    brick.style.backgroundColor = `rgba(255, 255, 255, ${bgOpacity})`;
+                    row.appendChild(brick);
+                }
+                backgroundText.appendChild(row);
+            }
+        }
+        window.addEventListener('load', generateBackgroundRows);
+        window.addEventListener('resize', generateBackgroundRows);
     </script>
 <?php include "../priv/include/end.inc"; ?>
 </body>
