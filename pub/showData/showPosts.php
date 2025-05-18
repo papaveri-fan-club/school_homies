@@ -39,43 +39,45 @@
 
         .post-card {
             background: #ffffff;
-            border: none; /* Rimuovi il bordo */
-            border-radius: 16px; /* Bordi arrotondati */
-            margin-bottom: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            max-width: 600px;
+            border: none;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            max-width: 650px;
             margin-left: auto;
             margin-right: auto;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
         }
         
         .post-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18);
         }
         
         .post-header {
-            padding: 16px;
+            padding: 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #f0f0f0; /* Separatore */
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
         }
         
         .post-body {
-            padding: 16px;
-            font-size: 1rem;
+            padding: 22px;
+            font-size: 1.05rem;
             line-height: 1.6;
             color: #333;
         }
         
         .post-actions {
-            padding: 12px 16px;
+            padding: 14px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid #f0f0f0; /* Separatore */
-            background-color: #f9f9f9; /* Sfondo leggero */
+            border-top: 1px solid #f0f0f0;
+            background-color: #f9f9f9;
         }
         
         .btn-twitter {
@@ -123,18 +125,25 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            margin-right: 12px;
+            margin-right: 14px;
             object-fit: cover;
-            border: 2px solid #1da1f2; /* Aggiungi un bordo colorato */
+            border: 2px solid #6a11cb;
+            box-shadow: 0 3px 10px rgba(106, 17, 203, 0.15);
+            transition: all 0.3s ease;
         }
         
+        .user-info:hover .user-avatar {
+            transform: scale(1.1);
+            border-color: #2575fc;
+        }
+
         .username {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #657786;
         }
         
         .post-time {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: #aab8c2;
         }
         
@@ -143,84 +152,141 @@
             background: none;
             border: none;
             font-size: 1.2rem;
-            padding: 8px;
+            padding: 10px;
             border-radius: 50%;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: all 0.3s ease;
         }
         
         .action-btn:hover {
-            background-color: rgba(29, 161, 242, 0.1);
-            color: #1da1f2;
+            background-color: rgba(106, 17, 203, 0.1);
+            color: #6a11cb;
+            transform: scale(1.15);
         }
         
         .comment-form {
-            padding: 12px 16px;
-            border-top: 1px solid var(--twitter-light-gray);
+            padding: 15px 18px;
+            border-top: 1px solid #e1e8ed;
             display: none;
+            background-color: #f9f9f9;
         }
         
         .event-details {
-            background-color: rgba(29, 161, 242, 0.05);
+            background-color: rgba(106, 17, 203, 0.05);
             border-radius: 12px;
-            padding: 12px;
-            margin-top: 12px;
-            font-size: 0.9rem;
-            color: #555;
+            padding: 16px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: #444;
+            border: 1px solid rgba(106, 17, 203, 0.1);
         }
         
         .file-attachment a {
-            color: #1da1f2;
+            color: #6a11cb;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
         }
         
         .file-attachment a:hover {
-            text-decoration: underline;
+            color: #2575fc;
+            transform: translateX(3px);
         }
         
         .no-posts {
             text-align: center;
-            padding: 40px 20px;
-            color: var(--twitter-text-gray);
+            padding: 60px 25px;
+            color: rgba(101, 119, 134, 0.9);
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(5px);
+            margin: 30px auto;
+            max-width: 500px;
         }
         
         .post-text {
             font-size: 1.1rem;
-            line-height: 1.5;
-            margin-bottom: 12px;
+            line-height: 1.6;
+            margin-bottom: 15px;
         }
 
-        /* Stile commento come in profile.php */
+        /* SOSTITUZIONE: Stile commento */
         .comment {
             border: 1px solid #e0e0e0;
-            padding: 25px;
-            margin: 20px auto 0 auto;
-            border-radius: 15px;
+            padding: 18px 22px;
+            margin: 16px auto 0 auto;
+            border-radius: 12px;
             background-color: #f9f9f9;
-            max-width: 750px;
+            max-width: 650px;
             text-align: left;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .comment:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
+        .comment:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* SOSTITUZIONE: Bottone toggle commenti */
         .toggle-comments-btn {
             background: #f3f6fa;
             color: #2575fc;
             border: none;
             border-radius: 20px;
-            padding: 7px 22px;
+            padding: 8px 24px;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             cursor: pointer;
-            transition: background 0.2s, color 0.2s;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
+
         .toggle-comments-btn:hover {
-            background: #2575fc;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             color: #fff;
+            box-shadow: 0 4px 12px rgba(106, 17, 203, 0.2);
+        }
+
+        .toggle-comments-btn::after {
+            content: "\f078"; /* Font Awesome caret down icon */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 0.8rem;
+        }
+
+        .toggle-comments-btn.active::after {
+            content: "\f077"; /* Font Awesome caret up icon */
+        }
+
+        /* SOSTITUZIONE: Delete Button */
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+        }
+
+        .delete-btn:hover,
+        .delete-btn:focus {
+            color: #fff;
+            background: #e74c3c;
+            outline: none;
+            transform: rotate(15deg);
+            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
         }
 
         .modal,
