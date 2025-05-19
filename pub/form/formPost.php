@@ -32,16 +32,40 @@
         .modal-content {
             border-radius: 20px;
         }
+
+        /* Personalizza la X di chiusura del modal */
+        #close span[aria-hidden="true"] {
+            color: #fff;
+            background: #e74c3c;
+            outline: none;
+            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius:100%;
+            transition: all 0.3s ease;
+            position: absolute;
+            top: 12px;          
+            right: 12px;        
+        }
+
+        #close:hover span[aria-hidden="true"] {
+            color:rgb(252, 37, 37);
+        }
     </style>
 </head>
 
 <body>
-    <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true" style="border-radius: 20px;">
+    <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true"
+        style="border-radius: 20px;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="postModalLabel">Crea un nuovo post</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -49,17 +73,20 @@
                     <form action="../../priv/gestionePost/addPost.php" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="title">Titolo</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Inserisci il titolo" required>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Inserisci il titolo"
+                                required>
                         </div>
                         <div class="form-group">
                             <label for="description">Descrizione</label>
-                            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Scrivi la descrizione..." required></textarea>
+                            <textarea class="form-control" id="description" name="description" rows="4"
+                                placeholder="Scrivi la descrizione..." required></textarea>
                         </div>
 
                         <!-- Selezione del tipo di post -->
                         <div class="form-group">
                             <label for="type_post">Tipo di post</label>
-                            <select class="form-control" id="type_post" name="type_post" onchange="changePostFields()" required>
+                            <select class="form-control" id="type_post" name="type_post" onchange="changePostFields()"
+                                required>
                                 <option value="1">Post testuale</option>
                                 <option value="2">Post evento</option>
                                 <option value="3">Post appunti</option>
@@ -102,7 +129,7 @@
             } else if (typePost == "3") {
                 // cambia il display per il div imgDiv
                 document.getElementById("imgDiv").style.display = "block";
-                
+
             } else if (typePost == "4") {
                 // Aggiungi campi per Tipo 4
                 document.getElementById("imgDiv").style.display = "none";
@@ -116,11 +143,21 @@
                 <textarea class="form-control" id="extra_field_5" name="extra_field_5" rows="4" placeholder="Campo Aggiuntivo per Tipo 4"></textarea>
             </div>
         `;
-            }else {
+            } else {
                 // Per gli altri tipi di post
                 document.getElementById("imgDiv").style.display = "none";
             }
         }
+
+        const closeButton = document.getElementById('close');
+        closeButton.addEventListener('click', function () {
+            $('#postModal').modal('hide');
+            document.querySelectorAll('.modal, .modal-backdrop').forEach(function (el) {
+                el.style.display = 'none';
+            });
+        });
+
+
 
         // Esegui subito il cambio dei campi per il tipo di post selezionato inizialmente
         changePostFields();

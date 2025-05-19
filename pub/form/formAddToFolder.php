@@ -14,7 +14,7 @@ mysqli_data_seek($resultFolders, 0);
 
 <!-- Popup a tutto schermo -->
 <div id="folderPopup-<?php echo $postRow['id_post']; ?>" class="folder-modal" style="display: none;">
-    <div class="modal-dialog">
+    <div class="dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">

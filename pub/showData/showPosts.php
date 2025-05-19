@@ -90,7 +90,7 @@
         }
         
         .btn-twitter:hover {
-            background: rgb(242, 150, 29);
+            background: rgb(121, 29, 242);
             color: white;
         }
         
@@ -289,9 +289,64 @@
             box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
         }
 
-        .modal,
-        .modal-backdrop {
-            z-index: 99999 !important;
+        /* Popup personalizzati simili a profile.php */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100000;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 100001;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .popup h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .popup p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .popup .btn-group {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        }
+
+        .popup .btn {
+            background: var(--twitter-blue);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .popup .btn:hover {
+            background: rgb(121, 29, 242);
         }
     </style>
 </head>
@@ -424,57 +479,34 @@
     <?php endif; ?>
 </div>
 
-<!-- Modale di successo per partecipazione eventi -->
-<div class="modal fade" id="successModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title"><i class="fas fa-check-circle"></i> Successo</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Chiudi"></button>
-            </div>
-            <div class="modal-body">
-                <p>🎉 Partecipazione registrata con successo!</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-twitter" data-bs-dismiss="modal">Chiudi</button>
-            </div>
-        </div>
+<!-- Popup personalizzati simili a profile.php -->
+<!-- Popup per successo partecipazione evento -->
+<div class="popup-overlay" id="participation-popup-overlay"></div>
+<div class="popup" id="participation-popup">
+    <h3><i class="fas fa-check-circle"></i> Partecipazione Registrata</h3>
+    <p>🎉 La tua partecipazione all'evento è stata registrata con successo!</p>
+    <div class="btn-group">
+        <button type="button" class="btn" onclick="closeParticipationPopup()">Chiudi</button>
     </div>
 </div>
 
-<!-- Modale di successo per commenti -->
-<div class="modal fade" id="commentSuccessModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header" style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white;">
-                <h5 class="modal-title"><i class="fas fa-check-circle"></i> Commento Aggiunto</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Chiudi"></button>
-            </div>
-            <div class="modal-body">
-                <p>✅ Il tuo commento è stato aggiunto con successo!</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn" style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white;" data-bs-dismiss="modal">Chiudi</button>
-            </div>
-        </div>
+<!-- Popup per successo commento -->
+<div class="popup-overlay" id="comment-popup-overlay"></div>
+<div class="popup" id="comment-popup">
+    <h3><i class="fas fa-check-circle"></i> Commento Aggiunto</h3>
+    <p>✅ Il tuo commento è stato aggiunto con successo!</p>
+    <div class="btn-group">
+        <button type="button" class="btn" onclick="closeCommentPopup()">Chiudi</button>
     </div>
 </div>
 
-<!-- Modale di errore -->
-<div class="modal fade" id="errorModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Errore</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Chiudi"></button>
-            </div>
-            <div class="modal-body">
-                <p>Si è verificato un errore durante l'operazione. Riprova più tardi.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-            </div>
-        </div>
+<!-- Popup per errore -->
+<div class="popup-overlay" id="error-popup-overlay"></div>
+<div class="popup" id="error-popup">
+    <h3><i class="fas fa-exclamation-circle"></i> Errore</h3>
+    <p>Si è verificato un errore durante l'operazione. Riprova più tardi.</p>
+    <div class="btn-group">
+        <button type="button" class="btn" onclick="closeErrorPopup()">Chiudi</button>
     </div>
 </div>
 
@@ -493,10 +525,10 @@ $(document).ready(function() {
             method: "POST",
             data: formData,
             success: function(response) {
-                $('#successModal').modal('show');
+                openParticipationPopup();
             },
             error: function(xhr, status, error) {
-                $('#errorModal').modal('show');
+                openErrorPopup();
             }
         });
     });
@@ -512,8 +544,8 @@ $(document).ready(function() {
             method: "POST",
             data: formData,
             success: function(response) {
-                // Mostra il modal di successo
-                $('#commentSuccessModal').modal('show');
+                // Mostra il popup di successo
+                openCommentPopup();
                 // Svuota il campo di input del commento
                 form.find('input[name="comment"]').val('');
                 // Aggiorna i commenti dopo l'invio senza ricaricare l'intera pagina
@@ -521,7 +553,7 @@ $(document).ready(function() {
                 updateComments(postId);
             },
             error: function(xhr, status, error) {
-                $('#errorModal').modal('show');
+                openErrorPopup();
             }
         });
     });
@@ -562,17 +594,42 @@ $(document).ready(function() {
             }
         }, 210);
     });
-
-    // Chiudi la modale e ricarica la pagina per il modal di partecipazione eventi
-    $('#successModal').on('hidden.bs.modal', function () {
-        location.reload();
-    });
-
-    // Non ricaricare la pagina alla chiusura del modal di commento (AJAX)
-    $('#commentSuccessModal').on('hidden.bs.modal', function () {
-        // Non fare nulla, la lista commenti si aggiorna già via AJAX
-    });
 });
+
+// Funzioni per i popup
+function openParticipationPopup() {
+    document.getElementById('participation-popup').style.display = 'block';
+    document.getElementById('participation-popup-overlay').style.display = 'block';
+}
+
+function closeParticipationPopup() {
+    document.getElementById('participation-popup').style.display = 'none';
+    document.getElementById('participation-popup-overlay').style.display = 'none';
+    // Ricarica la pagina dopo che l'utente ha chiuso il popup
+    location.reload();
+}
+
+function openCommentPopup() {
+    document.getElementById('comment-popup').style.display = 'block';
+    document.getElementById('comment-popup-overlay').style.display = 'block';
+}
+
+function closeCommentPopup() {
+    document.getElementById('comment-popup').style.display = 'none';
+    document.getElementById('comment-popup-overlay').style.display = 'none';
+    // Non ricaricare la pagina in questo caso
+    location.reload();
+}
+
+function openErrorPopup() {
+    document.getElementById('error-popup').style.display = 'block';
+    document.getElementById('error-popup-overlay').style.display = 'block';
+}
+
+function closeErrorPopup() {
+    document.getElementById('error-popup').style.display = 'none';
+    document.getElementById('error-popup-overlay').style.display = 'none';
+}
 </script>
 </body>
 </html>
