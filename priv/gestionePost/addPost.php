@@ -35,12 +35,13 @@ if (isset($_FILES['file_attachment']) && $_FILES['file_attachment']['error'] == 
     } else {
         die("Errore durante il caricamento dell'immagine.");
     }
-}else echo "ihofesof";
+}
 
 // Inserisci il post nel database
 $stmt = $conn->prepare("INSERT INTO posts (title, description, id_user, date_event, image_path, type_post) VALUES (?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("ssissi", $title, $description, $id_user, $date_event, $image_path, $type_post);
 $stmt->execute();
+echo $title;
 
 header("Location: ../../pub/index.php");
 ?>
