@@ -1,3 +1,3 @@
 <?php
-    $conn = mysqli_connect("87.11.171.50:3306", "giuseppe", "giuseppe2006", "school_homies");
+    $conn = mysqli_connect("87.1.32.154:3306", "giuseppe", "giuseppe2006", "school_homies");
 ?>
