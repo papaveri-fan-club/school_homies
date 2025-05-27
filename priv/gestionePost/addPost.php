@@ -35,7 +35,7 @@ if (isset($_FILES['file_attachment']) && $_FILES['file_attachment']['error'] == 
     } else {
         die("Errore durante il caricamento dell'immagine.");
     }
-}
+}else echo "hifosefof";
 
 // Inserisci il post nel database
 $stmt = $conn->prepare("INSERT INTO posts (title, description, id_user, date_event, image_path, type_post) VALUES (?, ?, ?, ?, ?, ?)");
