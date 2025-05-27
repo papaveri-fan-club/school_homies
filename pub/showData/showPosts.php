@@ -400,7 +400,7 @@
 
                 <div class="post-body">
                     <h5 class="mb-2"><strong><?= htmlspecialchars($postRow['title']) ?></strong></h5>
-                    <p class="post-text"><?= n12br(htmlspecialchars($postRow['description'])) ?></p>
+                    <p class="post-text"><?= nl2br(htmlspecialchars($postRow['description'])) ?></p>
 
                     <?php if ($postRow['type_post'] == 3): ?>
                         <div class="event-details">
