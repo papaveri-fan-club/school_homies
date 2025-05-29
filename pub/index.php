@@ -394,10 +394,55 @@
         border-radius: 20px;
         /* ...altro stile come sopra... */
     }
+
+    @media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 2000;
+        width: 250px;
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.sidebar-open {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .hamburger-menu {
+        display: flex; /* Mostra il pulsante hamburger */
+    }
+}
+
+/* Nascondi il pulsante hamburger su schermi grandi */
+.hamburger-menu {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 3000;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 </style>
 
 <body>
     <div class="background-text" id="background-text"></div>
+    <button class="hamburger-menu">
+    <i class="fas fa-bars"></i>
+</button>
     <div class="layout-container">
         <!-- Sidebar -->
         <div class="sidebar">
@@ -582,6 +627,44 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
 });
+document.addEventListener('DOMContentLoaded', function () {
+    const sidebar = document.querySelector('.sidebar');
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+
+    // Aggiungi evento click per aprire/chiudere la sidebar
+    hamburgerMenu.addEventListener('click', function () {
+        sidebar.classList.toggle('sidebar-open');
+    });
+
+    // Chiudi la sidebar quando si clicca fuori
+    document.addEventListener('click', function (event) {
+        if (!sidebar.contains(event.target) && !hamburgerMenu.contains(event.target)) {
+            sidebar.classList.remove('sidebar-open');
+        }
+    });
+});
+//script per far apparire il bottone hamburger 
+    document.addEventListener('DOMContentLoaded', function () {
+        const hamburgerMenu = document.querySelector('.hamburger-menu');
+        const sidebar = document.querySelector('.sidebar');
+
+        // Mostra il pulsante hamburger su schermi piccoli
+        if (window.innerWidth <= 768) {
+            hamburgerMenu.style.display = 'flex';
+        } else {
+            hamburgerMenu.style.display = 'none';
+        }
+
+        // Aggiungi evento resize per mostrare/nascondere il pulsante hamburger
+        window.addEventListener('resize', function () {
+            if (window.innerWidth <= 768) {
+                hamburgerMenu.style.display = 'flex';
+            } else {
+                hamburgerMenu.style.display = 'none';
+                sidebar.classList.remove('sidebar-open'); // Chiudi la sidebar se aperta
+            }
+        });
+    });
 </script>
 
 <?php include "../priv/include/end.inc"; ?>
