@@ -1,13 +1,9 @@
+<?php include "../priv/include/start.inc"; ?>
+<?php include "../priv/include/connessione.inc"; ?>
 <?php session_start(); ?>
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classifica - School Homies</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'); */
         body {
             font-family: 'Poppins', Arial, sans-serif;
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
@@ -95,7 +91,6 @@
         }
         .main-content {
             flex: 1;
-            margin-left: 280px;
             width: calc(100% - 280px);
             position: relative;
         }
@@ -293,8 +288,12 @@
         .medal.silver { color: #C0C0C0; }
         .medal.bronze { color: #CD7F32; }
     </style>
-</head>
+    <link rel="stylesheet" href="styles/sidebar.css">
+    <script src="styles/sidebar.js"></script>
 <body>
+    <button class="hamburger-menu">
+        <i class="fas fa-bars"></i>
+    </button>
     <div class="layout-container">
         <!-- Sidebar -->
         <div class="sidebar">

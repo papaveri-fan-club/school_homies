@@ -1,0 +1,41 @@
+    @media (max-width: 768px) {
+        .sidebar {
+            transform: translateX(-100%);
+            position: fixed;
+            z-index: 4000;
+            width: 250px;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.sidebar-open {
+            transform: translateX(0);
+        }
+
+        .main-content {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .hamburger-menu {
+            display: flex; /* Mostra il pulsante hamburger */
+        }
+    }
+
+    /* Nascondi il pulsante hamburger su schermi grandi */
+    .hamburger-menu {
+        display: none;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 3000;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
