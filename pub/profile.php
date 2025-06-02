@@ -35,7 +35,6 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
             min-height: 100vh;
             background: linear-gradient(135deg, rgb(134, 47, 216), rgb(13, 159, 216)) fixed;
             background-size: cover;
-            display: flex;
             justify-content: center;
             align-items: center;
             padding: 40px 20px;
