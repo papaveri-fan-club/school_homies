@@ -1,0 +1,57 @@
+/* Stile per lo sfondo con testo a mattoni animato */
+.background-text {
+    position: fixed; /* O absolute, a seconda delle tue esigenze di layout generale */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Occupa tutta la larghezza della viewport */
+    height: 100vh; /* Occupa tutta l'altezza della viewport */
+    z-index: -1;  /* Assicura che sia dietro a tutto il contenuto */
+    overflow: hidden; /* Nasconde lo scroll orizzontale causato dalle righe */
+}
+
+.text-row {
+    position: relative;
+    height: 70px; /* Altezza di una riga di testo */
+    margin-bottom: 20px; /* Spazio tra le righe */
+    display: flex;
+    white-space: nowrap;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    width: 200%; /* Per permettere lo scroll completo del contenuto */
+}
+
+/* Le animazioni e le durate specifiche per le righe saranno gestite da JS o da classi aggiuntive se necessario */
+/* Se vuoi mantenere le direzioni di default qui: */
+.text-row:nth-child(odd) {
+    animation-name: scrollLeft;
+}
+
+.text-row:nth-child(even) {
+    animation-name: scrollRight;
+}
+
+.brick {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 30px;
+    margin: 0 20px; /* Spazio tra i mattoni */
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.25);
+    font-weight: 600;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+@keyframes scrollLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes scrollRight {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+}

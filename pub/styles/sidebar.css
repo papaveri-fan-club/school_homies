@@ -1,41 +1,179 @@
-    @media (max-width: 768px) {
-        .sidebar {
-            transform: translateX(-100%);
-            position: fixed;
-            z-index: 4000;
-            width: 250px;
-            transition: transform 0.3s ease;
-        }
+/* Stili base della Sidebar */
+.sidebar {
+    width: 280px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    padding: 15px 0;
+    background-color: #fff;
+    border-right: 1px solid #e1e8ed;
+    overflow-y: auto;
+    z-index: 200; /* z-index per la sidebar su desktop */
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease; /* Transizione per apertura/chiusura mobile */
+}
 
-        .sidebar.sidebar-open {
-            transform: translateX(0);
-        }
+/* Logo e immagine nella Sidebar */
+.logo {
+    display: flex;
+    align-items: center;
+    padding: 0 20px 20px 20px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #f0f3f5;
+}
 
-        .main-content {
-            margin-left: 0;
-            width: 100%;
-        }
+.logo i {
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-right: 10px;
+}
 
-        .hamburger-menu {
-            display: flex; /* Mostra il pulsante hamburger */
-        }
+.logo img { /* Stile per le immagini nel logo, inclusa .hihihiha */
+    height: 35px;
+    width: auto;
+    cursor: pointer;
+    border-radius: 50%; /* Se vuoi che tutte le img nel logo siano tonde */
+}
+
+/* Stile specifico per .hihihiha se necessario, altrimenti unisci con .logo img */
+.hihihiha {
+    border-radius: 50%; /* Già coperto da .logo img se vuoi coerenza */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Transizione più standard */
+}
+
+.hihihiha:hover {
+    transform: scale(1.1); /* Scala moderata all'hover */
+    opacity: 0.9;
+    /* Considera se l'animazione 'ruota' è ancora desiderata qui o se era per index.css */
+}
+
+/* Voci del menu nella Sidebar */
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 15px;
+    margin: 5px 12px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0f1419;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.menu-item:hover {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    transform: translateX(2px);
+    color: white;
+}
+
+.menu-item i {
+    margin-right: 15px;
+    font-size: 1.3rem;
+    width: 24px;
+    text-align: center;
+}
+
+.active-menu {
+    color: #6a11cb; /* Colore solido per il testo attivo */
+    background-color: rgba(106, 17, 203, 0.1); /* Sfondo per l'elemento attivo */
+    font-weight: bold;
+}
+
+/* Pulsante di post nella Sidebar */
+.post-button {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    width: calc(100% - 24px);
+    margin: 20px 12px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    box-shadow: 0 2px 5px rgba(106, 17, 203, 0.3);
+    text-align: center; /* Per centrare icona e testo se necessario */
+}
+
+.post-button:hover {
+    opacity: 0.9;
+}
+
+/* Profilo utente nella Sidebar */
+.user-profile {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin: 15px 12px;
+    border-radius: 15px;
+    background-color: #f7f9fa;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    position: relative; /* Se hai intenzione di posizionare elementi al suo interno */
+}
+
+.user-profile:hover {
+    background-color: #e8f5fe;
+}
+
+.user-profile img { /* Stile per l'avatar nel profilo utente */
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.user-profile strong {
+    display: block; /* Assicura che il nome vada a capo se necessario */
+}
+
+.user-profile div div { /* Stile per l'username @ */
+    color: #657786;
+    font-size: 0.9rem;
+}
+
+
+/* Hamburger Menu */
+.hamburger-menu {
+    display: none; /* Nascosto di default su schermi grandi */
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 2050; /* Deve essere sopra la sidebar quando è chiusa e potenzialmente altri elementi fissi */
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-size: 1.5rem; /* Dimensione icona hamburger */
+}
+
+/* Stili Responsive per Sidebar e Hamburger Menu */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%); /* Nascosta di default su mobile */
+        z-index: 2000; /* z-index per la sidebar su mobile quando aperta */
+        /* width: 250px; Puoi mantenere 280px o aggiustare se necessario */
     }
 
-    /* Nascondi il pulsante hamburger su schermi grandi */
+    .sidebar.sidebar-open { /* Classe aggiunta da JS per mostrare la sidebar */
+        transform: translateX(0);
+    }
+
+    /* .main-content in index.css gestirà il suo margin-left quando la sidebar è chiusa/aperta su mobile */
+    
     .hamburger-menu {
-        display: none;
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 3000;
-        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-        color: #fff;
-        border: none;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        display: flex; /* Mostra il pulsante hamburger su mobile */
     }
+}
