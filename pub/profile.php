@@ -21,516 +21,28 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profilo Utente</title>
-    <!-- Aggiorna i link Bootstrap -->
+    <!-- Link Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, rgb(134, 47, 216), rgb(13, 159, 216)) fixed;
-            background-size: cover;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        .main-container {
-            width: 100%;
-            max-width: 900px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 auto;
-            position: relative;
-            left: 0;
-            right: 0;
-        }
-        
-        .profile-card {
-            background-color: white;
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            margin-bottom: 30px;
-            position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .profile-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-        
-        .profile-header {
-            margin-bottom: 30px;
-        }
-        
-        .profile-header h1 {
-            color: #333;
-            font-size: 2.4rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        
-        .profile-email {
-            color: #666;
-            font-size: 1.2rem;
-            font-weight: 500;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f0f0f0;
-            display: inline-block;
-        }
-        
-        .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); /* Gradiente rosso */
-            color: white;
-            border: none;
-            padding: 10px 22px;
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .logout-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .home-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            border: none;
-            padding: 10px 22px;
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            z-index: 100;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .home-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .section {
-            background-color: white;
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            margin-bottom: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-        
-        .section h2 {
-            color: #444;
-            margin-bottom: 25px;
-            font-size: 1.8rem;
-            border-bottom: 3px solid #f0f0f0;
-            padding-bottom: 15px;
-            display: inline-block;
-            font-weight: 700;
-        }
-        
-        .bio-content {
-            margin: 25px auto;
-            line-height: 1.7;
-            color: #555;
-            text-align: center;
-            max-width: 700px;
-            font-size: 1.1rem;
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: all 0.3s;
-            margin: 15px 8px;
-            display: inline-block;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
-        }
-        
-        .btn-danger {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-        }
-        
-        .btn-danger:hover {
-            opacity: 0.9;
-        }
-        
-        .post, .comment {
-            border: 1px solid #e0e0e0;
-            padding: 25px;
-            margin: 20px auto;
-            border-radius: 15px;
-            background-color: #f9f9f9;
-            max-width: 750px;
-            text-align: left;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .post:hover, .comment:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .folder-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-            width: 100%;
-        }
-        
-        .folder-item {
-            background-color: #f0f7ff;
-            border: 1px solid #d0e3ff;
-            padding: 20px;
-            border-radius: 15px;
-            width: calc(33.33% - 20px);
-            min-width: 220px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .folder-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            background-color: #e4f1ff;
-        }
-        
-        .folder-item a {
-            text-decoration: none;
-            color: #3498db;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: color 0.3s;
-            display: block;
-            margin-bottom: 10px;
-        }
-        
-        .folder-item a:hover {
-            color: #2176ff;
-        }
-        
-        .folder-item .btn {
-            margin-top: 15px;
-            padding: 10px 20px;
-            font-size: 0.95rem;
-        }
-        
-        .popup {
-            display: none;
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-            z-index: 1000;
-            width: 90%;
-            max-width: 550px;
-            text-align: center;
-        }
-        
-        .popup h3 {
-            color: #444;
-            margin-bottom: 25px;
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-        
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: 999;
-            backdrop-filter: blur(5px);
-        }
-        
-        textarea, input[type="text"], select {
-            width: 100%;
-            padding: 15px;
-            margin: 15px 0;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        
-        textarea:focus, input[type="text"]:focus, select:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-        }
-        
-        textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-        
-        .btn-group {
-            margin-top: 25px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .no-content {
-            color: #777;
-            font-style: italic;
-            margin: 30px 0;
-            font-size: 1.1rem;
-        }
-        
-        ul {
-            list-style: none;
-            width: 100%;
-            max-width: 750px;
-            margin: 0 auto;
-            padding: 0;
-        }
-        
-        li {
-            background-color: #f0f7ff;
-            border: 1px solid #d0e3ff;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        li:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        #message {
-            margin-top: 20px;
-            font-weight: 600;
-            padding: 10px;
-            border-radius: 8px;
-        }
-        
-        .message-success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        
-        .message-error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        
-        .folder-type {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin: 8px 0;
-        }
-        
-        .type-private {
-            background-color: #ffebee;
-            color: #d32f2f;
-            border: 1px solid #ffcdd2;
-        }
-        
-        .type-public {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #c8e6c9;
-        }
-        
-        /* Sfondo a mattoni stile login */
-        .background-text {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            overflow: hidden;
-        }
-        .text-row {
-            position: relative;
-            height: 70px;
-            margin-bottom: 20px;
-            display: flex;
-            white-space: nowrap;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-            width: 200%;
-        }
-        .text-row:nth-child(odd) {
-            animation-name: scrollLeft;
-            animation-duration: 60s;
-        }
-        .text-row:nth-child(even) {
-            animation-name: scrollRight;
-            animation-duration: 80s;
-        }
-        .brick {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px 30px;
-            margin: 0 20px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            color: rgba(255, 255, 255, 0.3);
-            font-weight: 600;
-            font-size: 18px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .text-row:nth-child(1) { animation-duration: 60s; }
-        .text-row:nth-child(3) { animation-duration: 75s; }
-        .text-row:nth-child(5) { animation-duration: 65s; }
-        .text-row:nth-child(7) { animation-duration: 70s; }
-        .text-row:nth-child(9) { animation-duration: 80s; }
-        .text-row:nth-child(2) { animation-duration: 80s; }
-        .text-row:nth-child(4) { animation-duration: 65s; }
-        .text-row:nth-child(6) { animation-duration: 70s; }
-        .text-row:nth-child(8) { animation-duration: 75s; }
-        .text-row:nth-child(10) { animation-duration: 60s; }
-        @keyframes scrollLeft {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        @keyframes scrollRight {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(0); }
-        }
-        
-        /* Responsive improvements */
-        @media (max-width: 768px) {
-            .folder-item {
-                width: calc(50% - 20px);
-            }
-            
-            .profile-card, .section {
-                padding: 30px 20px;
-                width: 100%;
-            }
-            
-            .profile-header h1 {
-                font-size: 2rem;
-            }
-            
-            body {
-                padding: 20px 10px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .main-container {
-                width: 100%;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .folder-item {
-                width: 100%;
-            }
-            
-            .btn {
-                padding: 12px 20px;
-                font-size: 1rem;
-            }
-            
-            .home-btn, .logout-btn {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-        }
-        
-        /* Specifica supporto per schermi più grandi */
-        @media (min-width: 1200px) {
-            .main-container {
-                margin: 0 auto;
-            }
-            
-            body {
-                justify-content: center;
-                align-items: center;
-            }
-        }
-    </style>
+    <!-- Link CSS Personalizzati -->
+    <link rel="stylesheet" href="styles/profile.css">
+    <link rel="stylesheet" href="styles/button.css"> <!-- Per gli stili dei pulsanti -->
+    <link rel="stylesheet" href="styles/backgroundStyle.css">
+    <link rel="stylesheet" href="styles/index.css"> <!-- Per l'animazione di sfondo -->
+    <!-- Rimosso il blocco <style> inline -->
 </head>
 <body>
     <div class="background-text" id="background-text"></div>
-    <a href="index.php" class="home-btn">🏠 Home</a>
+    <a href="index.php" class="button button--primary button-home-custom">🏠 Home</a> <!-- Applicate classi da button.css -->
     
-    <div class="main-container" style="width: 100%; max-width: 900px; margin: 0 auto;">
+    <div class="main-container"> <!-- Rimosso style inline -->
         <!-- Riquadro profilo -->
         <div class="profile-card">
             <?php if ($_SESSION['id_user'] == $id_user): ?>
-                <!-- Mostra il pulsante Logout se l'utente sta visualizzando il proprio profilo -->
-                <a href='../priv/gestioneUtenti/logout.php' class="logout-btn">Logout</a>
+                <a href='../priv/gestioneUtenti/logout.php' class="button button--danger button-logout-custom">Logout</a> <!-- Applicate classi da button.css -->
             <?php elseif (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'amministratore' && $_SESSION['id_user'] != $id_user): ?>
-                <!-- Mostra il pulsante Elimina Account se l'utente loggato è un amministratore -->
                 <form method="post" action="../priv/gestioneUtenti/deleteUser.php" style="display: inline;">
                     <input type="hidden" name="id_user" value="<?= $id_user; ?>">
-                    <button type="submit" class="btn btn-danger">Elimina Account</button>
+                    <button type="submit" class="button button--danger">Elimina Account</button> <!-- Applicate classi da button.css -->
                 </form>
             <?php endif; ?>
             <div class="profile-header">
@@ -542,7 +54,7 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
                 <h2>Biografia</h2>
                 <p><?php echo nl2br(htmlspecialchars($userInfoResult['bio'] ?? 'Nessuna biografia inserita')); ?></p>
                 <?php if($_SESSION['id_user'] == $id_user): ?>
-                    <button class="btn" onclick="openPopup()">Aggiorna Biografia</button>
+                    <button class="button button--secondary" onclick="openPopup()">Aggiorna Biografia</button> <!-- Applicate classi da button.css -->
                 <?php endif; ?>
             </div>
         </div>
@@ -552,7 +64,7 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
             <h2>Le cartelle di <?= htmlspecialchars($userInfoResult['name'])?></h2>
             
             <?php if($_SESSION['id_user'] == $id_user): ?>
-                <button class="btn" onclick="openFolderPopup()">Crea Cartella</button>
+                <button class="button button--primary" onclick="openFolderPopup()">Crea Cartella</button> <!-- Applicate classi da button.css -->
             <?php endif; ?>
             
             <?php if ($resultFoldersUser->num_rows > 0): ?>
@@ -570,7 +82,7 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
                             <?php if (isset($folder['id_user']) && ($folder['id_user'] == $_SESSION['id_user'] || (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'amministratore' && $folder['type'] === 'public' && $folder['id_user'] != $_SESSION['id_user']))): ?>
                                 <form method="post" action="../priv/gestionePost/deleteFolder.php" style="display: inline;">
                                     <input type="hidden" name="id_folder" value="<?= $folder['id_folder']; ?>">
-                                    <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
+                                    <button type="submit" class="button button--danger button--small">Elimina</button> <!-- Applicate classi da button.css -->
                                 </form>
                             <?php endif; ?>
                         </div>
@@ -598,7 +110,7 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
                         <form method="post" action="../priv/gestionePost/deleteComment.php">
                             <input type="hidden" name="id_comment" value="<?= $comment['id_comment'] ?>">
                             <?php if ($_SESSION['id_user'] == $id_user || (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'amministratore')): ?>
-                                <button type="submit" class="btn btn-danger btn-sm">Elimina Commento</button>
+                                <button type="submit" class="button button--danger button--small">Elimina Commento</button> <!-- Applicate classi da button.css -->
                             <?php endif; ?>
                         </form>
                     </div>
@@ -616,8 +128,8 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
         <form method="post" action="updateBio.php">
             <textarea name="bio" placeholder="Scrivi qualcosa su di te..."><?php echo htmlspecialchars($userInfoResult['bio'] ?? ''); ?></textarea>
             <div class="btn-group">
-                <button type="submit" class="btn">Salva</button>
-                <button type="button" class="btn" onclick="closePopup()" style="background-color: #95a5a6;">Chiudi</button>
+                <button type="submit" class="button button--primary">Salva</button> <!-- Applicate classi da button.css -->
+                <button type="button" class="button button--secondary" onclick="closePopup()">Chiudi</button> <!-- Applicate classi da button.css, rimosso style inline -->
             </div>
         </form>
     </div>
@@ -633,8 +145,8 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
                 <option value="public">Pubblica</option>
             </select>
             <div class="btn-group">
-                <button type="submit" class="btn">Crea</button>
-                <button type="button" class="btn" onclick="closeFolderPopup()" style="background-color: #95a5a6;">Chiudi</button>
+                <button type="submit" class="button button--primary">Crea</button> <!-- Applicate classi da button.css -->
+                <button type="button" class="button button--secondary" onclick="closeFolderPopup()">Chiudi</button> <!-- Applicate classi da button.css, rimosso style inline -->
             </div>
         </form>
         <div id="message"></div>
@@ -716,39 +228,11 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
             }
         }
 
-        // Funzione per generare dinamicamente le righe di sfondo
-        function generateBackgroundRows() {
-            const backgroundText = document.getElementById('background-text');
-            const windowHeight = window.innerHeight;
-            const rowHeight = 90;
-            const rowsNeeded = Math.ceil(windowHeight / rowHeight) + 1;
-            backgroundText.innerHTML = '';
-            for (let i = 0; i < rowsNeeded; i++) {
-                const row = document.createElement('div');
-                row.className = 'text-row';
-                const duration = i % 2 === 0 ?
-                    65 + (i * 2) % 15 :
-                    75 + (i * 3) % 15;
-                row.style.animationDuration = `${duration}s`;
-                const screenWidth = window.innerWidth;
-                const brickWidth = 300;
-                const bricksNeeded = Math.ceil((screenWidth * 2) / brickWidth) + 2;
-                for (let j = 0; j < bricksNeeded; j++) {
-                    const brick = document.createElement('span');
-                    brick.className = 'brick';
-                    brick.textContent = 'SCHOOL HOMIES';
-                    const opacity = 0.2 + (Math.random() * 0.2);
-                    brick.style.color = `rgba(255, 255, 255, ${opacity})`;
-                    const bgOpacity = 0.05 + (Math.random() * 0.15);
-                    brick.style.backgroundColor = `rgba(255, 255, 255, ${bgOpacity})`;
-                    row.appendChild(brick);
-                }
-                backgroundText.appendChild(row);
-            }
-        }
-        window.addEventListener('load', generateBackgroundRows);
-        window.addEventListener('resize', generateBackgroundRows);
+        // La funzione generateBackgroundRows() e i relativi event listener sono stati rimossi da qui.
+        // Assicurati che siano presenti in styles/backgroundStyle.js e che il file sia incluso.
     </script>
+    <!-- Includi backgroundStyle.js se la funzione generateBackgroundRows è stata spostata lì -->
+    <script src="styles/backgroundStyle.js"></script>
 <?php include "../priv/include/end.inc"; ?>
 </body>
 </html>

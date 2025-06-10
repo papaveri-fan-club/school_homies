@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%) fixed no-repeat;
+  background: linear-gradient(135deg, rgb(30, 0, 58) 10%,rgb(237, 236, 238)  150%) fixed no-repeat;
     color: #0f1419;
     position: relative;
     min-height: 100vh;
@@ -35,9 +35,9 @@ body {
 
 /* Header */
 .header-section {
-    background-color: rgba(255, 255, 255, 0.98);
+    background-color: #0E011D;
     padding: 15px 25px;
-    border-bottom: 1px solid #e1e8ed;
+    border-bottom: 1px solid #0E011D;
     position: fixed;
     top: 0;
     left: 280px; /* Allineato con la sidebar su desktop */
@@ -82,25 +82,72 @@ body {
 
 /* Barra di ricerca nell'Header */
 .search-container {
-    width: 300px; /* O la larghezza desiderata */
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 300px; /* O la larghezza desiderata, può essere rimossa se l'input la gestisce */
 }
 
 .search-input {
-    width: 100%;
-    padding: 10px 20px;
-    border: 1px solid #e1e8ed;
-    border-radius: 25px;
-    font-size: 1rem;
-    background-color: #f7f9fa;
-    transition: all 0.2s ease;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  padding: 18px 16px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+  font-size: 1rem; /* Mantenuto dallo stile precedente */
 }
 
-.search-input:focus {
-    outline: none;
-    border-color: #6a11cb;
-    background-color: #fff;
-    box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.2);
+.search-input::placeholder {
+  color: transparent;
 }
+
+.search-input:focus::placeholder {
+  color: rgb(131, 128, 128);
+}
+
+.search-input:focus,
+.search-input:not(:placeholder-shown) {
+  background-color: #fff;
+  border: 2px solid #5808b4;
+  width: 290px; /* Larghezza quando espanso */
+  cursor: text; /* Cambiato da 'none' a 'text' per usabilità */
+  padding: 18px 16px 18px 40px; /* Padding per fare spazio all'icona a sinistra */
+}
+
+.icon { /* Stile per l'icona della barra di ricerca */
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 40px;
+  width: 40px;
+  background-color: #fff; /* Sfondo iniziale dell'icona */
+  border-radius: 10px;
+  z-index: -1; /* Inizialmente dietro l'input se l'input non è trasparente */
+  fill: #6419CF; /* Colore dell'icona SVG */
+  border: 1px solid #0E011D; /* Bordo iniziale dell'icona */
+  display: flex; /* Per centrare l'icona se è un SVG dentro un contenitore */
+  align-items: center;
+  justify-content: center;
+  transition: transform .2s ease-in-out, z-index 0s .5s, background-color .5s ease-in-out; /* Aggiunta transizione per z-index e background */
+}
+
+.search-input:hover + .icon {
+  transform: rotate(360deg);
+  /* transition: .2s ease-in-out; Rimosso per usare quello sopra */
+}
+
+.search-input:focus + .icon,
+.search-input:not(:placeholder-shown) + .icon {
+  z-index: 0; /* Porta l'icona sopra/visibile */
+  background-color: transparent;
+  border: none;
+}
+
+/* Rimosse le vecchie regole per .search-input:focus */
 
 /* Area dei post */
 .posts-container {
@@ -160,16 +207,6 @@ body {
     text-align: center;
 }
 
-/* Animazione rotante per immagini nel logo (se ancora usata in index.php specificamente) */
-/* Se .hihihiha è SOLO nella sidebar, questo blocco può essere rimosso da index.css */
-/* .hihihiha:hover {
-    animation: ruota 1s infinite linear;
-}
-
-@keyframes ruota {
-    0% { transform: rotate(0deg) scale(1.1); } /* Scala mantenuta dall'hover di sidebar.css */
-/* 100% { transform: rotate(360deg) scale(1.1); }
-} */
 
 
 /* Stile per il pulsante "like" (se specifico per i post in index.php) */
@@ -181,66 +218,6 @@ body {
 
 .like-button:hover {
     color: #2575fc;
-}
-
-/* Sfondo a mattoni animato */
-.background-text {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-    overflow: hidden;
-}
-.text-row {
-    position: relative;
-    height: 70px; /* Altezza della riga di testo */
-    margin-bottom: 20px; /* Spazio tra le righe */
-    display: flex;
-    white-space: nowrap;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    width: 200%; /* Per permettere lo scroll completo del contenuto */
-}
-/* Animazioni scrollLeft e scrollRight definite più avanti */
-
-.brick {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 30px;
-    margin: 0 20px; /* Spazio tra i mattoni */
-    background-color: rgba(255, 255, 255, 0.07); /* Leggermente più visibile */
-    border: 1px solid rgba(255, 255, 255, 0.15); /* Leggermente più visibile */
-    border-radius: 6px;
-    color: rgba(255, 255, 255, 0.25); /* Leggermente più visibile */
-    font-weight: 600;
-    font-size: 18px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* Durate specifiche per le animazioni delle righe */
-.text-row:nth-child(1) { animation-duration: 60s; animation-name: scrollLeft; }
-.text-row:nth-child(2) { animation-duration: 80s; animation-name: scrollRight; }
-.text-row:nth-child(3) { animation-duration: 75s; animation-name: scrollLeft; }
-.text-row:nth-child(4) { animation-duration: 65s; animation-name: scrollRight; }
-.text-row:nth-child(5) { animation-duration: 65s; animation-name: scrollLeft; }
-.text-row:nth-child(6) { animation-duration: 70s; animation-name: scrollRight; }
-.text-row:nth-child(7) { animation-duration: 70s; animation-name: scrollLeft; }
-.text-row:nth-child(8) { animation-duration: 75s; animation-name: scrollRight; }
-.text-row:nth-child(9) { animation-duration: 80s; animation-name: scrollLeft; }
-.text-row:nth-child(10) { animation-duration: 60s; animation-name: scrollRight; }
-/* Aggiungi altre se necessario */
-
-@keyframes scrollLeft {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-@keyframes scrollRight {
-    0% { transform: translateX(-50%); }
-    100% { transform: translateX(0); }
 }
 
 /* Banner di benvenuto */

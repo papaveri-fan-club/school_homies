@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="styles/login.css"> 
     <!-- Link al CSS dello sfondo animato -->
     <link rel="stylesheet" href="styles/backgroundStyle.css"> 
+    <link rel="stylesheet" href="styles/index.css"> 
 </head>
 <body>
     <!-- Sfondo con testo a mattoni -->
@@ -46,6 +47,6 @@
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Script per l'animazione dello sfondo -->
-    <script src="js/backgroundAnimation.js"></script> <?php // o styles/backgroundAnimation.js se lo metti lì ?>
+    <script src="styles/backgroundStyle.js"></script> <!-- CORRETTO: Percorso a backgroundStyle.js -->
 </body>
 </html>

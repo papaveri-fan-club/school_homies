@@ -1,17 +1,17 @@
-/* Stile per lo sfondo con testo a mattoni animato */
+/* Sfondo a mattoni animato */
 .background-text {
-    position: fixed; /* O absolute, a seconda delle tue esigenze di layout generale */
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100vw; /* Occupa tutta la larghezza della viewport */
-    height: 100vh; /* Occupa tutta l'altezza della viewport */
-    z-index: -1;  /* Assicura che sia dietro a tutto il contenuto */
-    overflow: hidden; /* Nasconde lo scroll orizzontale causato dalle righe */
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Assicura che sia dietro tutto il resto */
+    overflow: hidden;
 }
 
 .text-row {
     position: relative;
-    height: 70px; /* Altezza di una riga di testo */
+    height: 70px; /* Altezza della riga di testo */
     margin-bottom: 20px; /* Spazio tra le righe */
     display: flex;
     white-space: nowrap;
@@ -20,31 +20,40 @@
     width: 200%; /* Per permettere lo scroll completo del contenuto */
 }
 
-/* Le animazioni e le durate specifiche per le righe saranno gestite da JS o da classi aggiuntive se necessario */
-/* Se vuoi mantenere le direzioni di default qui: */
-.text-row:nth-child(odd) {
-    animation-name: scrollLeft;
-}
-
-.text-row:nth-child(even) {
-    animation-name: scrollRight;
-}
-
 .brick {
     display: inline-flex;
     justify-content: center;
     align-items: center;
     padding: 10px 30px;
     margin: 0 20px; /* Spazio tra i mattoni */
-    background-color: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.07); 
+    border: 1px solid rgba(255, 255, 255, 0.15); 
     border-radius: 6px;
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.25); 
     font-weight: 600;
     font-size: 18px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+
+/* 
+  Le durate e i nomi delle animazioni per .text-row:nth-child(N) 
+  possono essere gestite dinamicamente da JavaScript (backgroundStyle.js) 
+  per maggiore varietà, o definite qui se si preferisce un comportamento fisso.
+  Se backgroundStyle.js le imposta, queste regole specifiche :nth-child potrebbero non essere necessarie
+  o possono servire come fallback.
+*/
+.text-row:nth-child(1) { animation-duration: 60s; animation-name: scrollLeft; }
+.text-row:nth-child(2) { animation-duration: 80s; animation-name: scrollRight; }
+.text-row:nth-child(3) { animation-duration: 75s; animation-name: scrollLeft; }
+.text-row:nth-child(4) { animation-duration: 65s; animation-name: scrollRight; }
+.text-row:nth-child(5) { animation-duration: 65s; animation-name: scrollLeft; }
+.text-row:nth-child(6) { animation-duration: 70s; animation-name: scrollRight; }
+.text-row:nth-child(7) { animation-duration: 70s; animation-name: scrollLeft; }
+.text-row:nth-child(8) { animation-duration: 75s; animation-name: scrollRight; }
+.text-row:nth-child(9) { animation-duration: 80s; animation-name: scrollLeft; }
+.text-row:nth-child(10) { animation-duration: 60s; animation-name: scrollRight; }
+/* Aggiungi altre se necessario o rimuovi se gestite interamente da JS */
 
 @keyframes scrollLeft {
     0% { transform: translateX(0); }

@@ -1,323 +1,48 @@
 <?php include "../priv/include/start.inc"; ?>
 <?php include "../priv/include/connessione.inc"; ?>
 <?php session_start(); ?>
-
-    <style>
-        /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'); */
-        body {
-            font-family: 'Poppins', Arial, sans-serif;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            margin: 0;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        .layout-container {
-            display: flex;
-            min-height: 100vh;
-        }
-        .sidebar {
-            width: 280px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            padding: 15px 0;
-            background-color: #fff;
-            border-right: 1px solid #e1e8ed;
-            overflow-y: auto;
-            z-index: 200;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            padding: 0 20px 20px 20px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #f0f3f5;
-        }
-        .logo i {
-            font-size: 1.8rem;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-right: 10px;
-        }
-        .logo img {
-            height: 35px;
-            width: auto;
-            cursor: pointer;
-        }
-        .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 14px 15px;
-            margin: 5px 12px;
-            border-radius: 25px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #0f1419;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-        .menu-item:hover {
-            background-color: #e8f5fe;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-        }
-        .menu-item i {
-            margin-right: 15px;
-            font-size: 1.3rem;
-            width: 24px;
-            text-align: center;
-        }
-        .active-menu {
-            color: #6a11cb;
-            background-color: rgba(29, 104, 242, 0.1);
-        }
-        .user-profile {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            margin: 15px 12px;
-            border-radius: 15px;
-            background-color: #f7f9fa;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-        }
-        .user-profile:hover {
-            background-color: #e8f5fe;
-        }
-        .main-content {
-            flex: 1;
-            width: calc(100% - 280px);
-            position: relative;
-        }
-        .header-section {
-            background-color: rgba(255, 255, 255, 0.98);
-            padding: 15px 25px;
-            border-bottom: 1px solid #e1e8ed;
-            position: fixed;
-            top: 0;
-            left: 280px;
-            right: 0;
-            z-index: 150;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            height: auto;
-            display: flex;
-            align-items: center;
-        }
-        .header-content {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .header-title {
-            font-size: 1.6rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-        }
-        .header-title i {
-            margin-right: 10px;
-        }
-        .header-subtitle {
-            color: #657786;
-            font-size: 1rem;
-        }
-        .scoreboard-container {
-            background-color: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            width: 500px;
-            max-width: 95vw;
-            margin: 100px auto 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-        .scoreboard-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #6a11cb;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        /* Scoreboard styles */
-        .background-text {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            overflow: hidden;
-        }
-        .text-row {
-            position: relative;
-            height: 70px;
-            margin-bottom: 20px;
-            display: flex;
-            white-space: nowrap;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-            width: 200%;
-        }
-        .text-row:nth-child(odd) {
-            animation-name: scrollLeft;
-            animation-duration: 60s;
-        }
-        .text-row:nth-child(even) {
-            animation-name: scrollRight;
-            animation-duration: 80s;
-        }
-        .brick {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px 30px;
-            margin: 0 20px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            color: rgba(255, 255, 255, 0.3);
-            font-weight: 600;
-            font-size: 18px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .text-row:nth-child(1) { animation-duration: 60s; }
-        .text-row:nth-child(3) { animation-duration: 75s; }
-        .text-row:nth-child(5) { animation-duration: 65s; }
-        .text-row:nth-child(7) { animation-duration: 70s; }
-        .text-row:nth-child(9) { animation-duration: 80s; }
-        .text-row:nth-child(2) { animation-duration: 80s; }
-        .text-row:nth-child(4) { animation-duration: 65s; }
-        .text-row:nth-child(6) { animation-duration: 70s; }
-        .text-row:nth-child(8) { animation-duration: 75s; }
-        .text-row:nth-child(10) { animation-duration: 60s; }
-        @keyframes scrollLeft {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        @keyframes scrollRight {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(0); }
-        }
-        /* Stile tabella classifica accattivante */
-        .scoreboard-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 8px;
-            font-size: 1.08rem;
-            background: transparent;
-        }
-        .scoreboard-table th {
-            background: #f3f6fa;
-            color: #6a11cb;
-            font-weight: 700;
-            padding: 12px 8px;
-            border-radius: 10px 10px 0 0;
-            border: none;
-            text-align: left;
-        }
-        .scoreboard-table tr.score-row {
-            background: #f7f9fa;
-            transition: box-shadow 0.2s;
-        }
-        .scoreboard-table tr.score-row.top3 {
-            background: linear-gradient(90deg,rgba(107, 17, 203, 0.23) 0%,rgba(37, 116, 252, 0.41) 100%);
-            font-weight: 600;
-            box-shadow: 0 2px 10px 0 rgba(106,17,203,0.08);
-            border-radius: 10px;
-        }
-        .scoreboard-table tr.score-row td:first-child {
-            border-top-left-radius: 20px;
-            border-bottom-left-radius: 20px;
-        }
-        .scoreboard-table tr.score-row td:last-child {
-            border-top-right-radius: 20px;
-            border-bottom-right-radius: 20px;
-        }
-        .scoreboard-table tr.score-row:nth-child(even):not(.top3) {
-            background: #f0f3fa;
-        }
-        .scoreboard-table td {
-            padding: 12px 8px;
-            border: none;
-            vertical-align: middle;
-        }
-        .score-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            margin-right: 12px;
-            vertical-align: middle;
-            border: 2px solid #e1e8ed;
-            background: #fff;
-        }
-        .score-name {
-            vertical-align: middle;
-            font-weight: 500;
-            color: #222;
-        }
-        .score-points {
-            background: linear-gradient(135deg,rgb(106, 17, 203) 0%,rgb(37, 117, 252) 100%);
-            color: #fff;
-            padding: 6px 18px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 1.08rem;
-            box-shadow: 0 1px 4px rgba(106,17,203,0.08);
-        }
-        .medal {
-            font-size: 1.3em;
-            vertical-align: middle;
-            margin-right: 6px;
-        }
-        .medal.gold { color: #FFD700; }
-        .medal.silver { color: #C0C0C0; }
-        .medal.bronze { color: #CD7F32; }
-    </style>
-    <link rel="stylesheet" href="styles/sidebar.css">
-    <script src="styles/sidebar.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classifica - School Homies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/scoreboard.css">
+    <link rel="stylesheet" href="styles/sidebar.css"> 
+    <link rel="stylesheet" href="styles/backgroundStyle.css"> 
+    <link rel="stylesheet" href="styles/index.css">
+    <!-- RIMUOVI <link rel="stylesheet" href="styles/backgroundStyle.js"> -->
+    <!-- Considera di unificare gli stili della sidebar e dei pulsanti per evitare duplicazioni -->
+</head>
 <body>
-    <button class="hamburger-menu">
-        <i class="fas fa-bars"></i>
+    <button class="button button--hamburger hamburger-menu"> 
+        <i class="fas fa-bars icon"></i>
     </button>
     <div class="layout-container">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo">
                 <i class="fa-solid fa-book"></i>
+                <!-- <img src="path/to/your/logo.png" alt="School Homies Logo"> -->
             </div>
             <a href="index.php" class="menu-item">
-                <i class="fas fa-home"></i> Home
+                <i class="fas fa-home icon"></i> Home
             </a>
             <a href="index.php?type_post=1" class="menu-item">
-                <i class="fas fa-hashtag"></i> Post
+                <i class="fas fa-hashtag icon"></i> Post
             </a>
             <a href="index.php?type_post=3" class="menu-item">
-                <i class="fas fa-book-open"></i> Appunti
+                <i class="fas fa-book-open icon"></i> Appunti
             </a>
             <a href="index.php?type_post=2" class="menu-item">
-                <i class="fas fa-calendar-alt"></i> Eventi
+                <i class="fas fa-calendar-alt icon"></i> Eventi
             </a>
-            <a href="scoreboard.php" class="menu-item active-menu">
-                <i class="fas fa-trophy"></i> Classifica
+            <a href="scoreboard.php" class="menu-item is-active"> 
+                <i class="fas fa-trophy icon"></i> Classifica
             </a>
             <?php if (isset($_SESSION['email'])): ?>
             <a href="./profile.php?id_user=<?= $_SESSION['id_user']?>" style="text-decoration: none; color: inherit;">
-                <div class="user-profile">
+                <div class="user-profile"> <!-- Mantieni .user-profile se ha stili specifici non da bottone -->
                     <img src="https://ui-avatars.com/api/?name=<?= urlencode($_SESSION['name'].'+'.$_SESSION['surname']) ?>"
                          style="width: 45px; height: 45px; border-radius: 50%; margin-right: 12px;">
                     <div>
@@ -339,6 +64,7 @@
                         </div>
                         <div class="header-subtitle">Connettiti con i tuoi compagni di scuola</div>
                     </div>
+                    <!-- Potresti voler aggiungere una barra di ricerca o altri elementi qui -->
                 </div>
             </div>
             <!-- Sfondo con testo a mattoni -->
@@ -348,6 +74,7 @@
                     <i class="fas fa-trophy"></i> Classifica
                 </div>
                 <?php
+                // ... (codice PHP per la classifica invariato) ...
                 include "../priv/include/connessione.inc";
 
                 // Ottieni il numero di post per utente
@@ -386,16 +113,24 @@
 
                 if (count($users_scores) > 0) {
                     echo '<table class="scoreboard-table">
+                            <thead> <!-- Aggiunto thead per semantica -->
                             <tr>
                                 <th>#</th>
                                 <th>Utente</th>
                                 <th>Punteggio</th>
-                            </tr>';
+                            </tr>
+                            </thead>
+                            <tbody>'; // Aggiunto tbody per semantica
                     $pos = 1;
                     foreach ($users_scores as $user_id => $score) {
                         // Recupera nome e cognome dell'utente
-                        $userQ = $conn->query("SELECT name, surname FROM users WHERE id_user = $user_id LIMIT 1");
-                        $user = $userQ && $userQ->num_rows > 0 ? $userQ->fetch_assoc() : ['name' => 'Sconosciuto', 'surname' => ''];
+                        $userQ = $conn->prepare("SELECT name, surname FROM users WHERE id_user = ? LIMIT 1");
+                        $userQ->bind_param("i", $user_id);
+                        $userQ->execute();
+                        $resultUser = $userQ->get_result();
+                        $user = $resultUser && $resultUser->num_rows > 0 ? $resultUser->fetch_assoc() : ['name' => 'Sconosciuto', 'surname' => ''];
+                        $userQ->close();
+                        
                         // Medaglie per i primi 3
                         $medal = '';
                         if ($pos == 1) $medal = '<span class="medal gold">👑</span>';
@@ -411,10 +146,11 @@
                               </tr>';
                         $pos++;
                     }
-                    echo '</table>';
+                    echo '</tbody></table>'; // Chiuso tbody
                 } else {
                     echo '<p style="text-align:center; color:#888;">Nessun dato disponibile.</p>';
                 }
+                $conn->close(); // Chiudi la connessione
                 ?>
             </div>
         </div>
@@ -423,35 +159,55 @@
         // Funzione per generare dinamicamente le righe di sfondo
         function generateBackgroundRows() {
             const backgroundText = document.getElementById('background-text');
+            if (!backgroundText) return; // Esci se l'elemento non esiste
             const windowHeight = window.innerHeight;
-            const rowHeight = 90;
-            const rowsNeeded = Math.ceil(windowHeight / rowHeight) + 1;
-            backgroundText.innerHTML = '';
+            const rowHeight = 90; // Altezza della riga + margine
+            const rowsNeeded = Math.ceil(windowHeight / rowHeight) + 1; // Aggiungi una riga extra per sicurezza
+            
+            backgroundText.innerHTML = ''; // Pulisci le righe esistenti
+
             for (let i = 0; i < rowsNeeded; i++) {
                 const row = document.createElement('div');
                 row.className = 'text-row';
-                const duration = i % 2 === 0 ?
-                    65 + (i * 2) % 15 :
-                    75 + (i * 3) % 15;
+                
+                // Durata animazione casuale per un effetto più vario
+                const baseDuration = i % 2 === 0 ? 60 : 70; // Durate base diverse per righe pari/dispari
+                const durationVariation = Math.random() * 20 - 10; // Variazione di +/- 10s
+                const duration = Math.max(40, baseDuration + durationVariation); // Minimo 40s
                 row.style.animationDuration = `${duration}s`;
+                
+                // Determina la direzione dell'animazione
+                row.style.animationName = i % 2 === 0 ? 'scrollLeft' : 'scrollRight';
+
                 const screenWidth = window.innerWidth;
-                const brickWidth = 300;
-                const bricksNeeded = Math.ceil((screenWidth * 2) / brickWidth) + 2;
+                const brickWidth = 250; // Larghezza approssimativa di un "brick" inclusi i margini
+                const bricksNeeded = Math.ceil((screenWidth * 2) / brickWidth) + 2; // *2 per la larghezza doppia della riga, +2 per sicurezza
+
                 for (let j = 0; j < bricksNeeded; j++) {
                     const brick = document.createElement('span');
                     brick.className = 'brick';
-                    brick.textContent = 'SCHOOL HOMIES';
-                    const opacity = 0.2 + (Math.random() * 0.2);
-                    brick.style.color = `rgba(255, 255, 255, ${opacity})`;
-                    const bgOpacity = 0.05 + (Math.random() * 0.15);
+                    brick.textContent = 'SCHOOL HOMIES'; // Testo del brick
+                    
+                    // Opacità casuale per testo e sfondo del brick
+                    const textOpacity = 0.15 + (Math.random() * 0.2); // Tra 0.15 e 0.35
+                    brick.style.color = `rgba(255, 255, 255, ${textOpacity})`;
+                    
+                    const bgOpacity = 0.03 + (Math.random() * 0.1); // Tra 0.03 e 0.13
                     brick.style.backgroundColor = `rgba(255, 255, 255, ${bgOpacity})`;
+                    
                     row.appendChild(brick);
                 }
                 backgroundText.appendChild(row);
             }
         }
+
+        // Rigenera allo scroll e al resize
         window.addEventListener('load', generateBackgroundRows);
         window.addEventListener('resize', generateBackgroundRows);
+        // Non è necessario sidebar.js se la sidebar è sempre visibile e l'hamburger gestisce solo la versione mobile (non implementata qui)
     </script>
+    <!-- Assicurati che backgroundStyle.js sia incluso correttamente come script se necessario -->
+    <!-- Esempio: <script src="styles/backgroundStyle.js"></script> -->
+    <?php include "../priv/include/end.inc"; ?>
 </body>
 </html>

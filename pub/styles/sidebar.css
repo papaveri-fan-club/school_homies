@@ -6,8 +6,8 @@
     top: 0;
     bottom: 0;
     padding: 15px 0;
-    background-color: #fff;
-    border-right: 1px solid #e1e8ed;
+    background-color: #0E011D;
+    border-right: 1px solid rgb#0E011D;
     overflow-y: auto;
     z-index: 200; /* z-index per la sidebar su desktop */
     box-shadow: 0 0 10px rgba(0,0,0,0.05);
@@ -20,7 +20,7 @@
     align-items: center;
     padding: 0 20px 20px 20px;
     margin-bottom: 15px;
-    border-bottom: 1px solid #f0f3f5;
+    border-bottom: 1px solid #0E011D;
 }
 
 .logo i {
@@ -38,19 +38,6 @@
     cursor: pointer;
     border-radius: 50%; /* Se vuoi che tutte le img nel logo siano tonde */
 }
-
-/* Stile specifico per .hihihiha se necessario, altrimenti unisci con .logo img */
-.hihihiha {
-    border-radius: 50%; /* Già coperto da .logo img se vuoi coerenza */
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Transizione più standard */
-}
-
-.hihihiha:hover {
-    transform: scale(1.1); /* Scala moderata all'hover */
-    opacity: 0.9;
-    /* Considera se l'animazione 'ruota' è ancora desiderata qui o se era per index.css */
-}
-
 /* Voci del menu nella Sidebar */
 .menu-item {
     display: flex;
@@ -60,7 +47,7 @@
     border-radius: 25px;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #0f1419;
+    color: #ffffff;
     text-decoration: none;
     transition: all 0.2s ease;
 }
@@ -97,7 +84,7 @@
     margin: 20px 12px;
     cursor: pointer;
     transition: opacity 0.2s ease;
-    box-shadow: 0 2px 5px rgba(106, 17, 203, 0.3);
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.3);
     text-align: center; /* Per centrare icona e testo se necessario */
 }
 

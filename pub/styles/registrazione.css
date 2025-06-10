@@ -14,41 +14,42 @@ body {
     min-height: 100vh;
     background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
     position: relative;
-    overflow: hidden; /* Nasconde lo scroll orizzontale se lo sfondo lo causasse */
+    overflow: hidden;
 }
 
-/* Stile container login */
-.login-container {
+/* Stile per lo sfondo con testo a mattoni */
+/* Questi stili verranno presi da backgroundStyle.css se linkato */
+/* .background-text { ... } */
+/* .text-row { ... } */
+/* .brick { ... } */
+/* @keyframes scrollLeft { ... } */
+/* @keyframes scrollRight { ... } */
+
+/* Stile container registrazione */
+.registration-container {
     background-color: white;
     padding: 40px;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    width: 360px;
+    width: 400px;
     max-width: 90%;
-    position: relative; /* Mantiene il posizionamento relativo */
-    z-index: 1; /* Assicura che sia sopra lo sfondo .background-text */
+    position: relative;
+    z-index: 1; /* Assicura che sia sopra lo sfondo */
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.welcome-text {
+.title {
     font-size: 24px;
     font-weight: 600;
-    margin-bottom: 5px;
+    margin-bottom: 20px; /* Aumentato per più spazio */
     color: #333;
     text-align: center;
 }
 
-.subtext {
-    font-size: 14px;
-    color: #777;
-    margin-bottom: 25px;
-    text-align: center;
-}
-
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Leggermente ridotto per compattezza */
 }
 
 .form-label {
@@ -59,7 +60,7 @@ body {
     font-weight: 500;
 }
 
-.form-control {
+.form-control, .form-select {
     width: 100%;
     padding: 12px 15px;
     border: 1px solid #ddd;
@@ -68,12 +69,12 @@ body {
     transition: border-color 0.3s;
 }
 
-.form-control:focus {
+.form-control:focus, .form-select:focus {
     border-color: #6a11cb;
     outline: none;
 }
 
-.login-button {
+.register-button {
     width: 100%;
     padding: 14px;
     background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
@@ -87,9 +88,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10px; /* Spazio prima del pulsante */
 }
 
-.login-button:hover {
+.register-button:hover {
     opacity: 0.9;
 }
 
@@ -97,19 +99,19 @@ body {
     margin-left: 8px;
 }
 
-.register-text {
+.login-text {
     text-align: center;
     margin-top: 20px;
     font-size: 14px;
     color: #777;
 }
 
-.register-link {
+.login-link {
     color: #6a11cb;
     text-decoration: none;
     font-weight: 500;
 }
 
-.register-link:hover {
+.login-link:hover {
     text-decoration: underline;
 }
