@@ -299,8 +299,6 @@
         <div class="sidebar">
             <div class="logo">
                 <i class="fa-solid fa-book"></i>
-                <img class="hihihiha" src="hihihiha/download.jpg" alt="School Homies Logo">
-                <img class="hihihiha" src="../priv/uploads/images/anneclank.jpg" alt="School Homies Logo">
             </div>
             <a href="index.php" class="menu-item">
                 <i class="fas fa-home"></i> Home
