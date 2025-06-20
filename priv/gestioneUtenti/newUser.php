@@ -65,15 +65,6 @@ if ($result->num_rows > 0) {
         } catch (Exception $e) {
             echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
         }
-
-        // Avvia la sessione e imposta i dati dell'utente
-        session_start();
-        $_SESSION['id_user'] = $id_user;
-        $_SESSION['email'] = $email;
-        $_SESSION['name'] = $name;
-        $_SESSION['surname'] = $surname;
-        $_SESSION['user_type'] = $user_type;
-
         // Reindirizza alla home
         header("Location: ../../pub/index.php");
         exit();
