@@ -31,17 +31,21 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
 </head>
 <body>
     <div class="background-text" id="background-text"></div>
-    <a href="index.php" class="button button--primary button-home-custom">🏠 Home</a> <!-- Applicate classi da button.css -->
+
+    <header class="profile-page-header">
+        <a href="index.php" class="button button--primary">🏠 Home</a>
+        <?php if ($_SESSION['id_user'] == $id_user): ?>
+            <a href='../priv/gestioneUtenti/logout.php' class="button button--danger">Logout</a>
+        <?php endif; ?>
+    </header>
     
-    <div class="main-container"> <!-- Rimosso style inline -->
-        <!-- Riquadro profilo -->
+    <div class="main-container">
         <div class="profile-card">
-            <?php if ($_SESSION['id_user'] == $id_user): ?>
-                <a href='../priv/gestioneUtenti/logout.php' class="button button--danger button-logout-custom">Logout</a> <!-- Applicate classi da button.css -->
-            <?php elseif (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'amministratore' && $_SESSION['id_user'] != $id_user): ?>
-                <form method="post" action="../priv/gestioneUtenti/deleteUser.php" style="display: inline;">
+            <?php // Il pulsante Logout è stato spostato nell'header in alto ?>
+            <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'amministratore' && $_SESSION['id_user'] != $id_user): ?>
+                <form method="post" action="../priv/gestioneUtenti/deleteUser.php" class="delete-user-form">
                     <input type="hidden" name="id_user" value="<?= $id_user; ?>">
-                    <button type="submit" class="button button--danger">Elimina Account</button> <!-- Applicate classi da button.css -->
+                    <button type="submit" class="button button--danger">Elimina Account</button>
                 </form>
             <?php endif; ?>
             <div class="profile-header">

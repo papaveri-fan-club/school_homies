@@ -27,25 +27,35 @@ body {
     align-items: center;
     margin: 0 auto; /* Mantiene il centraggio orizzontale */
     position: relative;
+    padding-top: 90px; /* Altezza dell'header + un po' di spazio */
     /* left: 0; /* Rimosso, non necessario con margin auto */
     /* right: 0; /* Rimosso, non necessario con margin auto */
 }
 
-.profile-card {
-    background-color: white;
-    border-radius: 20px;
-    padding: 40px;
+.profile-page-header {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    text-align: center;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-    margin-bottom: 30px;
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: rgba(#0E011D); /* Sfondo semi-trasparente */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.profile-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+.profile-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    max-width: 900px;
+    width: 100%;
+    margin: 20px auto;
+    position: relative; /* Necessario per posizionare elementi interni in modo assoluto */
+    text-align: center;
 }
 
 .profile-header {

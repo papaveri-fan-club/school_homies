@@ -5,67 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuovo Post</title>
-    <!-- Aggiorna i link Bootstrap -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Stili personalizzati per il modal -->
+    <link rel="stylesheet" href="styles/formPost.css">
+    
+    <!-- Stili per i pulsanti personalizzati -->
+    <link rel="stylesheet" href="styles/button.css">
+    <!-- Font Awesome per le icone -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-        body {
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        .btn-primary {
-            padding: 10px 20px;
-            font-size: 18px;
-            border-radius: 10px;
-            transition: background 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background: #0056b3;
-        }
-
-        .modal-content {
-            border-radius: 20px;
-        }
-
-        /* Personalizza la X di chiusura del modal */
-        #close span[aria-hidden="true"] {
-            color: #fff;
-            background: #e74c3c;
-            outline: none;
-            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
-            background: none;
-            border: none;
-            color: #888;
-            font-size: 1.1rem;
-            cursor: pointer;
-            padding: 8px;
-            border-radius:100%;
-            transition: all 0.3s ease;
-            position: absolute;
-            top: 12px;          
-            right: 12px;        
-        }
-
-        #close:hover span[aria-hidden="true"] {
-            color:rgb(252, 37, 37);
-        }
-    </style>
+    
+    <!-- Rimosso blocco <style> inline -->
 </head>
 
 <body>
-    <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true"
-        style="border-radius: 20px;">
-        <div class="modal-dialog">
+    <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered"> <!-- Aggiunto modal-dialog-centered per centrare verticalmente -->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="postModalLabel">Crea un nuovo post</h5>
-                    <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="postModalLabel">
+                        <i class="fas fa-pen-to-square"></i> Crea un nuovo post
+                    </h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> <!-- Corretto per Bootstrap 5 -->
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -101,7 +66,7 @@
                             <input type="file" class="form-control-file" id="file_attachment" name="file_attachment">
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Aggiungi post</button>
+                        <button type="submit" class="button button--primary" style="width: 100%; margin-top: 15px;">Aggiungi post</button>
                     </form>
                 </div>
             </div>
@@ -149,15 +114,8 @@
             }
         }
 
-        const closeButton = document.getElementById('close');
-        closeButton.addEventListener('click', function () {
-            $('#postModal').modal('hide');
-            document.querySelectorAll('.modal, .modal-backdrop').forEach(function (el) {
-                el.style.display = 'none';
-            });
-        });
-
-
+        // Rimosso l'event listener per il pulsante di chiusura,
+        // Bootstrap 5 lo gestisce automaticamente con l'attributo data-bs-dismiss="modal".
 
         // Esegui subito il cambio dei campi per il tipo di post selezionato inizialmente
         changePostFields();

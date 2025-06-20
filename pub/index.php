@@ -128,7 +128,6 @@
                             <a href='registrazione.php' class="btn-twitter-outline">Registrati</a>
                         </div>
                     </div>
-                    <?php // die(); // Non usare die() qui se vuoi che il resto della pagina (es. footer) venga renderizzato ?>
                 <?php endif; ?>
             </div>
         </div>
@@ -144,10 +143,6 @@
     <script src="styles/backgroundStyle.js"></script> <!-- MODIFICATO PER PUNTARE AL FILE CORRETTO -->
     
     <script>
-        // Funzione vuota, puoi rimuoverla se non usata
-        // function hihihiha() {
-        // }
-
         // Script per form "add-to-folder" (potrebbe essere meglio in un file JS separato)
         document.querySelectorAll('.add-to-folder-form').forEach(form => {
             form.addEventListener('submit', function (e) {

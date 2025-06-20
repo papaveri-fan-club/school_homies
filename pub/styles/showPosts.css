@@ -1,0 +1,334 @@
+:root {
+    --orange: rgb(121, 29, 242);
+    --twitter-dark: #15202b;
+    --twitter-light-gray: #e1e8ed;
+    --twitter-text-gray: #657786;
+}
+
+body {
+    background-color: #f7f9fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    overflow-y: scroll;
+}
+
+.container.py-4 {
+    max-width: 600px;
+    margin: 0 auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    /* Lo scroll sarà gestito dal body */
+}
+
+.post-card {
+    background: #ffffff;
+    border: none;
+    border-radius: 16px;
+    margin-bottom: 25px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+}
+
+.post-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18);
+}
+
+.post-header {
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+}
+
+.post-body {
+    padding: 22px;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.post-actions {
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f0f0f0;
+    background-color: #f9f9f9;
+}
+
+.btn-twitter {
+    background: var(--twitter-blue);
+    color: white;
+    border-radius: 20px;
+    padding: 4px 16px;
+    font-weight: bold;
+    border: none;
+}
+
+.btn-twitter:hover {
+    background: rgb(121, 29, 242);
+    color: white;
+}
+
+.btn-twitter-outline {
+    background: transparent;
+    color: var(--twitter-blue);
+    border-radius: 20px;
+    padding: 4px 16px;
+    border: 1px solid var(--twitter-blue);
+    font-weight: bold;
+}
+
+.btn-twitter-outline:hover {
+    background: rgba(29, 161, 242, 0.1);
+}
+
+.participant-badge {
+    background: var(--twitter-light-gray);
+    border-radius: 12px;
+    padding: 4px 8px;
+    margin: 2px;
+    display: inline-block;
+    font-size: 0.8rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 14px;
+    object-fit: cover;
+    border: 2px solid #6a11cb;
+    box-shadow: 0 3px 10px rgba(106, 17, 203, 0.15);
+    transition: all 0.3s ease;
+}
+
+.user-info:hover .user-avatar {
+    transform: scale(1.1);
+    border-color: #2575fc;
+}
+
+.username {
+    font-size: 0.95rem;
+    color: #657786;
+}
+
+.post-time {
+    font-size: 0.85rem;
+    color: #aab8c2;
+}
+
+.action-btn {
+    color: #657786;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    padding: 10px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: rgba(106, 17, 203, 0.1);
+    color: #6a11cb;
+    transform: scale(1.15);
+}
+
+.comment-form {
+    padding: 15px 18px;
+    border-top: 1px solid #e1e8ed;
+    display: none;
+    background-color: #f9f9f9;
+}
+
+.event-details {
+    background-color: rgba(106, 17, 203, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: #444;
+    border: 1px solid rgba(106, 17, 203, 0.1);
+}
+
+.file-attachment a {
+    color: #6a11cb;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.file-attachment a:hover {
+    color: #2575fc;
+    transform: translateX(3px);
+}
+
+.no-posts {
+    text-align: center;
+    padding: 60px 25px;
+    color: rgba(101, 119, 134, 0.9);
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(5px);
+    margin: 30px auto;
+    max-width: 500px;
+}
+
+.post-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* SOSTITUZIONE: Stile commento */
+.comment {
+    border: 1px solid #e0e0e0;
+    padding: 18px 22px;
+    margin: 16px auto 0 auto;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    max-width: 650px;
+    text-align: left;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.comment:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* SOSTITUZIONE: Bottone toggle commenti */
+.toggle-comments-btn {
+    background: #f3f6fa;
+    color: #2575fc;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 24px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggle-comments-btn:hover {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(106, 17, 203, 0.2);
+}
+
+.toggle-comments-btn::after {
+    content: "\f078"; /* Font Awesome caret down icon */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 0.8rem;
+}
+
+.toggle-comments-btn.active::after {
+    content: "\f077"; /* Font Awesome caret up icon */
+}
+
+/* SOSTITUZIONE: Delete Button */
+.delete-btn {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+
+.delete-btn:hover,
+.delete-btn:focus {
+    color: #fff;
+    background: #e74c3c;
+    outline: none;
+    transform: rotate(15deg);
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+}
+
+/* Popup personalizzati simili a profile.php */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 100000;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 100001;
+    max-width: 500px;
+    width: 100%;
+}
+
+.popup h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.popup p {
+    font-size: 1rem;
+    color: #666;
+}
+
+.popup .btn-group {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+}
+
+.popup .btn {
+    background: var(--twitter-blue);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.popup .btn:hover {
+    background: rgb(121, 29, 242);
+}
