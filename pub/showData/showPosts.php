@@ -427,7 +427,7 @@
                         </div>
 
                         <!-- Form per partecipare all'evento -->
-                        <form class="partecipateForm mt-3" method="POST" action="../priv/gestionePost/addPartecipantEvent.php">
+                        <form class="partecipateForm mt-3" method="POST" action="priv/gestionePost/addPartecipantEvent.php">
                             <input type="hidden" name="id_event" value="<?= $postRow['id_post'] ?>">
                             <button type="submit" class="btn btn-twitter">Partecipa</button>
                         </form>
