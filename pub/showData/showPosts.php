@@ -427,7 +427,7 @@
                         </div>
 
                         <!-- Form per partecipare all'evento -->
-                        <form class="partecipateForm mt-3" method="POST" action="priv/gestionePost/addPartecipantEvent.php">
+                        <form class="partecipateForm mt-3">
                             <input type="hidden" name="id_event" value="<?= $postRow['id_post'] ?>">
                             <button type="submit" class="btn btn-twitter">Partecipa</button>
                         </form>
@@ -521,7 +521,7 @@ $(document).ready(function() {
         e.preventDefault();
         var formData = $(this).serialize();
         $.ajax({
-            url: "../../priv/gestionePost/addPartecipantEvent.php",
+            url: "../priv/gestionePost/addPartecipantEvent.php",
             method: "POST",
             data: formData,
             success: function(response) {
