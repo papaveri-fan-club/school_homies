@@ -77,7 +77,7 @@
                             <?php
                             echo $postRow['image_path'];
                             $img = $postRow['image_path'] ? $postRow['image_path'] : '../priv/uploads/images/default.png'; 
-                            echo '<img src="../priv/uploads/'. htmlspecialchars($img) . '" alt="Immagine post" class="img-fluid" style="max-width: 100%; height: auto;">';
+                            echo '<img src="../priv/'. htmlspecialchars($img) . '" alt="Immagine post" class="img-fluid" style="max-width: 100%; height: auto;">';
                             ?>
                         </div>
                         <?php if (!empty($postRow['file_path'])): ?>
