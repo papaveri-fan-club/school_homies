@@ -24,12 +24,6 @@ body {
     padding-top: 80px; /* Spazio per l'header fisso */
 }
 
-/* 
-   Stili per .header-section, .header-content, .header-title, .header-subtitle
-   sono stati rimossi. Assicurarsi che siano gestiti da un CSS comune (es. index.css o header.css)
-   se l'header è un componente condiviso.
-*/
-
 .scoreboard-container {
     background-color: white;
     padding: 40px;

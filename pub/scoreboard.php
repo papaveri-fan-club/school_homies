@@ -22,24 +22,28 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo">
-                <i class="fa-solid fa-book"></i>
-                <!-- <img src="path/to/your/logo.png" alt="School Homies Logo"> -->
+                <img class="hihihiha"  src="priv/uploads/images/schoolHomieslogo.png" alt="School Homies Logo">
             </div>
-            <a href="index.php" class="menu-item">
-                <i class="fas fa-home icon"></i> Home
+            
+            <a href="index.php" class="menu-item <?= !isset($_GET['type_post']) && !isset($_GET['search']) ? 'active-menu' : '' ?>">
+                <i class="fas fa-home"></i> Home
             </a>
-            <a href="index.php?type_post=1" class="menu-item">
-                <i class="fas fa-hashtag icon"></i> Post
+            
+            <a href="index.php?type_post=1" class="menu-item <?= isset($_GET['type_post']) && $_GET['type_post'] == 1 ? 'active-menu' : '' ?>">
+                <i class="fas fa-hashtag"></i> Post
             </a>
-            <a href="index.php?type_post=3" class="menu-item">
-                <i class="fas fa-book-open icon"></i> Appunti
+
+            <a href="index.php?type_post=3" class="menu-item <?= isset($_GET['type_post']) && $_GET['type_post'] == 3 ? 'active-menu' : '' ?>">
+                <i class="fas fa-book-open"></i> Appunti
             </a>
-            <a href="index.php?type_post=2" class="menu-item">
-                <i class="fas fa-calendar-alt icon"></i> Eventi
+
+            <a href="index.php?type_post=2" class="menu-item <?= isset($_GET['type_post']) && $_GET['type_post'] == 2 ? 'active-menu' : '' ?>">
+                <i class="fas fa-calendar-alt"></i> Eventi
             </a>
-            <a href="scoreboard.php" class="menu-item is-active"> 
-                <i class="fas fa-trophy icon"></i> Classifica
+            <a href="scoreboard.php" class="menu-item">
+                <i class="fas fa-trophy"></i> Classifica
             </a>
+            
             <?php if (isset($_SESSION['email'])): ?>
             <a href="./profile.php?id_user=<?= $_SESSION['id_user']?>" style="text-decoration: none; color: inherit;">
                 <div class="user-profile"> <!-- Mantieni .user-profile se ha stili specifici non da bottone -->

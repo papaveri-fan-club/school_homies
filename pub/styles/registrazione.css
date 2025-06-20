@@ -16,16 +16,6 @@ body {
     position: relative;
     overflow: hidden;
 }
-
-/* Stile per lo sfondo con testo a mattoni */
-/* Questi stili verranno presi da backgroundStyle.css se linkato */
-/* .background-text { ... } */
-/* .text-row { ... } */
-/* .brick { ... } */
-/* @keyframes scrollLeft { ... } */
-/* @keyframes scrollRight { ... } */
-
-/* Stile container registrazione */
 .registration-container {
     background-color: white;
     padding: 40px;

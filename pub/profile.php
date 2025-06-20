@@ -25,7 +25,6 @@ include "../priv/takeData/takeUserData/takeUserPosts.php";
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Link CSS Personalizzati -->
     <link rel="stylesheet" href="styles/profile.css">
-    <link rel="stylesheet" href="styles/button.css"> <!-- Per gli stili dei pulsanti -->
     <link rel="stylesheet" href="styles/backgroundStyle.css">
     <link rel="stylesheet" href="styles/index.css"> <!-- Per l'animazione di sfondo -->
     <!-- Rimosso il blocco <style> inline -->
