@@ -68,12 +68,19 @@
                 </div>
 
                 <div class="post-body">
-                    <h5 class="mb-2"><strong><?= htmlspecialchars($postRow['title']) ?></strong></h5>
-                    <p class="post-text"><?= nl2br(htmlspecialchars($postRow['description'])) ?></p>
+                    <a href="viewPost.php?id_post=<?= $postRow['id_post'] ?>" class="post-title-link">
+                        <h5 class="mb-2"><strong><?= htmlspecialchars($postRow['title']) ?></strong></h5>
+                    </a>
+                    <!-- MODIFICA: La descrizione del post è stata rimossa dalla card -->
+                    <!-- <p class="post-text"><?= nl2br(htmlspecialchars($postRow['description'])) ?></p> -->
 
                     <?php if ($postRow['type_post'] == 3): ?>
                         <div class="event-details">
-                            <i class="fas fa-info-circle"></i> 
+                            <?php // CORREZIONE: Controlla se la materia esiste prima di mostrarla
+                            if (isset($postRow['subject']) && !empty($postRow['subject'])): ?>
+                                <p><strong><i class="fas fa-book"></i> Materia:</strong> <?= htmlspecialchars($postRow['subject']) ?></p>
+                            <?php endif; ?>
+                            
                             <?php
                             echo $postRow['image_path'];
                             $img = $postRow['image_path'] ? $postRow['image_path'] : '../priv/uploads/images/default.png'; 
