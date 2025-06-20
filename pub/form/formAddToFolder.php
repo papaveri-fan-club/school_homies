@@ -25,7 +25,7 @@ mysqli_data_seek($resultFolders, 0);
                 </button>
             </div>
             <div class="modal-body">
-                <form action="../../priv/gestionePost/addToFolder.php" method="POST" class="folder-form">
+                <form action="../priv/gestionePost/addToFolder.php" method="POST" class="folder-form">
                     <input type="hidden" name="id_post" value="<?php echo $postRow['id_post']; ?>">
                     <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
                     
