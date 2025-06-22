@@ -56,11 +56,16 @@ if (isset($_SESSION['id_user'])) {
                             <?php endforeach; ?>
                         </select>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Conferma</button>
-                </div>
-            </form>
+                    
+                    <div class="modal-footer" style="justify-content: center;">
+                        <?php if ($resultFolders->num_rows > 0): ?>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-check"></i> Conferma
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
