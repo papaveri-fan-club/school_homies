@@ -47,6 +47,10 @@
                             <img src="https://ui-avatars.com/api/?name=<?= urlencode($postRow['name']) ?>&background=random" class="user-avatar">
                             <div>
                                 <strong><?= htmlspecialchars($postRow['name']) ?></strong>
+                                <!-- AGGIUNTA: Mostra il badge se l'utente è un docente -->
+                                <?php if (isset($postRow['user_type']) && $postRow['user_type'] === 'teacher'): ?>
+                                    <span class="verified-teacher-badge"><i class="fas fa-check-circle"></i> Docente Verificato</span>
+                                <?php endif; ?>
                                 <div class="username">@<?= strtolower(str_replace(' ', '', htmlspecialchars($postRow['name']))) ?></div>
                             </div>
                         </div>

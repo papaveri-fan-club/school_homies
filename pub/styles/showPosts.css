@@ -350,3 +350,22 @@ body {
 .popup .btn:hover {
     background: rgb(121, 29, 242);
 }
+
+/* Stile per il badge "Docente Verificato" */
+.verified-teacher-badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    background-color: #e7f3ff; /* Blu chiaro */
+    color: #0056b3; /* Blu scuro */
+    border: 1px solid #b3d7ff;
+    border-radius: 12px; /* Angoli arrotondati */
+    font-size: 0.75rem; /* Testo piccolo */
+    font-weight: 600;
+    vertical-align: middle; /* Allinea verticalmente con il nome */
+}
+
+.verified-teacher-badge i {
+    margin-right: 4px;
+    font-size: 0.7rem;
+}

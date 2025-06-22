@@ -7,15 +7,14 @@ if (!empty($searchQuery)) {
 
     // Query per cercare nei campi title, description e nome utente
     $stmt = $conn->prepare("
-        SELECT posts.*, users.name, users.surname 
-        FROM posts 
-        JOIN users ON posts.id_user = users.id_user
-        WHERE posts.title LIKE ? 
-           OR posts.description LIKE ? 
-           OR CONCAT(users.name, ' ', users.surname) LIKE ?
+        SELECT p.*, u.name, u.surname, u.user_type 
+        FROM posts p 
+        JOIN users u ON p.id_user = u.id_user 
+        WHERE p.title LIKE ? 
+           OR p.description LIKE ?
     ");
     $likeQuery = '%' . $searchQuery . '%';
-    $stmt->bind_param('sss', $likeQuery, $likeQuery, $likeQuery);
+    $stmt->bind_param('ss', $likeQuery, $likeQuery);
     $stmt->execute();
     $resultPosts = $stmt->get_result();
 }

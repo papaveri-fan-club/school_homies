@@ -17,7 +17,8 @@ if (!isset($_GET['id_post']) || !filter_var($_GET['id_post'], FILTER_VALIDATE_IN
 $id_post = $_GET['id_post'];
 
 // 3. Prepara ed esegui la query per ottenere i dettagli del post e dell'utente
-$query = "SELECT p.*, u.name, u.surname 
+// MODIFICA: Aggiunto u.user_type alla query per recuperare il tipo di utente
+$query = "SELECT p.*, u.name, u.surname, u.user_type 
           FROM posts p 
           JOIN users u ON p.id_user = u.id_user 
           WHERE p.id_post = ?";
@@ -27,6 +28,7 @@ $stmt->bind_param("i", $id_post);
 $stmt->execute();
 $result = $stmt->get_result();
 $post = $result->fetch_assoc(); // Recupera il post come array associativo
+
 $stmt->close();
 
 ?>
@@ -45,6 +47,13 @@ $stmt->close();
     <link rel="stylesheet" href="styles/showPosts.css"> <!-- Per lo stile base della card -->
     <link rel="stylesheet" href="styles/viewPost.css">   <!-- Per gli stili specifici della pagina -->
     <style>
+        /* CORREZIONE: Forza lo sfondo del body ad essere trasparente per mostrare l'animazione. */
+        body {
+            background-color: transparent;
+        }
+
+        /* NOTA: La regola per 'body' che impostava uno sfondo solido è stata rimossa per ripristinare l'animazione. */
+
         /* --- Contenitore Principale --- */
         .main-content-view {
             position: relative;
@@ -163,6 +172,11 @@ $stmt->close();
                             <img src="https://ui-avatars.com/api/?name=<?= urlencode($post['name'].'+'.$post['surname']) ?>&background=random" class="user-avatar">
                             <div>
                                 <strong><?= htmlspecialchars($post['name'] . ' ' . $post['surname']) ?></strong>
+                                <!-- AGGIUNTA: Mostra il badge anche qui -->
+                                <?php // CORREZIONE: Controllo più robusto che ignora maiuscole/minuscole e spazi
+                                if (isset($post['user_type']) && strtolower(trim($post['user_type'])) === 'teacher'): ?>
+                                    <span class="verified-teacher-badge"><i class="fas fa-check-circle"></i> Docente Verificato</span>
+                                <?php endif; ?>
                                 <div class="username">@<?= strtolower(str_replace(' ', '', htmlspecialchars($post['name']))) ?></div>
                             </div>
                         </div>
@@ -203,12 +217,6 @@ $stmt->close();
                     // Soluzione per la compatibilità
                     $postRow = $post;
                     ?>
-
-                    <!-- Form per aggiungere un nuovo commento -->
-                    <div class="comment-form-container mb-4">
-                        <?php include "./form/formComment.php"; ?>
-                    </div>
-
                     <!-- Contenitore per mostrare i commenti esistenti -->
                     <div class="comments-list">
                         <?php 
@@ -228,8 +236,33 @@ $stmt->close();
             </div>
         <?php endif; ?>
 
-        <!-- Link per tornare al feed -->
-        <a href="index.php" class="back-link"><i class="fas fa-arrow-left"></i> Torna al feed principale</a>
+        <?php
+        // --- SOLUZIONE PER IL LINK "INDIETRO" ---
+        // Questo codice crea un link che ti riporta esattamente alla pagina precedente.
+        
+        // Impostazioni predefinite: se non sappiamo da dove vieni, ti riportiamo al feed.
+        $back_link = 'index.php';
+        $back_text = 'Torna al feed';
+
+        // Controlla se il server ci dice qual era la pagina precedente (HTTP_REFERER).
+        if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
+            $referer_url = $_SERVER['HTTP_REFERER'];
+            
+            // Assicurati che la pagina precedente non sia la pagina stessa (es. dopo aver inviato un commento).
+            if (strpos($referer_url, $_SERVER['REQUEST_URI']) === false) {
+                $back_link = htmlspecialchars($referer_url);
+
+                // Cambia il testo del pulsante in base alla pagina da cui sei venuto.
+                if (strpos($referer_url, 'viewFolder.php') !== false) {
+                    $back_text = 'Torna alla cartella';
+                } elseif (strpos($referer_url, 'profile.php') !== false) {
+                    $back_text = 'Torna al profilo';
+                }
+            }
+        }
+        ?>
+        <!-- Link "Indietro" dinamico, che punta alla pagina corretta -->
+        <a href="<?= $back_link ?>" class="back-link"><i class="fas fa-arrow-left"></i> <?= $back_text ?></a>
     </div>
 
     <!-- Script necessari -->

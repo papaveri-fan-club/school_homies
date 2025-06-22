@@ -35,3 +35,12 @@ $resultPosts = new FakeMysqliResult($resultPostsArray); // Creiamo un oggetto Fa
 
 // Chiudere lo statement
 $stmtPosts->close();
+
+// La query per i post dell'utente potrebbe essere:
+// $query = "SELECT p.*, u.name, u.surname FROM posts p JOIN users u ON p.id_user = u.id_user WHERE p.id_user = ?";
+
+// ASSICURATI CHE LA QUERY DIVENTI:
+$query = "SELECT p.*, u.name, u.surname, u.user_type 
+          FROM posts p 
+          JOIN users u ON p.id_user = u.id_user 
+          WHERE p.id_user = ?";
