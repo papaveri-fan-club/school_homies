@@ -49,10 +49,6 @@ mysqli_data_seek($resultFolders, 0);
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-check"></i> Conferma
                             </button>
-                        <?php else: ?>
-                            <a href="createFolder.php" class="btn btn-secondary">
-                                <i class="fas fa-folder-plus"></i> Crea cartella
-                            </a>
                         <?php endif; ?>
                     </div>
                 </form>
