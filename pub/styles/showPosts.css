@@ -55,6 +55,19 @@ body {
     color: #333;
 }
 
+/* --- Stile per il Titolo Cliccabile nelle Card --- */
+.post-title-link, 
+.post-title-link:visited {
+    text-decoration: none; /* Rimuove la sottolineatura */
+    color: #333;           /* Imposta un colore scuro, uguale al testo normale */
+    transition: color 0.3s ease; /* Aggiunge una transizione fluida */
+}
+
+.post-title-link:hover {
+    color: #6a11cb;       /* Cambia colore in viola (il colore del tema) al passaggio del mouse */
+    text-decoration: none; /* Assicura che la sottolineatura non appaia */
+}
+
 .post-actions {
     padding: 14px 18px;
     display: flex;
@@ -226,6 +239,7 @@ body {
     padding: 8px 24px;
     font-weight: 600;
     margin-bottom: 12px;
+    margin-top: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
     display: inline-flex;
@@ -329,26 +343,35 @@ body {
     color: #666;
 }
 
+/* MODIFICA: Rimosso il gradiente dal contenitore e migliorato lo stile */
 .popup .btn-group {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 15px;
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    justify-content: flex-end; /* Allinea i pulsanti a destra */
+    gap: 10px; /* Aggiunge spazio tra i pulsanti */
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef; /* Aggiunge un separatore visivo */
+    background-color: #ffffff; /* Sfondo bianco come richiesto */
 }
 
+/* MODIFICA: Applicato il gradiente al pulsante stesso e migliorato lo stile */
 .popup .btn {
-    background: var(--twitter-blue);
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
     color: white;
     border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-weight: bold;
+    border-radius: 50px; /* Stile a pillola più moderno */
+    padding: 10px 25px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(106, 17, 203, 0.2);
 }
 
+/* MODIFICA: Effetto hover migliorato con un gradiente più scuro */
 .popup .btn:hover {
-    background: rgb(121, 29, 242);
+    background: linear-gradient(135deg, #560ead 0%, #1a5fce 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(106, 17, 203, 0.3);
 }
 
 /* Stile per il badge "Docente Verificato" */

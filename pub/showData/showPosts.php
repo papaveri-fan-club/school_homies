@@ -131,17 +131,24 @@
                 </div>
 
                 <div class="post-actions">
-                    <button class="action-btn toggle-comment" data-post-id="<?= $postRow['id_post'] ?>">
+                    <!-- MODIFICA 1: Questo pulsante ora ha una classe unica e punta al FORM dei commenti -->
+                    <button class="action-btn toggle-comment-form-btn" data-target="#comment-form-<?= $postRow['id_post'] ?>" title="Aggiungi un commento">
                         <i class="far fa-comment"></i>
                     </button>
-                    <?php include "./form/formAddToFolder.php"; ?>
+                    
+                    <button class="action-btn open-folder-modal-btn" data-post-id="<?= $postRow['id_post'] ?>" title="Aggiungi a cartella">
+                        <i class="far fa-bookmark"></i>
+                    </button>
                 </div>
-                <div class="comment-form" id="comment-form-<?= $postRow['id_post'] ?>">
+
+                <!-- Questo è il FORM per scrivere un commento, ora è nascosto di default -->
+                <div class="comment-form" id="comment-form-<?= $postRow['id_post'] ?>" style="display: none;">
                     <?php include "./form/formComment.php"; ?>
                 </div>
                 
                 <div class="px-3 pb-2">
-                    <button class="toggle-comments-btn" data-post-id="<?= $postRow['id_post'] ?>">Show more</button>
+                    <!-- MODIFICA 2: Questo pulsante mantiene la sua classe per mostrare la LISTA dei commenti -->
+                    <button class="toggle-comments-list-btn" data-post-id="<?= $postRow['id_post'] ?>">Mostra commenti</button>
                     <div class="comments-container" id="comments-<?= $postRow['id_post'] ?>" style="display: none;">
                         <?php 
                         include "../priv/takeData/takeComments.php";
@@ -254,13 +261,13 @@ $(document).ready(function() {
     }
 
     // Mostra/nascondi form commenti
-    $(".toggle-comment").click(function() {
-        var postId = $(this).data('post-id');
+    $(".toggle-comment-form-btn").click(function() {
+        var postId = $(this).data('target').split('-').pop();
         $("#comment-form-" + postId).slideToggle();
     });
 
     // Mostra/nascondi commenti esistenti
-    $(".toggle-comments-btn").click(function() {
+    $(".toggle-comments-list-btn").click(function() {
         var postId = $(this).data('post-id');
         var $commentsDiv = $("#comments-" + postId);
         $commentsDiv.slideToggle(200);
@@ -269,9 +276,9 @@ $(document).ready(function() {
         var $btn = $(this);
         setTimeout(function() {
             if ($commentsDiv.is(":visible")) {
-                $btn.text("Nascondi");
+                $btn.text("Nascondi commenti");
             } else {
-                $btn.text("Show more");
+                $btn.text("Mostra commenti");
             }
         }, 210);
     });

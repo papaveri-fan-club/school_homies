@@ -252,6 +252,45 @@ body {
     to { opacity: 0; top: 0; }
 }
 
+/* --- Stile per l'animazione slideToggle (sostituisce jQuery) --- */
+.slide-toggle-content {
+    display: grid;
+    grid-template-rows: 0fr; /* Inizia con altezza zero */
+    overflow: hidden;
+    transition: grid-template-rows 0.3s ease-out;
+}
+
+.slide-toggle-content.show {
+    grid-template-rows: 1fr; /* Si espande al suo contenuto naturale */
+}
+
+/* Contenitore interno per evitare problemi di padding/margin */
+.slide-toggle-content > div {
+    min-height: 0;
+}
+
+/* --- Stile per il pulsante "Mostra Commenti" --- */
+.toggle-comments-list-btn {
+    display: inline-block;
+    margin-top: 15px; /* Aggiunge spazio dal contenuto del post */
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    border: none;
+    border-radius: 50px; /* Stile a pillola, come gli altri pulsanti principali */
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(106, 17, 203, 0.2);
+}
+
+.toggle-comments-list-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(106, 17, 203, 0.3);
+}
+
 /* Stili Responsive per il contenuto principale e l'header */
 @media (max-width: 768px) {
     .main-content {

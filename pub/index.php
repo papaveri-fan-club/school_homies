@@ -133,60 +133,88 @@
         </div>
     </div>
 
+    <?php include 'form/formAddToFolder.php'; ?>
+
     <!-- SCRIPT JS -->
-    <!-- Bootstrap JS Bundle (se non già in end.inc o start.inc) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Il tuo script sidebar.js (se non già in end.inc o start.inc) -->
-    <script src="styles/sidebar.js"></script> <!-- Assicurati che il percorso sia corretto -->
-    <!-- Script per l'animazione dello sfondo -->
-    <script src="styles/backgroundStyle.js"></script> <!-- MODIFICATO PER PUNTARE AL FILE CORRETTO -->
+    <!-- RIMOSSO jQuery, non è più necessario -->
+    <script src="styles/sidebar.js"></script>
+    <script src="styles/backgroundStyle.js"></script>
     
     <script>
-        // Script per form "add-to-folder" (potrebbe essere meglio in un file JS separato)
-        document.querySelectorAll('.add-to-folder-form').forEach(form => {
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // --- SCRIPT PER IL MODAL "AGGIUNGI A CARTELLA" (Vanilla JS) ---
+        const modal = document.getElementById('globalFolderModal');
+        if (modal) {
+            const postIdInput = document.getElementById('modal_post_id_input');
+            const openButtons = document.querySelectorAll('.open-folder-modal-btn');
+            const closeBtn = document.getElementById('globalFolderModalCloseBtn');
 
-                const formData = new FormData(this);
-                const postId = this.getAttribute('data-post-id'); // Assicurati che questo attributo esista sul form
+            // Funzione per aprire
+            const openModal = (postId) => {
+                if (postIdInput) postIdInput.value = postId;
+                modal.style.display = 'flex';
+            };
 
-                fetch('../../priv/gestionePost/addToFolder.php', { // Verifica il percorso
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then((data) => {
-                    alert(data.message); // Considera di usare un popup più elegante
-                    if (data.status === 'success') {
-                        // Assicurati che 'folderPopup-' + postId esista e sia il modo corretto per chiudere
-                        const popup = document.getElementById('folderPopup-' + postId);
-                        if (popup) {
-                            popup.style.display = 'none';
-                        }
-                        this.reset();
-                    }
-                })
-                .catch(error => {
-                    console.error('Errore:', error);
-                    alert('Si è verificato un errore durante l\'operazione.');
+            // Funzione per chiudere
+            const closeModal = () => {
+                modal.style.display = 'none';
+            };
+
+            // Eventi di apertura
+            openButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    openModal(this.dataset.postId);
                 });
             });
-        });
-    </script>
 
-    <script>
-        // Script per il banner di benvenuto
-        document.addEventListener('DOMContentLoaded', function() {
-            const banner = document.getElementById('welcome-banner');
-            if (banner) {
-                setTimeout(() => {
-                    banner.classList.add('fade-out');
-                    // Rimuovi l'elemento dal DOM dopo che l'animazione è finita
-                    setTimeout(() => banner.remove(), 600); // 600ms è la durata di fadeOut
-                }, 3000); // Il banner scompare dopo 3 secondi
+            // Eventi di chiusura
+            if (closeBtn) closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) closeModal();
+            });
+        }
+
+        // --- SCRIPT PER IL BANNER DI BENVENUTO (Vanilla JS) ---
+        const banner = document.getElementById('welcome-banner');
+        if (banner) {
+            setTimeout(() => {
+                banner.classList.add('fade-out');
+                setTimeout(() => banner.remove(), 600);
+            }, 3000);
+        }
+
+        // --- SCRIPT UNIFICATO PER I COMMENTI (Vanilla JS) ---
+
+        // 1. Gestisce l'ICONCINA per mostrare/nascondere il MODULO per scrivere un commento
+        document.body.addEventListener('click', function(event) {
+            const formBtn = event.target.closest('.toggle-comment-form-btn');
+            if (formBtn) {
+                const targetSelector = formBtn.dataset.target;
+                const targetElement = document.querySelector(targetSelector);
+                if (targetElement) {
+                    targetElement.classList.toggle('show');
+                    formBtn.classList.toggle('active');
+                }
             }
         });
+
+        // 2. Gestisce il PULSANTE "Mostra commenti" per mostrare/nascondere la LISTA dei commenti
+        document.body.addEventListener('click', function(event) {
+            const listBtn = event.target.closest('.toggle-comments-list-btn');
+            if (listBtn) {
+                const postId = listBtn.dataset.postId;
+                const commentsDiv = document.getElementById("comments-" + postId);
+                if (commentsDiv) {
+                    const isVisible = commentsDiv.classList.toggle('show');
+                    listBtn.textContent = isVisible ? "Nascondi commenti" : "Mostra commenti";
+                }
+            }
+        });
+
+    });
     </script>
-    
+</body>
+</html>
 <?php include "../priv/include/end.inc"; ?>

@@ -1,26 +1,39 @@
 .button {
+    /* --- Layout e Allineamento --- */
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 28px;
-    border-radius: 12px;
+    
+    /* --- Dimensioni e Spaziatura --- */
+    padding: 10px 24px;
+    
+    /* --- Testo e Font --- */
+    font-family: 'Poppins', sans-serif; /* Assicurati che Poppins sia caricato */
     font-size: 1rem;
     font-weight: 600;
-    font-family: 'Poppins', sans-serif; /* Assicurati che Poppins sia caricato */
-    text-align: center;
+    color: #ffffff;
     text-decoration: none;
     white-space: nowrap;
+
+    /* --- Stile "Vetro Smerigliato" (Glassmorphism) --- */
+    /* MODIFICA: Colore di sfondo scuro e semi-trasparente per "colorare" la sfocatura */
+    background-color: #28084b ; /* #0E011D con 25% di opacità */
+    backdrop-filter: blur(8px); /* Aumentato leggermente per un effetto migliore */
+    -webkit-backdrop-filter: blur(8px); /* Per compatibilità con Safari */
+    
+    /* --- Bordo --- */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Bordo bianco traslucido per definire i contorni */
+    border-radius: 50px; /* Raggio per un pulsante "a pillola" */
+
+    /* --- Interattività --- */
     cursor: pointer;
     user-select: none;
-    border: 2px solid transparent;
     transition: all 0.3s ease;
-    color: #ffffff;
-    padding: 9px 19px;
-    border-radius: 20px;
-    text-decoration: none;
-    font-weight: bold;
-    border: 1px solid #ffffff;
-    display: inline-block;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    backdrop-filter: blur(5px);
+}
+
+.button:hover {
+    background-color:#6a11cb ; /* Sfondo leggermente più opaco al passaggio del mouse */
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px); /* Leggero sollevamento */
+    box-shadow: 0 8px 20px rgba(14, 1, 29, 0.3);
 }
